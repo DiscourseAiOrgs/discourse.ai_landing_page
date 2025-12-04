@@ -12,8 +12,11 @@
     "build": "bun run --filter '*' build",
     "db:migrate": "bun run --filter @discourse/db migrate",
     "db:push": "bun run --filter @discourse/db push",
-    "lint": "bunx biome check .",
-    "format": "bunx biome format --write .",
+    "db:studio": "bun run --filter @discourse/db studio",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "setup": "bun run docker:up && sleep 3 && bun install && bun run db:push",
     "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules"
   },
   "devDependencies": {
