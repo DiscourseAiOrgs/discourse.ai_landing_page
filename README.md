@@ -14,14 +14,98 @@ AI-powered debate platform to sharpen your argumentation skills.
 ```
 discourse.ai/
 ├── apps/
-│   ├── api/          # Hono backend API
-│   └── web/          # Landing page
+│   ├── api/           # Hono + TypeScript backend (auth, debates, transcription)
+│   ├── web/           # Hono JSX landing page (cluely-style dark theme)
+│
 ├── packages/
-│   └── db/           # Database schema
-├── scripts/          # Setup scripts
-└── docker-compose.yml
+│   └── db/            # Drizzle ORM + PostgreSQL schema
+├── scripts/
+│   ├── setup.sh       # Unix setup
+│   └── setup.bat      # Windows setup
+├── docker-compose.yml # PostgreSQL + Redis
+└── .env.example
 ```
 
+**Authentication Flow Diagram:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        SIGNUP FLOW                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Client                           Server                    │
+│    │                                │                       │
+│    │  POST /api/auth/signup         │                       │
+│    │  {email, username, password}   │                       │
+│    │ ──────────────────────────────>│                       │
+│    │                                │                       │
+│    │                         Validate with Zod              │
+│    │                         Check email unique             │
+│    │                         Check username unique          │
+│    │                         Hash password                  │
+│    │                         Save user                      │
+│    │                         Generate token                 │
+│    │                                │                       │
+│    │  {user, token}                 │                       │
+│    │ <──────────────────────────────│                       │
+│    │                                │                       │
+│    │  Store token in localStorage   │                       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│                     AUTHENTICATED REQUEST                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Client                           Server                    │
+│    │                                │                       │
+│    │  GET /api/debates              │                       │
+│    │  Header: Authorization:        │                       │
+│    │          Bearer tok_xxxxx      │                       │
+│    │ ──────────────────────────────>│                       │
+│    │                                │                       │
+│    │                         Extract token                  │
+│    │                         Look up in sessions            │
+│    │                         Find user                      │
+│    │                         Return debates                 │
+│    │                                │                       │
+│    │  {debates: [...]}              │                       │
+│    │ <──────────────────────────────│                       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+**How the Middleware Flow Works:**
+```
+Request: POST /api/auth/signup
+         Body: { "email": "bad", "password": "123" }
+         
+         ↓
+         
+Middleware: validateBody(signupSchema)
+         ↓
+         Tries to validate...
+         ↓
+         FAILS! "bad" is not valid email, "123" is too short
+         ↓
+         Returns 400 error, route handler NEVER runs
+         
+─────────────────────────────────────────────────────────
+
+Request: POST /api/auth/signup  
+         Body: { "email": "alice@example.com", "username": "alice", "password": "password123" }
+         
+         ↓
+         
+Middleware: validateBody(signupSchema)
+         ↓
+         Validates successfully!
+         ↓
+         Stores data in c.set("validatedBody", {...})
+         ↓
+         Calls next()
+         ↓
+         
+Route Handler runs, accesses c.get("validatedBody")
+```
 ## Quick Start
 
 ### Prerequisites
