@@ -106,6 +106,32 @@ Middleware: validateBody(signupSchema)
          
 Route Handler runs, accesses c.get("validatedBody")
 ```
+**Architecture Diagram(Aligned with Desktop APP)**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        discourse.ai API                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────────┐       ┌─────────────────────────────┐ │
+│  │   Hono HTTP Server  │       │     Socket.IO Server        │ │
+│  │   (REST API)        │       │     (Real-time Events)      │ │
+│  ├─────────────────────┤       ├─────────────────────────────┤ │
+│  │ • /api/auth         │       │ • join-room                 │ │
+│  │ • /api/users        │       │ • offer/answer/ice-candidate│ │
+│  │ • /api/debates      │       │ • transcription-data        │ │
+│  │ • /api/rooms        │       │ • chat-message              │ │
+│  │ • /api/waitlist     │       │ • participant-joined/left   │ │
+│  └─────────────────────┘       └─────────────────────────────┘ │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │                    PostgreSQL Database                    │  │
+│  │  users | debates | rooms | participants | messages | ...  │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+```
+
 ## Quick Start
 
 ### Prerequisites

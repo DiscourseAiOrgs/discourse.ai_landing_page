@@ -1,137 +1,462 @@
 // ============================================
 // apps/api/src/routes/debates.ts
-// Debate routes
+// Debate routes with AI integration
+// Based on your debateService.ts patterns
 // ============================================
 
 import { Hono } from "hono";
-import { requireAuth } from "../middleware/auth";
+import { eq, desc, and } from "drizzle-orm";
+import { db, debates, debateParticipants, debateMessages, rooms } from "@discourse/db";
+import { requireAuth, optionalAuth } from "../middleware/auth";
 import { validateBody } from "../middleware/validate";
-import { createDebateSchema, sendMessageSchema } from "../validators";
+import {
+  createDebateSchema,
+  sendMessageSchema,
+  aiDebateSetupSchema,
+  aiDebateStatementSchema,
+  scoreRoundSchema,
+} from "../validators";
 import { successResponse, errorResponse, generateId } from "../utils";
-import type { 
-  Debate, 
-  DebateParticipant, 
-  DebateMessage,
-  DebateSettings 
-} from "../types";
+import { config } from "../config";
+import type { DebateSettings, DebateHistoryEntry, ModeratorFeedback } from "../types";
 
-const debates = new Hono();
+const debatesRouter = new Hono();
 
-// ==================== TEMPORARY IN-MEMORY STORAGE ====================
-
-// Store all debates
-const debatesStore: Debate[] = [];
-
-// Store participants (who's in each debate)
-const participantsStore: DebateParticipant[] = [];
-
-// Store messages (what's been said in each debate)
-const messagesStore: DebateMessage[] = [];
+// ==================== CONSTANTS ====================
 
 /**
  * Default debate settings
- * Used when user doesn't specify all settings
+ * Applied when user doesn't specify all settings
  */
 const DEFAULT_SETTINGS: DebateSettings = {
   maxRounds: 3,
-  timePerTurn: 180,      // 3 minutes per turn
-  rebuttalTime: 60,      // 1 minute for rebuttals
+  timePerTurn: 180,
+  rebuttalTime: 60,
   allowVoice: true,
   aiModel: "llama-3.3-70b-versatile",
 };
+
+/**
+ * AI backend URL
+ * From your debateService.ts: process.env.NEXT_PUBLIC_ANALYSIS_API_URL
+ */
+const AI_BACKEND_URL = config.aiBackendUrl || "http://discourse-agents.5.161.237.174.sslip.io";
+
+// ==================== AI HELPER FUNCTIONS ====================
+
+/**
+ * Call the AI debate backend
+ * Based on your debateService.ts sendStatement method
+ */
+async function callAIDebate(request: {
+  sessionId: string;
+  round: number;
+  topic: string;
+  aiSide: "for" | "against";
+  humanStatement: string;
+  history: DebateHistoryEntry[];
+}) {
+  const response = await fetch(`${AI_BACKEND_URL}/debate/discourseWithAi`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`AI API error: ${response.status} - ${errorBody}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Call the AI scoring backend
+ * Based on your debateService.ts scoreRound method
+ */
+async function callAIScoreRound(request: {
+  sessionId: string;
+  round: number;
+  topic: string;
+  history: DebateHistoryEntry[];
+}) {
+  const response = await fetch(`${AI_BACKEND_URL}/debate/scoreRound`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Score API error: ${response.status} - ${errorBody}`);
+  }
+
+  return response.json();
+}
 
 // ==================== ROUTES ====================
 
 /**
  * POST /api/debates
- * 
  * Create a new debate
  * 
- * This is the most complex endpoint - it:
- * 1. Creates the debate record
- * 2. Adds the creator as first participant
- * 3. If AI format, adds AI as opponent
+ * Can optionally create an associated room for P2P
  */
-debates.post("/", requireAuth, validateBody(createDebateSchema), async (c) => {
-  // Get current user's ID
-  const userId = c.get("userId");
-  
-  // Get validated input
-  const input = c.get("validatedBody") as {
-    topic: string;
-    description?: string;
-    format: Debate["format"];
-    settings?: Partial<DebateSettings>;
-  };
-
-  // Create debate object
-  // Spread operator (...) merges default settings with user's settings
-  const debate: Debate = {
-    id: generateId("dbt"),
-    topic: input.topic,
-    description: input.description,
-    format: input.format,
-    status: "waiting",                              // Hasn't started yet
-    settings: { ...DEFAULT_SETTINGS, ...input.settings },  // Merge defaults with user settings
-    currentRound: 1,
-    createdBy: userId,
-    createdAt: new Date(),
-  };
-
-  // Save debate
-  debatesStore.push(debate);
-
-  // Add creator as first participant (the "proposer" - argues FOR)
-  const participant: DebateParticipant = {
-    id: generateId("prt"),
-    debateId: debate.id,
-    userId,
-    role: "proposer",
-    isAi: false,
-    score: 0,
-    joinedAt: new Date(),
-  };
-
-  participantsStore.push(participant);
-
-  // If this is an AI debate, add AI opponent automatically
-  if (input.format === "one_v_one_ai") {
-    const aiParticipant: DebateParticipant = {
-      id: generateId("prt"),
-      debateId: debate.id,
-      // No userId - AI isn't a real user
-      role: "opposer",                // Argues AGAINST
-      isAi: true,
-      aiConfig: {
-        model: debate.settings.aiModel,
-        personality: debate.settings.aiPersonality || "balanced",
-        stance: "against",
-      },
-      score: 0,
-      joinedAt: new Date(),
+debatesRouter.post(
+  "/",
+  requireAuth,
+  validateBody(createDebateSchema),
+  async (c) => {
+    const userId = c.get("userId");
+    const input = c.get("validatedBody") as {
+      topic: string;
+      description?: string;
+      format: "one_v_one_ai" | "one_v_one_human" | "multi_ai_mod" | "free_form";
+      settings?: Partial<DebateSettings>;
+      createRoom?: boolean;
     };
-    participantsStore.push(aiParticipant);
-  }
 
-  // Return 201 Created with debate info
-  return c.json(
-    successResponse({ debate, participant }, "Debate created successfully"),
-    201
-  );
-});
+    // Merge settings with defaults
+    const settings = { ...DEFAULT_SETTINGS, ...input.settings };
+
+    // Create debate
+    const [debate] = await db
+      .insert(debates)
+      .values({
+        topic: input.topic,
+        description: input.description,
+        format: input.format,
+        settings,
+        createdBy: userId,
+        status: "waiting",
+      })
+      .returning();
+
+    // Add creator as participant
+    const [participant] = await db
+      .insert(debateParticipants)
+      .values({
+        debateId: debate.id,
+        userId,
+        role: "proposer",
+        isAi: false,
+      })
+      .returning();
+
+    // Add AI opponent for AI debates
+    if (input.format === "one_v_one_ai") {
+      await db.insert(debateParticipants).values({
+        debateId: debate.id,
+        role: "opposer",
+        isAi: true,
+        aiConfig: {
+          model: settings.aiModel,
+          personality: settings.aiPersonality || "balanced",
+          stance: "against",
+        },
+      });
+    }
+
+    // Optionally create associated room
+    let room = null;
+    if (input.createRoom && input.format !== "one_v_one_ai") {
+      // Generate invite code
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let inviteCode = "";
+      for (let i = 0; i < 8; i++) {
+        inviteCode += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      [room] = await db
+        .insert(rooms)
+        .values({
+          inviteCode,
+          debateId: debate.id,
+          createdBy: userId,
+          maxParticipants: 2,
+          status: "active",
+        })
+        .returning();
+    }
+
+    return c.json(
+      successResponse(
+        {
+          debate,
+          participant,
+          room: room
+            ? {
+                roomId: room.id,
+                inviteCode: room.inviteCode,
+              }
+            : null,
+        },
+        "Debate created successfully"
+      ),
+      201
+    );
+  }
+);
+
+/**
+ * POST /api/debates/:id/ai-respond
+ * Send a statement and get AI response
+ * 
+ * This integrates with your debateService.ts
+ */
+debatesRouter.post(
+  "/:id/ai-respond",
+  requireAuth,
+  validateBody(aiDebateStatementSchema),
+  async (c) => {
+    const debateId = c.req.param("id");
+    const userId = c.get("userId");
+    const { round, humanStatement } = c.get("validatedBody") as {
+      round: number;
+      humanStatement: string;
+    };
+
+    // Get debate
+    const debate = await db.query.debates.findFirst({
+      where: eq(debates.id, debateId),
+      with: {
+        participants: true,
+      },
+    });
+
+    if (!debate) {
+      return c.json(errorResponse("Debate not found"), 404);
+    }
+
+    // Verify this is an AI debate
+    if (debate.format !== "one_v_one_ai") {
+      return c.json(errorResponse("This endpoint is only for AI debates"), 400);
+    }
+
+    // Verify user is participant
+    const userParticipant = debate.participants?.find(
+      (p) => p.userId === userId && !p.isAi
+    );
+    if (!userParticipant) {
+      return c.json(errorResponse("You are not a participant"), 403);
+    }
+
+    // Get debate history from messages
+    const existingMessages = await db.query.debateMessages.findMany({
+      where: eq(debateMessages.debateId, debateId),
+      orderBy: [debateMessages.createdAt],
+    });
+
+    // Build history in the format your AI backend expects
+    const history: DebateHistoryEntry[] = existingMessages.map((msg) => ({
+      round: msg.round,
+      speaker: msg.metadata?.speaker || "human",
+      statement: msg.content,
+      moderator: msg.metadata?.moderator || {
+        toxicCount: 0,
+        isDisqualified: false,
+        argumentScore: 0,
+        factScore: 0,
+        fallacyScore: 0,
+        finalScore: 0,
+        feedback: [],
+      },
+    }));
+
+    // Determine AI side based on debate settings
+    const aiSide = debate.settings?.aiPersonality === "for" ? "for" : "against";
+
+    try {
+      // Call AI backend
+      const aiResponse = await callAIDebate({
+        sessionId: debateId,
+        round,
+        topic: debate.topic,
+        aiSide: aiSide as "for" | "against",
+        humanStatement,
+        history,
+      });
+
+      // Save human message
+      const [humanMessage] = await db
+        .insert(debateMessages)
+        .values({
+          debateId,
+          participantId: userParticipant.id,
+          round,
+          content: humanStatement,
+          metadata: {
+            wordCount: humanStatement.split(/\s+/).length,
+            duration: 0,
+            sentiment: 0,
+            keyPoints: [],
+            speaker: "human",
+            moderator: aiResponse.moderator?.human,
+          },
+        })
+        .returning();
+
+      // Find AI participant
+      const aiParticipant = debate.participants?.find((p) => p.isAi);
+
+      // Save AI message
+      const [aiMessage] = await db
+        .insert(debateMessages)
+        .values({
+          debateId,
+          participantId: aiParticipant?.id || userParticipant.id,
+          round,
+          content: aiResponse.aiStatement,
+          metadata: {
+            wordCount: aiResponse.aiStatement.split(/\s+/).length,
+            duration: 0,
+            sentiment: 0,
+            keyPoints: [],
+            speaker: "ai",
+            moderator: aiResponse.moderator?.ai,
+          },
+        })
+        .returning();
+
+      // Update debate status
+      if (debate.status === "waiting") {
+        await db
+          .update(debates)
+          .set({
+            status: "in_progress",
+            startedAt: new Date(),
+            currentRound: round,
+          })
+          .where(eq(debates.id, debateId));
+      } else {
+        await db
+          .update(debates)
+          .set({ currentRound: round })
+          .where(eq(debates.id, debateId));
+      }
+
+      return c.json(
+        successResponse({
+          humanMessage,
+          aiMessage,
+          aiStatement: aiResponse.aiStatement,
+          moderator: aiResponse.moderator,
+          round,
+        })
+      );
+    } catch (error: any) {
+      console.error("AI debate error:", error);
+      return c.json(
+        errorResponse(`AI service error: ${error.message}`),
+        500
+      );
+    }
+  }
+);
+
+/**
+ * POST /api/debates/:id/score-round
+ * Score a completed round
+ * 
+ * Based on your debateService.ts scoreRound
+ */
+debatesRouter.post(
+  "/:id/score-round",
+  requireAuth,
+  validateBody(scoreRoundSchema),
+  async (c) => {
+    const debateId = c.req.param("id");
+    const userId = c.get("userId");
+    const { round } = c.get("validatedBody") as { round: number };
+
+    // Get debate with messages
+    const debate = await db.query.debates.findFirst({
+      where: eq(debates.id, debateId),
+    });
+
+    if (!debate) {
+      return c.json(errorResponse("Debate not found"), 404);
+    }
+
+    if (debate.createdBy !== userId) {
+      return c.json(errorResponse("Only debate creator can score rounds"), 403);
+    }
+
+    // Get messages for building history
+    const messages = await db.query.debateMessages.findMany({
+      where: eq(debateMessages.debateId, debateId),
+      orderBy: [debateMessages.createdAt],
+    });
+
+    const history = messages.map((msg) => ({
+      round: msg.round,
+      speaker: msg.metadata?.speaker || "human",
+      statement: msg.content,
+      moderator: msg.metadata?.moderator || {
+        toxicCount: 0,
+        isDisqualified: false,
+        argumentScore: 0,
+        factScore: 0,
+        fallacyScore: 0,
+        finalScore: 0,
+        feedback: [],
+      },
+    }));
+
+    try {
+      const scoreResult = await callAIScoreRound({
+        sessionId: debateId,
+        round,
+        topic: debate.topic,
+        history,
+      });
+
+      return c.json(
+        successResponse({
+          round,
+          roundWinner: scoreResult.round_winner,
+          humanTotal: scoreResult.human_total,
+          aiTotal: scoreResult.ai_total,
+          margin: scoreResult.margin,
+          confidence: scoreResult.confidence,
+          keyInsights: scoreResult.key_insights,
+        })
+      );
+    } catch (error: any) {
+      console.error("Score round error:", error);
+      return c.json(
+        errorResponse(`Scoring service error: ${error.message}`),
+        500
+      );
+    }
+  }
+);
 
 /**
  * GET /api/debates
- * 
- * List all debates created by the current user
- * 
- * Protected route - only shows YOUR debates
+ * List user's debates
  */
-debates.get("/", requireAuth, async (c) => {
+debatesRouter.get("/", requireAuth, async (c) => {
   const userId = c.get("userId");
 
-  // Filter debates to only those created by this user
-  const userDebates = debatesStore.filter((d) => d.createdBy === userId);
+  const userDebates = await db.query.debates.findMany({
+    where: eq(debates.createdBy, userId),
+    orderBy: [desc(debates.createdAt)],
+    with: {
+      participants: {
+        columns: {
+          id: true,
+          role: true,
+          isAi: true,
+          score: true,
+        },
+      },
+    },
+  });
 
   return c.json(
     successResponse({
@@ -143,52 +468,44 @@ debates.get("/", requireAuth, async (c) => {
 
 /**
  * GET /api/debates/:id
- * 
- * Get detailed information about a specific debate
- * 
- * This returns:
- * - The debate itself
- * - All participants
- * - All messages
- * 
- * Public endpoint - anyone can view a debate
+ * Get debate with all details
  */
-debates.get("/:id", async (c) => {
+debatesRouter.get("/:id", optionalAuth, async (c) => {
   const debateId = c.req.param("id");
 
-  // Find debate
-  const debate = debatesStore.find((d) => d.id === debateId);
+  const debate = await db.query.debates.findFirst({
+    where: eq(debates.id, debateId),
+    with: {
+      participants: {
+        with: {
+          user: {
+            columns: {
+              id: true,
+              username: true,
+              avatarUrl: true,
+            },
+          },
+        },
+      },
+      messages: {
+        orderBy: [debateMessages.createdAt],
+      },
+      room: true,
+    },
+  });
+
   if (!debate) {
     return c.json(errorResponse("Debate not found"), 404);
   }
 
-  // Get participants for this debate
-  const participants = participantsStore.filter((p) => p.debateId === debateId);
-  
-  // Get messages for this debate
-  const messages = messagesStore.filter((m) => m.debateId === debateId);
-
-  return c.json(
-    successResponse({
-      debate,
-      participants,
-      messages,
-    })
-  );
+  return c.json(successResponse(debate));
 });
 
 /**
  * POST /api/debates/:id/messages
- * 
- * Send a message (argument) in a debate
- * 
- * This is the core debate interaction:
- * 1. Validate user is a participant
- * 2. Check debate is active
- * 3. Save the message
- * 4. (In Article 8) Generate AI response if needed
+ * Send a message (for non-AI debates)
  */
-debates.post(
+debatesRouter.post(
   "/:id/messages",
   requireAuth,
   validateBody(sendMessageSchema),
@@ -198,60 +515,55 @@ debates.post(
     const input = c.get("validatedBody") as {
       content: string;
       audioUrl?: string;
-      transcription?: string;
     };
 
-    // Find debate
-    const debate = debatesStore.find((d) => d.id === debateId);
+    const debate = await db.query.debates.findFirst({
+      where: eq(debates.id, debateId),
+      with: {
+        participants: true,
+      },
+    });
+
     if (!debate) {
       return c.json(errorResponse("Debate not found"), 404);
     }
 
-    // Check user is a participant
-    const participant = participantsStore.find(
-      (p) => p.debateId === debateId && p.userId === userId
-    );
+    const participant = debate.participants?.find((p) => p.userId === userId);
     if (!participant) {
-      return c.json(errorResponse("You are not a participant in this debate"), 403);
+      return c.json(errorResponse("You are not a participant"), 403);
     }
 
-    // Check debate is active
-    if (debate.status !== "waiting" && debate.status !== "in_progress") {
+    if (debate.status === "completed" || debate.status === "cancelled") {
       return c.json(errorResponse("Debate is not active"), 400);
     }
 
-    // Create message object
-    const message: DebateMessage = {
-      id: generateId("msg"),
-      debateId,
-      participantId: participant.id,
-      round: debate.currentRound,
-      content: input.content,
-      audioUrl: input.audioUrl,
-      transcription: input.transcription,
-      metadata: {
-        wordCount: input.content.split(/\s+/).length,
-        duration: 0,
-        sentiment: 0,      // Will be calculated later
-        keyPoints: [],     // Will be extracted later
-      },
-      createdAt: new Date(),
-    };
+    const [message] = await db
+      .insert(debateMessages)
+      .values({
+        debateId,
+        participantId: participant.id,
+        round: debate.currentRound || 1,
+        content: input.content,
+        audioUrl: input.audioUrl,
+        metadata: {
+          wordCount: input.content.split(/\s+/).length,
+          duration: 0,
+          sentiment: 0,
+          keyPoints: [],
+        },
+      })
+      .returning();
 
-    // Save message
-    messagesStore.push(message);
-
-    // Start debate if this is first message
+    // Update debate status if first message
     if (debate.status === "waiting") {
-      debate.status = "in_progress";
-      debate.startedAt = new Date();
+      await db
+        .update(debates)
+        .set({
+          status: "in_progress",
+          startedAt: new Date(),
+        })
+        .where(eq(debates.id, debateId));
     }
-
-    // TODO: In Article 8, we'll generate AI response here
-    // if (debate.format === "one_v_one_ai") {
-    //   const aiResponse = await generateAIResponse(debate, message);
-    //   messagesStore.push(aiResponse);
-    // }
 
     return c.json(successResponse({ message }, "Message sent"));
   }
@@ -259,66 +571,70 @@ debates.post(
 
 /**
  * POST /api/debates/:id/end
- * 
- * End a debate and mark it as completed
- * 
- * Only the creator can end a debate
- * In Article 8, this will also generate AI analysis
+ * End the debate
  */
-debates.post("/:id/end", requireAuth, async (c) => {
+debatesRouter.post("/:id/end", requireAuth, async (c) => {
   const debateId = c.req.param("id");
   const userId = c.get("userId");
 
-  // Find debate
-  const debate = debatesStore.find((d) => d.id === debateId);
+  const debate = await db.query.debates.findFirst({
+    where: eq(debates.id, debateId),
+  });
+
   if (!debate) {
     return c.json(errorResponse("Debate not found"), 404);
   }
 
-  // Only creator can end debate
   if (debate.createdBy !== userId) {
-    return c.json(errorResponse("Only the creator can end this debate"), 403);
+    return c.json(errorResponse("Only creator can end debate"), 403);
   }
 
-  // Update status
-  debate.status = "completed";
-  debate.endedAt = new Date();
+  const [updated] = await db
+    .update(debates)
+    .set({
+      status: "completed",
+      endedAt: new Date(),
+    })
+    .where(eq(debates.id, debateId))
+    .returning();
 
-  // TODO: In Article 8, we'll generate AI analysis here
-  // const analysis = await generateDebateAnalysis(debate);
+  // Also close associated room if exists
+  if (debate.id) {
+    await db
+      .update(rooms)
+      .set({
+        status: "closed",
+        closedAt: new Date(),
+      })
+      .where(eq(rooms.debateId, debateId));
+  }
 
-  return c.json(successResponse({ debate }, "Debate ended"));
+  return c.json(successResponse({ debate: updated }, "Debate ended"));
 });
 
 /**
  * DELETE /api/debates/:id
- * 
  * Delete a debate
- * 
- * Only the creator can delete
- * This removes the debate but messages remain orphaned
- * (In real app with database, we'd use CASCADE delete)
  */
-debates.delete("/:id", requireAuth, async (c) => {
+debatesRouter.delete("/:id", requireAuth, async (c) => {
   const debateId = c.req.param("id");
   const userId = c.get("userId");
 
-  // Find debate index
-  const debateIndex = debatesStore.findIndex((d) => d.id === debateId);
-  if (debateIndex === -1) {
+  const debate = await db.query.debates.findFirst({
+    where: eq(debates.id, debateId),
+  });
+
+  if (!debate) {
     return c.json(errorResponse("Debate not found"), 404);
   }
 
-  // Check ownership
-  if (debatesStore[debateIndex].createdBy !== userId) {
-    return c.json(errorResponse("Only the creator can delete this debate"), 403);
+  if (debate.createdBy !== userId) {
+    return c.json(errorResponse("Only creator can delete"), 403);
   }
 
-  // Remove from array
-  // splice(index, count) removes `count` items starting at `index`
-  debatesStore.splice(debateIndex, 1);
+  await db.delete(debates).where(eq(debates.id, debateId));
 
   return c.json(successResponse(null, "Debate deleted"));
 });
 
-export { debates as debateRoutes };
+export { debatesRouter as debateRoutes };
