@@ -7,34 +7,38 @@ import { Hono } from "hono";
 import { validateBody } from "../middleware/validate";
 import { joinWaitlistSchema } from "../validators";
 import { successResponse, errorResponse, generateId } from "../utils";
-import type { WaitlistEntry } from "../types";
+import type { JoinWaitlistInput } from "../validators";
 
-const waitlist = new Hono();
+const waitlistRouter = new Hono();
 
-// In-memory storage for waitlist entries
-const waitlistEntries: WaitlistEntry[] = [];
+// ==================== IN-MEMORY STORE (TEMPORARY) ====================
+
+interface WaitlistEntry {
+  id: string;
+  email: string;
+  source?: string;
+  createdAt: Date;
+}
+
+const waitlist: WaitlistEntry[] = [];
+
+// ==================== ROUTES ====================
 
 /**
  * POST /api/waitlist
  * 
- * Add email to waitlist
- * Used on landing page before the app launches
+ * Join the waitlist.
  */
-waitlist.post("/", validateBody(joinWaitlistSchema), async (c) => {
-  // Zod already validated the email format
-  const { email, source } = c.get("validatedBody") as {
-    email: string;
-    source?: string;
-  };
+waitlistRouter.post("/", validateBody(joinWaitlistSchema), async (c) => {
+  const { email, source } = c.get("validatedBody") as JoinWaitlistInput;
 
-  // Check if email already on waitlist
-  const exists = waitlistEntries.find((e) => e.email === email);
-  if (exists) {
-    // Not an error - just tell them their position
+  // Check if already on waitlist
+  const existing = waitlist.find((w) => w.email === email);
+  if (existing) {
     return c.json(
       successResponse(
-        { position: waitlistEntries.indexOf(exists) + 1 },
-        "Already on waitlist"
+        { position: waitlist.indexOf(existing) + 1 },
+        "You're already on the waitlist!"
       )
     );
   }
@@ -43,17 +47,16 @@ waitlist.post("/", validateBody(joinWaitlistSchema), async (c) => {
   const entry: WaitlistEntry = {
     id: generateId("wl"),
     email,
-    source,              // Track where signup came from (landing, social, etc.)
+    source,
     createdAt: new Date(),
   };
 
-  waitlistEntries.push(entry);
+  waitlist.push(entry);
 
-  // Return position (1-indexed for human readability)
   return c.json(
     successResponse(
-      { position: waitlistEntries.length },
-      "Successfully joined the waitlist!"
+      { position: waitlist.length },
+      "You've been added to the waitlist!"
     ),
     201
   );
@@ -62,26 +65,29 @@ waitlist.post("/", validateBody(joinWaitlistSchema), async (c) => {
 /**
  * GET /api/waitlist/status
  * 
- * Check if an email is on the waitlist
- * Query parameter: ?email=test@example.com
+ * Check waitlist status by email.
  */
-waitlist.get("/status", (c) => {
+waitlistRouter.get("/status", async (c) => {
   const email = c.req.query("email");
 
   if (!email) {
-    return c.json(errorResponse("Email query parameter required"), 400);
+    return c.json(errorResponse("Email is required"), 400);
   }
 
-  const entry = waitlistEntries.find((e) => e.email === email);
+  const entry = waitlist.find((w) => w.email === email.toLowerCase());
 
   if (!entry) {
-    return c.json(successResponse({ onWaitlist: false }));
+    return c.json(
+      successResponse({
+        onWaitlist: false,
+      })
+    );
   }
 
   return c.json(
     successResponse({
       onWaitlist: true,
-      position: waitlistEntries.indexOf(entry) + 1,
+      position: waitlist.indexOf(entry) + 1,
       joinedAt: entry.createdAt,
     })
   );
@@ -90,11 +96,14 @@ waitlist.get("/status", (c) => {
 /**
  * GET /api/waitlist/count
  * 
- * Get total number of people on waitlist
- * Useful for social proof on landing page
+ * Get total waitlist count (for social proof).
  */
-waitlist.get("/count", (c) => {
-  return c.json(successResponse({ count: waitlistEntries.length }));
+waitlistRouter.get("/count", async (c) => {
+  return c.json(
+    successResponse({
+      count: waitlist.length,
+    })
+  );
 });
 
-export { waitlist as waitlistRoutes };
+export { waitlistRouter as waitlistRoutes };

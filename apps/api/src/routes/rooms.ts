@@ -1,83 +1,64 @@
 // ============================================
 // apps/api/src/routes/rooms.ts
-// Room management routes for P2P debates
+// P2P room management routes
 // Based on your desktop app's server.js
 // ============================================
 
 import { Hono } from "hono";
-import { eq, desc, and, isNull } from "drizzle-orm";
-import { db, rooms, roomParticipants } from "@discourse/db";
 import { requireAuth, optionalAuth } from "../middleware/auth";
 import { validateBody } from "../middleware/validate";
 import { createRoomSchema, joinRoomSchema } from "../validators";
-import { successResponse, errorResponse, generateId } from "../utils";
+import { successResponse, errorResponse, generateId, generateInviteCode } from "../utils";
+import type { CreateRoomInput, JoinRoomInput } from "../validators";
+import type { Room, RoomParticipant } from "../types";
 
-const roomsRouter = new Hono();
+const roomRouter = new Hono();
 
-// ==================== HELPER FUNCTIONS ====================
+// ==================== IN-MEMORY STORES (TEMPORARY) ====================
 
 /**
- * Generate a short invite code
- * Similar to your server.js: roomId.split('-')[0].toUpperCase()
- * But we make it more user-friendly
+ * Temporary storage - will be replaced with database in Article 6
+ * 
+ * These mirror your server.js structures:
+ * const rooms = new Map();
+ * const participants = new Map();
  */
-function generateInviteCode(): string {
-  // Generate 8-character alphanumeric code
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // Removed confusing chars (0,O,1,I)
-  let code = "";
-  for (let i = 0; i < 8; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return code;
-}
+const rooms: Room[] = [];
+const roomParticipants: RoomParticipant[] = [];
 
 // ==================== ROUTES ====================
 
 /**
  * POST /api/rooms
- * Create a new P2P room
+ * 
+ * Create a new P2P room.
  * 
  * This mirrors your server.js:
  * app.post('/api/rooms', (req, res) => { ... })
- * 
- * But stores in PostgreSQL instead of in-memory Map
  */
-roomsRouter.post(
+roomRouter.post(
   "/",
   requireAuth,
   validateBody(createRoomSchema),
   async (c) => {
     const userId = c.get("userId");
-    const input = c.get("validatedBody") as {
-      debateId?: string;
-      maxParticipants?: number;
-    };
+    const input = c.get("validatedBody") as CreateRoomInput;
 
     // Generate unique invite code
-    let inviteCode = generateInviteCode();
-    
-    // Ensure invite code is unique (unlikely collision but check anyway)
-    let attempts = 0;
-    while (attempts < 5) {
-      const existing = await db.query.rooms.findFirst({
-        where: eq(rooms.inviteCode, inviteCode),
-      });
-      if (!existing) break;
-      inviteCode = generateInviteCode();
-      attempts++;
-    }
+    const inviteCode = generateInviteCode();
 
-    // Create room in database
-    const [room] = await db
-      .insert(rooms)
-      .values({
-        inviteCode,
-        debateId: input.debateId,
-        createdBy: userId,
-        maxParticipants: input.maxParticipants || 2,
-        status: "active",
-      })
-      .returning();
+    // Create room
+    const room: Room = {
+      id: generateId("room"),
+      inviteCode,
+      debateId: input.debateId,
+      createdBy: userId,
+      status: "active",
+      maxParticipants: input.maxParticipants || 2,
+      createdAt: new Date(),
+    };
+
+    rooms.push(room);
 
     // Response matches your server.js format
     return c.json(
@@ -97,81 +78,64 @@ roomsRouter.post(
 
 /**
  * GET /api/rooms
- * List active rooms
+ * 
+ * List active rooms.
  * 
  * Similar to your server.js:
  * app.get('/api/rooms', (req, res) => { ... })
  */
-roomsRouter.get("/", optionalAuth, async (c) => {
+roomRouter.get("/", optionalAuth, async (c) => {
   const userId = c.get("userId");
 
-  // Get active rooms (optionally filter by user's rooms)
-  const activeRooms = await db.query.rooms.findMany({
-    where: eq(rooms.status, "active"),
-    orderBy: [desc(rooms.createdAt)],
-    with: {
-      participants: {
-        where: isNull(roomParticipants.leftAt),
-      },
-    },
-    limit: 50,
-  });
+  // Get active rooms
+  const activeRooms = rooms
+    .filter((r) => r.status === "active")
+    .map((room) => {
+      const participants = roomParticipants.filter(
+        (p) => p.roomId === room.id && !p.leftAt
+      );
+      return {
+        roomId: room.id,
+        inviteCode: room.inviteCode,
+        participants: participants.length,
+        maxParticipants: room.maxParticipants,
+        createdAt: room.createdAt,
+        isActive: participants.length > 0,
+        isOwner: room.createdBy === userId,
+      };
+    });
 
-  // Transform to match your server.js response format
-  const roomList = activeRooms.map((room) => ({
-    roomId: room.id,
-    inviteCode: room.inviteCode,
-    participants: room.participants?.length || 0,
-    maxParticipants: room.maxParticipants,
-    createdAt: room.createdAt,
-    isActive: (room.participants?.length || 0) > 0,
-    isOwner: room.createdBy === userId,
-  }));
-
-  return c.json(successResponse({ rooms: roomList }));
+  return c.json(successResponse({ rooms: activeRooms }));
 });
 
 /**
  * GET /api/rooms/:id
- * Get room details
  * 
- * Similar to your server.js:
- * app.get('/api/rooms/:roomId', (req, res) => { ... })
+ * Get room details.
  */
-roomsRouter.get("/:id", async (c) => {
+roomRouter.get("/:id", async (c) => {
   const roomId = c.req.param("id");
 
-  const room = await db.query.rooms.findFirst({
-    where: eq(rooms.id, roomId),
-    with: {
-      participants: {
-        where: isNull(roomParticipants.leftAt),
-      },
-      debate: true,
-    },
-  });
+  const room = rooms.find((r) => r.id === roomId);
 
   if (!room) {
     return c.json(errorResponse("Room not found"), 404);
   }
+
+  const participants = roomParticipants.filter(
+    (p) => p.roomId === roomId && !p.leftAt
+  );
 
   return c.json(
     successResponse({
       room: {
         roomId: room.id,
         inviteCode: room.inviteCode,
-        participants: room.participants?.length || 0,
+        participants: participants.length,
         maxParticipants: room.maxParticipants,
         createdAt: room.createdAt,
         status: room.status,
         isActive: room.status === "active",
-        debate: room.debate
-          ? {
-              id: room.debate.id,
-              topic: room.debate.topic,
-              status: room.debate.status,
-            }
-          : null,
       },
     })
   );
@@ -179,32 +143,25 @@ roomsRouter.get("/:id", async (c) => {
 
 /**
  * GET /api/rooms/invite/:code
- * Find room by invite code
  * 
- * Allows joining via short invite codes
+ * Find room by invite code.
  */
-roomsRouter.get("/invite/:code", async (c) => {
+roomRouter.get("/invite/:code", async (c) => {
   const inviteCode = c.req.param("code").toUpperCase();
 
-  const room = await db.query.rooms.findFirst({
-    where: and(
-      eq(rooms.inviteCode, inviteCode),
-      eq(rooms.status, "active")
-    ),
-    with: {
-      participants: {
-        where: isNull(roomParticipants.leftAt),
-      },
-    },
-  });
+  const room = rooms.find(
+    (r) => r.inviteCode === inviteCode && r.status === "active"
+  );
 
   if (!room) {
     return c.json(errorResponse("Room not found or no longer active"), 404);
   }
 
-  // Check if room is full
-  const currentParticipants = room.participants?.length || 0;
-  if (currentParticipants >= room.maxParticipants) {
+  const participants = roomParticipants.filter(
+    (p) => p.roomId === room.id && !p.leftAt
+  );
+
+  if (participants.length >= room.maxParticipants) {
     return c.json(errorResponse("Room is full"), 400);
   }
 
@@ -212,52 +169,48 @@ roomsRouter.get("/invite/:code", async (c) => {
     successResponse({
       roomId: room.id,
       inviteCode: room.inviteCode,
-      participants: currentParticipants,
+      participants: participants.length,
       maxParticipants: room.maxParticipants,
-      spotsAvailable: room.maxParticipants - currentParticipants,
+      spotsAvailable: room.maxParticipants - participants.length,
     })
   );
 });
 
 /**
  * POST /api/rooms/:id/join
- * Join a room (HTTP endpoint - Socket.IO also handles this)
  * 
- * This creates a participant record.
- * The actual WebRTC connection happens via Socket.IO
+ * Join a room via HTTP.
+ * The actual WebRTC connection happens via Socket.IO.
  */
-roomsRouter.post(
+roomRouter.post(
   "/:id/join",
   optionalAuth,
   validateBody(joinRoomSchema),
   async (c) => {
     const roomId = c.req.param("id");
-    const userId = c.get("userId"); // May be undefined for guests
-    const { displayName } = c.get("validatedBody") as { displayName: string };
+    const userId = c.get("userId");
+    const { displayName } = c.get("validatedBody") as JoinRoomInput;
 
     // Find room
-    const room = await db.query.rooms.findFirst({
-      where: and(eq(rooms.id, roomId), eq(rooms.status, "active")),
-      with: {
-        participants: {
-          where: isNull(roomParticipants.leftAt),
-        },
-      },
-    });
+    const room = rooms.find((r) => r.id === roomId && r.status === "active");
 
     if (!room) {
       return c.json(errorResponse("Room not found or no longer active"), 404);
     }
 
+    // Get current participants
+    const currentParticipants = roomParticipants.filter(
+      (p) => p.roomId === roomId && !p.leftAt
+    );
+
     // Check if room is full
-    const currentParticipants = room.participants?.length || 0;
-    if (currentParticipants >= room.maxParticipants) {
+    if (currentParticipants.length >= room.maxParticipants) {
       return c.json(errorResponse("Room is full"), 400);
     }
 
-    // Check if user already in room (if authenticated)
+    // Check if user already in room
     if (userId) {
-      const existing = room.participants?.find((p) => p.userId === userId);
+      const existing = currentParticipants.find((p) => p.userId === userId);
       if (existing) {
         return c.json(
           successResponse({
@@ -269,21 +222,21 @@ roomsRouter.post(
       }
     }
 
-    // Determine if this is the host (first participant or room creator)
-    const isHost = room.createdBy === userId || currentParticipants === 0;
+    // Determine if this is the host
+    const isHost = room.createdBy === userId || currentParticipants.length === 0;
 
     // Create participant record
-    // Note: socketId will be set when they connect via Socket.IO
-    const [participant] = await db
-      .insert(roomParticipants)
-      .values({
-        roomId,
-        userId,
-        displayName,
-        socketId: "", // Set later when Socket.IO connects
-        isHost,
-      })
-      .returning();
+    const participant: RoomParticipant = {
+      id: generateId("rp"),
+      roomId,
+      userId,
+      displayName,
+      socketId: "", // Set when Socket.IO connects
+      isHost,
+      joinedAt: new Date(),
+    };
+
+    roomParticipants.push(participant);
 
     return c.json(
       successResponse(
@@ -292,7 +245,7 @@ roomsRouter.post(
           roomId: room.id,
           inviteCode: room.inviteCode,
           isHost,
-          totalParticipants: currentParticipants + 1,
+          totalParticipants: currentParticipants.length + 1,
         },
         "Joined room successfully"
       )
@@ -302,16 +255,14 @@ roomsRouter.post(
 
 /**
  * DELETE /api/rooms/:id
- * Close/delete a room
- * Only the room creator can do this
+ * 
+ * Close/delete a room.
  */
-roomsRouter.delete("/:id", requireAuth, async (c) => {
+roomRouter.delete("/:id", requireAuth, async (c) => {
   const roomId = c.req.param("id");
   const userId = c.get("userId");
 
-  const room = await db.query.rooms.findFirst({
-    where: eq(rooms.id, roomId),
-  });
+  const room = rooms.find((r) => r.id === roomId);
 
   if (!room) {
     return c.json(errorResponse("Room not found"), 404);
@@ -321,27 +272,18 @@ roomsRouter.delete("/:id", requireAuth, async (c) => {
     return c.json(errorResponse("Only the room creator can close this room"), 403);
   }
 
-  // Mark room as closed (soft delete)
-  await db
-    .update(rooms)
-    .set({
-      status: "closed",
-      closedAt: new Date(),
-    })
-    .where(eq(rooms.id, roomId));
+  // Mark room as closed
+  room.status = "closed";
+  room.closedAt = new Date();
 
   // Mark all participants as left
-  await db
-    .update(roomParticipants)
-    .set({
-      leftAt: new Date(),
-    })
-    .where(and(
-      eq(roomParticipants.roomId, roomId),
-      isNull(roomParticipants.leftAt)
-    ));
+  roomParticipants
+    .filter((p) => p.roomId === roomId && !p.leftAt)
+    .forEach((p) => {
+      p.leftAt = new Date();
+    });
 
   return c.json(successResponse(null, "Room closed"));
 });
 
-export { roomsRouter as roomRoutes };
+export { roomRouter as roomRoutes };

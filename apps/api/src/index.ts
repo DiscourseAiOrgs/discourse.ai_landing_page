@@ -7,20 +7,20 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
+
 import { config } from "./config";
 import { requestIdMiddleware } from "./middleware/requestId";
+
+// Import all routes
+import { authRoutes } from "./routes/auth";
+import { userRoutes } from "./routes/users";
+import { debateRoutes } from "./routes/debates";
+import { roomRoutes } from "./routes/rooms";
+import { waitlistRoutes } from "./routes/waitlist";
 
 const app = new Hono();
 
 // ==================== MIDDLEWARE ====================
-/**
- * Middleware order matters!
- * 
- * 1. requestId - assigns ID first (for logging)
- * 2. logger - logs with request ID available
- * 3. prettyJSON - formats responses
- * 4. cors - handles cross-origin requests
- */
 
 app.use("*", requestIdMiddleware);
 app.use("*", logger());
@@ -41,7 +41,7 @@ app.get("/", (c) => {
     version: "0.1.0",
     status: "running",
     timestamp: new Date().toISOString(),
-    requestId: c.get("requestId"),  // Access from middleware
+    requestId: c.get("requestId"),
   });
 });
 
@@ -52,38 +52,19 @@ app.get("/health", (c) => {
   });
 });
 
-// ==================== EXAMPLE ROUTES ====================
+// ==================== API ROUTES ====================
 
-app.get("/users/:id", (c) => {
-  const userId = c.req.param("id");
-  
-  return c.json({
-    message: `Fetching user with ID: ${userId}`,
-    userId,
-    requestId: c.get("requestId"),
-  });
-});
-
-app.get("/search", (c) => {
-  const query = c.req.query("q") || "";
-  const page = c.req.query("page") || "1";
-  
-  return c.json({
-    message: "Search results",
-    query,
-    page: parseInt(page),
-  });
-});
-
-app.post("/echo", async (c) => {
-  const body = await c.req.json();
-  
-  return c.json({
-    message: "You sent:",
-    data: body,
-    requestId: c.get("requestId"),
-  });
-});
+/**
+ * Mount route modules at their paths
+ * 
+ * app.route(path, router) mounts a sub-router.
+ * All routes in authRoutes become /api/auth/*
+ */
+app.route("/api/auth", authRoutes);
+app.route("/api/users", userRoutes);
+app.route("/api/debates", debateRoutes);
+app.route("/api/rooms", roomRoutes);
+app.route("/api/waitlist", waitlistRoutes);
 
 // ==================== ERROR HANDLING ====================
 
@@ -100,7 +81,7 @@ app.notFound((c) => {
 
 app.onError((err, c) => {
   console.error("API Error:", err);
-  
+
   return c.json(
     {
       success: false,

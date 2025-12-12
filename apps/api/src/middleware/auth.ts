@@ -5,110 +5,165 @@
 
 import { createMiddleware } from "hono/factory";
 import { errorResponse } from "../utils";
-import { sessions, users } from "../routes/auth";
-
-// ==================== EXTEND HONO'S CONTEXT ====================
+import type { SafeUser, UserId } from "../types";
 
 /**
- * Tell TypeScript that our context will have userId and user
- * 
- * After requireAuth middleware runs, route handlers can use:
- * - c.get("userId") → the logged-in user's ID
- * - c.get("user") → the logged-in user's basic info
+ * Extend Hono's context to include auth info
  */
 declare module "hono" {
   interface ContextVariableMap {
-    userId: string;
-    user: {
-      id: string;
-      email: string;
-      username: string;
-    };
+    userId: UserId;
+    user: SafeUser;
   }
 }
 
 /**
- * Middleware that REQUIRES authentication
+ * In-memory session store (temporary)
  * 
- * Use this on routes that should only be accessible to logged-in users:
+ * ⚠️ This will be replaced with database sessions in Article 6.
+ * For now, we store sessions in memory for development.
+ */
+export const sessions = new Map<string, { userId: string; user: SafeUser }>();
+
+/**
+ * In-memory user store (temporary)
  * 
- * debates.post("/", requireAuth, async (c) => {
- *   const userId = c.get("userId");  // Guaranteed to exist
- *   // ...
+ * ⚠️ This will be replaced with database in Article 6.
+ */
+export const users: Array<{
+  id: string;
+  email: string;
+  username: string;
+  passwordHash: string;
+  createdAt: Date;
+  updatedAt: Date;
+  emailVerified: boolean;
+}> = [];
+
+/**
+ * Extract token from Authorization header
+ * 
+ * Expects format: "Bearer <token>"
+ * Returns just the token part.
+ * 
+ * @param authHeader - The Authorization header value
+ * @returns Token string or null if invalid
+ */
+function extractToken(authHeader: string | undefined): string | null {
+  if (!authHeader) return null;
+  
+  // Check for "Bearer " prefix
+  if (!authHeader.startsWith("Bearer ")) return null;
+  
+  // Extract token (everything after "Bearer ")
+  const token = authHeader.slice(7).trim();
+  
+  return token || null;
+}
+
+/**
+ * Require authentication middleware
+ * 
+ * Blocks request if no valid token is provided.
+ * Adds userId and user to context if valid.
+ * 
+ * Use for protected routes that require login.
+ * 
+ * @example
+ * app.get("/profile", requireAuth, async (c) => {
+ *   const userId = c.get("userId"); // Guaranteed to exist
  * });
- * 
- * If no valid token is provided, returns 401 and route never runs.
  */
 export const requireAuth = createMiddleware(async (c, next) => {
-  // Step 1: Get Authorization header
+  // Get Authorization header
   const authHeader = c.req.header("Authorization");
-
-  // Step 2: Check format - must be "Bearer <token>"
-  if (!authHeader?.startsWith("Bearer ")) {
-    return c.json(errorResponse("Unauthorized - No token provided"), 401);
-  }
-
-  // Step 3: Extract the token
-  const token = authHeader.slice(7);  // Remove "Bearer " prefix
   
-  // Step 4: Look up session
-  const userId = sessions.get(token);
-  if (!userId) {
-    return c.json(errorResponse("Unauthorized - Invalid or expired token"), 401);
+  // Extract token
+  const token = extractToken(authHeader);
+  
+  if (!token) {
+    return c.json(
+      errorResponse("Authentication required. Please provide a valid token."),
+      401  // 401 Unauthorized
+    );
   }
-
-  // Step 5: Find user
-  const user = users.find((u) => u.id === userId);
-  if (!user) {
-    return c.json(errorResponse("Unauthorized - User not found"), 401);
+  
+  // Look up session
+  const session = sessions.get(token);
+  
+  if (!session) {
+    return c.json(
+      errorResponse("Invalid or expired token. Please log in again."),
+      401
+    );
   }
-
-  // Step 6: Add user info to context for route handlers
-  c.set("userId", userId);
-  c.set("user", {
-    id: user.id,
-    email: user.email,
-    username: user.username,
-  });
-
-  // Step 7: Continue to route handler
+  
+  // Add user info to context
+  c.set("userId", session.userId);
+  c.set("user", session.user);
+  
+  // Continue to route handler
   await next();
 });
 
 /**
- * OPTIONAL auth middleware
+ * Optional authentication middleware
  * 
- * Use this on routes that work without login but have extra features when logged in.
+ * Adds user to context if valid token provided,
+ * but continues even without authentication.
  * 
- * Example: Viewing a public debate
- * - Anonymous: Can view debate
- * - Logged in: Can view + see if you participated
+ * Use for routes that work for both logged-in and anonymous users.
  * 
- * This middleware:
- * - If valid token: adds userId and user to context
- * - If no token or invalid: continues anyway (doesn't fail)
+ * @example
+ * app.get("/debates/:id", optionalAuth, async (c) => {
+ *   const userId = c.get("userId"); // May be undefined
+ *   if (userId) {
+ *     // Show personalized content
+ *   }
+ * });
  */
 export const optionalAuth = createMiddleware(async (c, next) => {
   const authHeader = c.req.header("Authorization");
-
-  // Only try to authenticate if header is present
-  if (authHeader?.startsWith("Bearer ")) {
-    const token = authHeader.slice(7);
-    const userId = sessions.get(token);
-
-    if (userId) {
-      const user = users.find((u) => u.id === userId);
-      if (user) {
-        c.set("userId", userId);
-        c.set("user", {
-          id: user.id,
-          email: user.email,
-          username: user.username,
-        });
-      }
+  const token = extractToken(authHeader);
+  
+  if (token) {
+    const session = sessions.get(token);
+    if (session) {
+      c.set("userId", session.userId);
+      c.set("user", session.user);
     }
   }
-
-  // Always continue - this middleware never blocks
+  
+  // Always continue, even without auth
   await next();
 });
+
+/**
+ * Generate a session token (temporary)
+ * 
+ * ⚠️ This will be replaced with JWT in a later article.
+ * For now, we use a simple random token.
+ */
+export function generateToken(): string {
+  return `tok_${Date.now().toString(36)}${Math.random().toString(36).substring(2)}`;
+}
+
+/**
+ * Simple password hashing (temporary)
+ * 
+ * ⚠️ This is NOT secure! Will be replaced with Argon2.
+ * Only for development/testing purposes.
+ */
+export function hashPassword(password: string): string {
+  // Base64 encode - NOT SECURE, just for development
+  return Buffer.from(password).toString("base64");
+}
+
+/**
+ * Simple password verification (temporary)
+ * 
+ * ⚠️ This is NOT secure! Will be replaced with Argon2.
+ */
+export function verifyPassword(password: string, hash: string): boolean {
+  return Buffer.from(password).toString("base64") === hash;
+}
