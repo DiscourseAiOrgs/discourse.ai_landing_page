@@ -57,25 +57,23 @@ export type RoomStatus = "active" | "closed";
 /**
  * Core User interface
  * 
- * Represents a user account in the system.
- * The passwordHash is optional because we never send it to clients.
+ * Note: Database returns null for empty fields, not undefined.
+ * We use `| null` to match database behavior.
  */
 export interface User {
   id: UserId;
   email: string;
   username: string;
-  passwordHash?: string;  // Only used internally
-  avatarUrl?: string;
-  bio?: string;
-  emailVerified: boolean;
+  passwordHash?: string;
+  avatarUrl: string | null;      // Changed from optional (?) to explicit null
+  bio: string | null;            // Changed from optional (?) to explicit null
+  emailVerified: boolean | null;
   createdAt: Date;
   updatedAt: Date;
 }
 
 /**
  * User statistics
- * 
- * Tracks a user's debate performance over time.
  */
 export interface UserStats {
   totalDebates: number;
@@ -87,15 +85,11 @@ export interface UserStats {
 
 /**
  * User preferences
- * 
- * Settings that persist across sessions.
- * Based on your SettingsContext.tsx from the desktop app.
  */
 export interface UserPreferences {
   voiceEnabled: boolean;
   preferredLanguage: string;
   theme: "light" | "dark" | "system";
-  // Glassmorphism settings from your desktop app
   transparency?: number;
   textContrast?: number;
   fontSize?: number;
@@ -104,13 +98,21 @@ export interface UserPreferences {
 }
 
 /**
+ * Full user with database fields
+ * 
+ * This matches what Drizzle returns from queries.
+ */
+export interface UserWithDatabaseFields extends User {
+  debateStats: UserStats | null;
+  preferences: UserPreferences | null;
+}
+
+/**
  * Safe user type - excludes password hash
  * 
- * Omit<Type, Keys> creates a new type without specified keys.
- * This is what we send to the client.
+ * Uses Omit to remove passwordHash from User type.
  */
-export type SafeUser = Omit<User, "passwordHash">;
-
+export type SafeUser = Omit<UserWithDatabaseFields, "passwordHash">;
 // ==================== DEBATE TYPES ====================
 /**
  * Debate settings

@@ -1,9 +1,11 @@
 // ============================================
 // apps/api/src/middleware/auth.ts
-// Authentication middleware
+// Authentication middleware with database
 // ============================================
 
 import { createMiddleware } from "hono/factory";
+import { eq } from "drizzle-orm";
+import { db, users, sessions } from "@discourse/db";
 import { errorResponse } from "../utils";
 import type { SafeUser, UserId } from "../types";
 
@@ -18,151 +20,119 @@ declare module "hono" {
 }
 
 /**
- * In-memory session store (temporary)
- * 
- * ⚠️ This will be replaced with database sessions in Article 6.
- * For now, we store sessions in memory for development.
+ * Session expiration time (7 days in milliseconds)
  */
-export const sessions = new Map<string, { userId: string; user: SafeUser }>();
-
-/**
- * In-memory user store (temporary)
- * 
- * ⚠️ This will be replaced with database in Article 6.
- */
-export const users: Array<{
-  id: string;
-  email: string;
-  username: string;
-  passwordHash: string;
-  createdAt: Date;
-  updatedAt: Date;
-  emailVerified: boolean;
-}> = [];
+const SESSION_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
  * Extract token from Authorization header
- * 
- * Expects format: "Bearer <token>"
- * Returns just the token part.
- * 
- * @param authHeader - The Authorization header value
- * @returns Token string or null if invalid
  */
 function extractToken(authHeader: string | undefined): string | null {
   if (!authHeader) return null;
-  
-  // Check for "Bearer " prefix
   if (!authHeader.startsWith("Bearer ")) return null;
-  
-  // Extract token (everything after "Bearer ")
   const token = authHeader.slice(7).trim();
-  
   return token || null;
 }
 
 /**
  * Require authentication middleware
  * 
- * Blocks request if no valid token is provided.
- * Adds userId and user to context if valid.
- * 
- * Use for protected routes that require login.
- * 
- * @example
- * app.get("/profile", requireAuth, async (c) => {
- *   const userId = c.get("userId"); // Guaranteed to exist
- * });
+ * Now validates against database sessions.
  */
 export const requireAuth = createMiddleware(async (c, next) => {
-  // Get Authorization header
   const authHeader = c.req.header("Authorization");
-  
-  // Extract token
   const token = extractToken(authHeader);
-  
+
   if (!token) {
     return c.json(
       errorResponse("Authentication required. Please provide a valid token."),
-      401  // 401 Unauthorized
+      401
     );
   }
-  
-  // Look up session
-  const session = sessions.get(token);
-  
+
+  // Find session in database
+  const session = await db.query.sessions.findFirst({
+    where: eq(sessions.token, token),
+    with: {
+      user: true,
+    },
+  });
+
   if (!session) {
     return c.json(
       errorResponse("Invalid or expired token. Please log in again."),
       401
     );
   }
-  
+
+  // Check if session is expired
+  if (new Date() > session.expiresAt) {
+    // Delete expired session
+    await db.delete(sessions).where(eq(sessions.id, session.id));
+    return c.json(
+      errorResponse("Session expired. Please log in again."),
+      401
+    );
+  }
+
+  // Remove password from user
+  const { passwordHash, ...safeUser } = session.user;
+
   // Add user info to context
   c.set("userId", session.userId);
-  c.set("user", session.user);
-  
-  // Continue to route handler
+  c.set("user", safeUser as SafeUser);
+
   await next();
 });
 
 /**
  * Optional authentication middleware
- * 
- * Adds user to context if valid token provided,
- * but continues even without authentication.
- * 
- * Use for routes that work for both logged-in and anonymous users.
- * 
- * @example
- * app.get("/debates/:id", optionalAuth, async (c) => {
- *   const userId = c.get("userId"); // May be undefined
- *   if (userId) {
- *     // Show personalized content
- *   }
- * });
  */
 export const optionalAuth = createMiddleware(async (c, next) => {
   const authHeader = c.req.header("Authorization");
   const token = extractToken(authHeader);
-  
+
   if (token) {
-    const session = sessions.get(token);
-    if (session) {
+    const session = await db.query.sessions.findFirst({
+      where: eq(sessions.token, token),
+      with: {
+        user: true,
+      },
+    });
+
+    if (session && new Date() <= session.expiresAt) {
+      const { passwordHash, ...safeUser } = session.user;
       c.set("userId", session.userId);
-      c.set("user", session.user);
+      c.set("user", safeUser as SafeUser);
     }
   }
-  
-  // Always continue, even without auth
+
   await next();
 });
 
 /**
- * Generate a session token (temporary)
- * 
- * ⚠️ This will be replaced with JWT in a later article.
- * For now, we use a simple random token.
+ * Generate a session token
  */
 export function generateToken(): string {
   return `tok_${Date.now().toString(36)}${Math.random().toString(36).substring(2)}`;
 }
 
 /**
- * Simple password hashing (temporary)
- * 
- * ⚠️ This is NOT secure! Will be replaced with Argon2.
- * Only for development/testing purposes.
+ * Calculate session expiry date
+ */
+export function getSessionExpiry(): Date {
+  return new Date(Date.now() + SESSION_EXPIRY_MS);
+}
+
+/**
+ * Simple password hashing (temporary - use Argon2 in production)
  */
 export function hashPassword(password: string): string {
-  // Base64 encode - NOT SECURE, just for development
   return Buffer.from(password).toString("base64");
 }
 
 /**
  * Simple password verification (temporary)
- * 
- * ⚠️ This is NOT secure! Will be replaced with Argon2.
  */
 export function verifyPassword(password: string, hash: string): boolean {
   return Buffer.from(password).toString("base64") === hash;
