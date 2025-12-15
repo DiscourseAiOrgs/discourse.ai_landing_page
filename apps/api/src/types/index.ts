@@ -1,6 +1,9 @@
 // ============================================
 // apps/api/src/types/index.ts
 // Type definitions for discourse.ai API
+// 
+// Note: PostgreSQL returns `null` for empty columns,
+// not `undefined`. Our types reflect this reality.
 // ============================================
 
 // ==================== ID TYPE ALIASES ====================
@@ -55,25 +58,9 @@ export type RoomStatus = "active" | "closed";
 
 // ==================== USER TYPES ====================
 /**
- * Core User interface
- * 
- * Note: Database returns null for empty fields, not undefined.
- * We use `| null` to match database behavior.
- */
-export interface User {
-  id: UserId;
-  email: string;
-  username: string;
-  passwordHash?: string;
-  avatarUrl: string | null;      // Changed from optional (?) to explicit null
-  bio: string | null;            // Changed from optional (?) to explicit null
-  emailVerified: boolean | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-/**
  * User statistics
+ * 
+ * Tracks a user's debate performance over time.
  */
 export interface UserStats {
   totalDebates: number;
@@ -85,11 +72,15 @@ export interface UserStats {
 
 /**
  * User preferences
+ * 
+ * Settings that persist across sessions.
+ * Based on your SettingsContext.tsx from the desktop app.
  */
 export interface UserPreferences {
   voiceEnabled: boolean;
   preferredLanguage: string;
   theme: "light" | "dark" | "system";
+  // Glassmorphism settings from your desktop app
   transparency?: number;
   textContrast?: number;
   fontSize?: number;
@@ -98,21 +89,50 @@ export interface UserPreferences {
 }
 
 /**
- * Full user with database fields
+ * Core User interface
  * 
- * This matches what Drizzle returns from queries.
+ * Represents a user account in the system.
+ * 
+ * IMPORTANT: PostgreSQL returns `null` for empty/unset columns.
+ * TypeScript's optional (`?:`) means `T | undefined`.
+ * These are NOT the same! `null !== undefined`
+ * 
+ * So we explicitly use `| null` for fields that can be empty in the database.
  */
-export interface UserWithDatabaseFields extends User {
+export interface User {
+  id: UserId;
+  email: string;
+  username: string;
+  passwordHash?: string;  // Optional because we exclude it for clients
+  
+  // These can be null in database
+  avatarUrl: string | null;
+  bio: string | null;
+  emailVerified: boolean | null;
   debateStats: UserStats | null;
   preferences: UserPreferences | null;
+  
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 /**
  * Safe user type - excludes password hash
  * 
- * Uses Omit to remove passwordHash from User type.
+ * This is what we send to the client.
+ * Omit<Type, Keys> creates a new type without specified keys.
  */
-export type SafeUser = Omit<UserWithDatabaseFields, "passwordHash">;
+export type SafeUser = Omit<User, "passwordHash">;
+
+/**
+ * User for creation (what we receive from signup)
+ */
+export interface CreateUserData {
+  email: string;
+  username: string;
+  password: string;
+}
+
 // ==================== DEBATE TYPES ====================
 /**
  * Debate settings
@@ -139,16 +159,34 @@ export interface DebateSettings {
 export interface Debate {
   id: DebateId;
   topic: string;
-  description?: string;
+  description: string | null;
   format: DebateFormat;
   status: DebateStatus;
-  settings: DebateSettings;
-  currentRound: number;
+  settings: DebateSettings | null;
+  currentRound: number | null;
   createdBy: UserId;
-  winnerId?: UserId;
-  startedAt?: Date;
-  endedAt?: Date;
+  winnerId: UserId | null;
+  startedAt: Date | null;
+  endedAt: Date | null;
   createdAt: Date;
+}
+
+/**
+ * Debate participant
+ */
+export interface DebateParticipant {
+  id: ParticipantId;
+  debateId: DebateId;
+  userId: UserId | null;
+  role: ParticipantRole;
+  isAi: boolean;
+  aiConfig: {
+    model: string;
+    personality: string;
+    stance: string;
+  } | null;
+  score: number | null;
+  joinedAt: Date;
 }
 
 // ==================== AI DEBATE TYPES ====================
@@ -202,12 +240,12 @@ export interface DebateHistoryEntry {
 export interface Room {
   id: RoomId;
   inviteCode: string;
-  debateId?: DebateId;
+  debateId: DebateId | null;
   createdBy: UserId;
   status: RoomStatus;
   maxParticipants: number;
   createdAt: Date;
-  closedAt?: Date;
+  closedAt: Date | null;
 }
 
 /**
@@ -219,12 +257,12 @@ export interface Room {
 export interface RoomParticipant {
   id: ParticipantId;
   roomId: RoomId;
-  userId?: UserId;      // null for guests
+  userId: UserId | null;      // null for guests
   displayName: string;
-  socketId: string;
+  socketId: string | null;
   isHost: boolean;
   joinedAt: Date;
-  leftAt?: Date;
+  leftAt: Date | null;
 }
 
 // ==================== MESSAGE TYPES ====================
@@ -253,9 +291,40 @@ export interface DebateMessage {
   participantId: ParticipantId;
   round: number;
   content: string;
-  audioUrl?: string;
-  transcription?: string;
-  metadata?: MessageMetadata;
+  audioUrl: string | null;
+  transcription: string | null;
+  metadata: MessageMetadata | null;
+  createdAt: Date;
+}
+
+// ==================== TRANSCRIPTION TYPES ====================
+/**
+ * Transcription record
+ * 
+ * Speech-to-text result from Deepgram.
+ */
+export interface Transcription {
+  id: string;
+  roomId: RoomId;
+  participantId: ParticipantId;
+  content: string;
+  confidence: number;
+  speaker: number | null;
+  isFinal: boolean;
+  createdAt: Date;
+}
+
+// ==================== CHAT MESSAGE TYPES ====================
+/**
+ * Chat message
+ * 
+ * Text chat in rooms (separate from debate arguments).
+ */
+export interface ChatMessage {
+  id: string;
+  roomId: RoomId;
+  participantId: ParticipantId;
+  content: string;
   createdAt: Date;
 }
 
@@ -370,4 +439,97 @@ export interface JoinRoomRequest {
 export interface JoinWaitlistRequest {
   email: string;
   source?: string;
+}
+
+// ==================== SOCKET EVENT TYPES ====================
+/**
+ * Socket.IO event payloads
+ * Based on your server.js socket events
+ */
+export interface SocketJoinRoomPayload {
+  roomId: string;
+  participantName: string;
+  isHost?: boolean;
+}
+
+export interface SocketRoomJoinedPayload {
+  roomId: string;
+  participantId: string;
+  participants: {
+    participantId: string;
+    participantName: string;
+    isHost: boolean;
+  }[];
+  totalParticipants: number;
+}
+
+export interface SocketParticipantJoinedPayload {
+  participant: {
+    participantId: string;
+    participantName: string;
+    isHost: boolean;
+  };
+  totalParticipants: number;
+}
+
+export interface SocketTranscriptionPayload {
+  transcription: string;
+  participantId: string;
+  confidence: number;
+  timestamp: string;
+}
+
+export interface SocketChatMessagePayload {
+  message: string;
+  timestamp: string;
+}
+
+// ==================== ANALYTICS TYPES ====================
+/**
+ * Debate analysis from AI
+ */
+export interface DebateAnalysis {
+  summary: string;
+  keyArguments: {
+    participant: string;
+    points: string[];
+  }[];
+  rhetoricalAnalysis: {
+    participant: string;
+    logosScore: number;
+    pathosScore: number;
+    ethosScore: number;
+  }[];
+  factCheck: {
+    claim: string;
+    verdict: string;
+    source?: string;
+  }[];
+  winner: string;
+  reasoning: string;
+}
+
+/**
+ * Participant score breakdown
+ */
+export interface ParticipantScore {
+  participantId: string;
+  overall: number;
+  argumentation: number;
+  evidence: number;
+  rebuttal: number;
+  delivery: number;
+}
+
+/**
+ * Round score result
+ */
+export interface RoundScoreResult {
+  round: number;
+  roundWinner: "human" | "ai" | "tie";
+  humanTotal: number;
+  aiTotal: number;
+  margin: number;
+  confidence: number;
+  keyInsights: string[];
 }

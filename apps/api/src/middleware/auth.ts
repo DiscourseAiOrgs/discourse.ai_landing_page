@@ -1,11 +1,12 @@
 // ============================================
 // apps/api/src/middleware/auth.ts
-// Authentication middleware with database
+// Authentication middleware with JWT
 // ============================================
 
 import { createMiddleware } from "hono/factory";
 import { eq } from "drizzle-orm";
-import { db, users, sessions } from "@discourse/db";
+import { db, users } from "@discourse/db";
+import { verifyToken } from "../utils/jwt";
 import { errorResponse } from "../utils";
 import type { SafeUser, UserId } from "../types";
 
@@ -16,16 +17,19 @@ declare module "hono" {
   interface ContextVariableMap {
     userId: UserId;
     user: SafeUser;
+    jwtPayload: {
+      userId: string;
+      email: string;
+      iat: number;
+      exp: number;
+    };
   }
 }
 
 /**
- * Session expiration time (7 days in milliseconds)
- */
-const SESSION_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
-
-/**
  * Extract token from Authorization header
+ * 
+ * Expects format: "Bearer <token>"
  */
 function extractToken(authHeader: string | undefined): string | null {
   if (!authHeader) return null;
@@ -35,9 +39,17 @@ function extractToken(authHeader: string | undefined): string | null {
 }
 
 /**
- * Require authentication middleware
+ * Require authentication middleware (JWT version)
  * 
- * Now validates against database sessions.
+ * This validates the JWT token and loads the user from database.
+ * 
+ * Benefits of JWT over session tokens:
+ * 1. Stateless - no database lookup for token validation
+ * 2. Self-contained - includes user info and expiration
+ * 3. Scalable - works across multiple servers
+ * 
+ * We still load the user from DB to get latest data,
+ * but the token validation itself is stateless.
  */
 export const requireAuth = createMiddleware(async (c, next) => {
   const authHeader = c.req.header("Authorization");
@@ -50,90 +62,65 @@ export const requireAuth = createMiddleware(async (c, next) => {
     );
   }
 
-  // Find session in database
-  const session = await db.query.sessions.findFirst({
-    where: eq(sessions.token, token),
-    with: {
-      user: true,
-    },
-  });
+  // Verify JWT (stateless - no database lookup)
+  const payload = await verifyToken(token);
 
-  if (!session) {
+  if (!payload) {
     return c.json(
       errorResponse("Invalid or expired token. Please log in again."),
       401
     );
   }
 
-  // Check if session is expired
-  if (new Date() > session.expiresAt) {
-    // Delete expired session
-    await db.delete(sessions).where(eq(sessions.id, session.id));
+  // Load user from database (to get latest data)
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, payload.userId),
+  });
+
+  if (!user) {
     return c.json(
-      errorResponse("Session expired. Please log in again."),
+      errorResponse("User not found. Account may have been deleted."),
       401
     );
   }
 
-  // Remove password from user
-  const { passwordHash, ...safeUser } = session.user;
+  // Remove password from user object
+  const { passwordHash, ...safeUser } = user;
 
-  // Add user info to context
-  c.set("userId", session.userId);
+  // Add to context
+  c.set("userId", user.id);
   c.set("user", safeUser as SafeUser);
+  c.set("jwtPayload", payload);
 
   await next();
 });
 
 /**
- * Optional authentication middleware
+ * Optional authentication middleware (JWT version)
+ * 
+ * Adds user to context if valid token provided,
+ * but continues even without authentication.
  */
 export const optionalAuth = createMiddleware(async (c, next) => {
   const authHeader = c.req.header("Authorization");
   const token = extractToken(authHeader);
 
   if (token) {
-    const session = await db.query.sessions.findFirst({
-      where: eq(sessions.token, token),
-      with: {
-        user: true,
-      },
-    });
+    const payload = await verifyToken(token);
 
-    if (session && new Date() <= session.expiresAt) {
-      const { passwordHash, ...safeUser } = session.user;
-      c.set("userId", session.userId);
-      c.set("user", safeUser as SafeUser);
+    if (payload) {
+      const user = await db.query.users.findFirst({
+        where: eq(users.id, payload.userId),
+      });
+
+      if (user) {
+        const { passwordHash, ...safeUser } = user;
+        c.set("userId", user.id);
+        c.set("user", safeUser as SafeUser);
+        c.set("jwtPayload", payload);
+      }
     }
   }
 
   await next();
 });
-
-/**
- * Generate a session token
- */
-export function generateToken(): string {
-  return `tok_${Date.now().toString(36)}${Math.random().toString(36).substring(2)}`;
-}
-
-/**
- * Calculate session expiry date
- */
-export function getSessionExpiry(): Date {
-  return new Date(Date.now() + SESSION_EXPIRY_MS);
-}
-
-/**
- * Simple password hashing (temporary - use Argon2 in production)
- */
-export function hashPassword(password: string): string {
-  return Buffer.from(password).toString("base64");
-}
-
-/**
- * Simple password verification (temporary)
- */
-export function verifyPassword(password: string, hash: string): boolean {
-  return Buffer.from(password).toString("base64") === hash;
-}
