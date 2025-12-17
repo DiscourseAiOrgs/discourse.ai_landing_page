@@ -1,0 +1,202 @@
+/* ============================================
+   apps/web/src/styles/main.css
+   Tailwind CSS + Custom Styles
+   ============================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==================== BASE STYLES ==================== */
+@layer base {
+  /* Import Inter font */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-white text-slate-900 font-sans;
+  }
+
+  /* Headings */
+  h1, h2, h3, h4 {
+    @apply font-bold tracking-tight;
+  }
+
+  /* Focus states for accessibility */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-brand-100 text-brand-900;
+  }
+}
+
+/* ==================== COMPONENT CLASSES ==================== */
+@layer components {
+  /* Container */
+  .container-custom {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 
+           px-6 py-3.5 
+           bg-gradient-to-r from-brand-500 to-brand-600 
+           text-white font-semibold rounded-xl 
+           shadow-lg shadow-brand-500/30 
+           hover:shadow-xl hover:shadow-brand-500/40 
+           hover:-translate-y-0.5 
+           transition-all duration-300 
+           overflow-hidden;
+  }
+
+  /* Button shimmer effect */
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 
+           bg-gradient-to-r from-transparent via-white/30 to-transparent 
+           -translate-x-full;
+    transition: transform 0.7s ease;
+  }
+
+  .btn-primary:hover::before {
+    @apply translate-x-full;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 
+           px-6 py-3.5 
+           bg-white text-slate-900 font-medium 
+           border border-slate-200 rounded-xl 
+           hover:bg-slate-50 hover:border-slate-300 
+           transition-all duration-200;
+  }
+
+  /* Download button (dark) */
+  .btn-download {
+    @apply inline-flex items-center gap-3 
+           px-6 py-4 
+           bg-slate-900 text-white rounded-xl 
+           hover:bg-slate-800 transition-colors;
+  }
+
+  /* Download button (outline) */
+  .btn-download-outline {
+    @apply inline-flex items-center gap-3 
+           px-6 py-4 
+           bg-white text-slate-900 
+           border border-slate-200 rounded-xl 
+           hover:bg-slate-50 transition-colors;
+  }
+
+  /* Glass card */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md 
+           rounded-2xl border border-white/50 
+           shadow-glass;
+  }
+
+  /* Feature card */
+  .feature-card {
+    @apply bg-slate-50 rounded-2xl p-6 lg:p-8 
+           hover:bg-slate-100 transition-colors duration-300;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 
+           px-3 py-1 rounded-full 
+           text-sm font-medium;
+  }
+
+  .badge-blue {
+    @apply badge bg-brand-50 text-brand-700;
+  }
+
+  .badge-green {
+    @apply badge bg-emerald-50 text-emerald-700;
+  }
+
+  /* Input field */
+  .input-field {
+    @apply w-full px-4 py-3 
+           bg-white border border-slate-200 rounded-xl 
+           text-slate-900 placeholder:text-slate-400 
+           focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent 
+           transition-all duration-200;
+  }
+
+  /* Nav link */
+  .nav-link {
+    @apply text-slate-600 font-medium 
+           hover:text-slate-900 transition-colors;
+  }
+
+  /* Step number */
+  .step-number {
+    @apply text-5xl font-bold text-brand-500;
+  }
+
+  /* Stat number */
+  .stat-number {
+    @apply text-4xl lg:text-5xl font-bold text-brand-600;
+  }
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+@layer utilities {
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-600 to-emerald-500 
+           bg-clip-text text-transparent;
+  }
+
+  /* Animated gradient background */
+  .animated-gradient {
+    background: linear-gradient(-45deg, #f8fafc, #eff6ff, #f0fdf4, #faf5ff);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Animation delays */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+}
+
+/* ==================== CUSTOM SCROLLBAR ==================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
