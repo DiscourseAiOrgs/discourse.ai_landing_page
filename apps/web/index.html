@@ -40,11 +40,11 @@
       <div class="flex items-center justify-between h-16 lg:h-20">
         
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-2">
-          <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-lg flex items-center justify-center">
-            <span class="text-white font-bold text-sm">d.</span>
+        <a href="/" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-all duration-300">
+            <span class="text-white font-bold">d.</span>
           </div>
-          <span class="text-xl font-bold text-slate-900">discourse.ai</span>
+          <span class="text-xl font-bold text-slate-900">discourse<span class="text-brand-600">.ai</span></span>
         </a>
 
         <!-- Desktop Navigation -->
@@ -57,7 +57,7 @@
         <!-- Desktop CTA -->
         <div class="hidden md:flex items-center gap-4">
           <a href="#download" class="btn-primary">
-            Get Started
+            <span>Get Started</span>
             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
             </svg>
@@ -67,22 +67,33 @@
         <!-- Mobile Menu Button -->
         <button 
           id="mobile-menu-button" 
-          class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors"
+          class="md:hidden p-2 -mr-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all"
           aria-label="Toggle menu"
         >
-          <span id="menu-icon"></span>
-          <span id="close-icon" class="hidden"></span>
+          <span id="menu-icon">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </span>
+          <span id="close-icon" class="hidden">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </span>
         </button>
       </div>
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
-      <div class="container-custom py-4 space-y-4">
-        <a href="#features" class="block py-2 text-slate-600 hover:text-slate-900 font-medium">Features</a>
-        <a href="#how-it-works" class="block py-2 text-slate-600 hover:text-slate-900 font-medium">How It Works</a>
-        <a href="#download" class="block py-2 text-slate-600 hover:text-slate-900 font-medium">Download</a>
-        <div class="pt-4 border-t border-slate-100">
+    <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg border-t border-slate-100 shadow-lg">
+      <div class="container-custom py-4 space-y-1">
+        <a href="#features" class="block py-3 px-4 text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium rounded-lg transition-all">Features</a>
+        <a href="#how-it-works" class="block py-3 px-4 text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium rounded-lg transition-all">How It Works</a>
+        <a href="#download" class="block py-3 px-4 text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium rounded-lg transition-all">Download</a>
+        <div class="pt-4 mt-2 border-t border-slate-100">
           <a href="#download" class="btn-primary w-full justify-center">
             Get Started
           </a>
@@ -93,171 +104,278 @@
 
   <!-- ==================== HERO SECTION ==================== -->
   <section id="hero" class="relative min-h-screen pt-24 lg:pt-32 pb-16 overflow-hidden">
-    <!-- Background gradient -->
+    <!-- Background layers -->
     <div class="absolute inset-0 animated-gradient"></div>
+    <div class="absolute inset-0 bg-grid"></div>
+    
+    <!-- Animated blob shapes -->
+    <div class="absolute top-20 -left-20 w-80 h-80 bg-brand-400/20 rounded-full blur-3xl animate-blob"></div>
+    <div class="absolute top-60 -right-20 w-80 h-80 bg-purple-400/20 rounded-full blur-3xl animate-blob delay-300"></div>
+    <div class="absolute bottom-20 left-1/4 w-60 h-60 bg-emerald-400/15 rounded-full blur-3xl animate-blob delay-500"></div>
     
     <!-- Content -->
     <div class="relative z-10 container-custom text-center">
       <!-- Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-50 text-brand-700 rounded-full text-sm font-medium mb-8" data-animate="fade-in">
-        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm text-brand-700 rounded-full text-sm font-medium mb-8 border border-brand-100/50 shadow-sm opacity-0 animate-fade-in-down" style="animation-delay: 100ms; animation-fill-mode: forwards;">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
         AI-Powered Debate Training
       </div>
 
       <!-- Headline -->
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 tracking-tight leading-tight mb-6" data-animate="fade-in-up" data-delay="100">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6 opacity-0 animate-fade-in-up" style="animation-delay: 200ms; animation-fill-mode: forwards;">
         Master the Art of
-        <span class="text-gradient">Argumentation</span>
+        <span class="block mt-2 text-gradient">Argumentation</span>
       </h1>
 
       <!-- Subheadline -->
-      <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed" data-animate="fade-in-up" data-delay="200">
+      <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed opacity-0 animate-fade-in-up" style="animation-delay: 300ms; animation-fill-mode: forwards;">
         Practice debates against AI opponents, receive real-time feedback on your arguments, and sharpen your critical thinking skills.
       </p>
 
       <!-- CTA Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16" data-animate="fade-in-up" data-delay="300">
-        <a href="#download" class="btn-primary text-lg px-8 py-4">
-          Download Free
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 opacity-0 animate-fade-in-up" style="animation-delay: 400ms; animation-fill-mode: forwards;">
+        <a href="#download" class="btn-primary text-lg px-8 py-4 group">
+          <span>Download Free</span>
+          <svg class="w-5 h-5 group-hover:translate-y-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
         </a>
-        <a href="#features" class="btn-secondary text-lg px-8 py-4">
-          Learn More
+        <a href="#features" class="btn-secondary text-lg px-8 py-4 group">
+          <span>Learn More</span>
+          <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
         </a>
       </div>
 
-      <!-- Product Preview (Placeholder) -->
-      <div class="relative max-w-4xl mx-auto" data-animate="fade-in-up" data-delay="400">
-        <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-300/50 border border-slate-200">
-          <!-- Placeholder for app screenshot -->
-          <div class="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-            <div class="text-center p-8">
-              <div class="w-16 h-16 bg-slate-300 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                <svg class="w-8 h-8 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                  <line x1="8" y1="21" x2="16" y2="21"></line>
-                  <line x1="12" y1="17" x2="12" y2="21"></line>
-                </svg>
+      <!-- Trust Indicators -->
+      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-500 mb-16 opacity-0 animate-fade-in-up" style="animation-delay: 500ms; animation-fill-mode: forwards;">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          <span>Free to use</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          <span>No account required</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          <span>Windows, Mac & Linux</span>
+        </div>
+      </div>
+
+      <!-- Product Preview -->
+      <div class="relative max-w-4xl mx-auto opacity-0 animate-scale-in" style="animation-delay: 600ms; animation-fill-mode: forwards;">
+        <div class="product-glow">
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-slate-400/20 border border-slate-200/80 bg-white">
+            <!-- App Window Chrome -->
+            <div class="h-10 bg-slate-50 border-b border-slate-200 flex items-center px-4 gap-2">
+              <div class="flex gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-red-400 hover:bg-red-500 transition-colors cursor-pointer"></div>
+                <div class="w-3 h-3 rounded-full bg-amber-400 hover:bg-amber-500 transition-colors cursor-pointer"></div>
+                <div class="w-3 h-3 rounded-full bg-emerald-400 hover:bg-emerald-500 transition-colors cursor-pointer"></div>
               </div>
-              <p class="text-slate-500 text-sm">App screenshot placeholder</p>
+              <div class="flex-1 text-center">
+                <span class="text-xs text-slate-400 font-medium">discourse.ai — Debate Session</span>
+              </div>
+            </div>
+            <!-- Placeholder for app screenshot -->
+            <div class="aspect-video bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center">
+              <div class="text-center p-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-brand-100 to-brand-50 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-inner">
+                  <svg class="w-10 h-10 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                  </svg>
+                </div>
+                <p class="text-slate-400 text-sm font-medium">App preview coming soon</p>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Floating glass card -->
-        <div class="absolute -bottom-4 -right-4 lg:bottom-8 lg:right-8 max-w-xs glass-card p-4 hidden sm:block">
+        <div class="absolute -bottom-4 -right-4 lg:bottom-8 lg:-right-8 max-w-xs glass-card p-4 hidden sm:block animate-float-slow opacity-0 animate-slide-in-right" style="animation-delay: 800ms; animation-fill-mode: forwards;">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 bg-brand-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <svg class="w-5 h-5 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-brand-500/25">
+              <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44"></path>
                 <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44"></path>
               </svg>
             </div>
             <div>
-              <p class="text-xs text-slate-500 mb-1">AI Feedback</p>
-              <p class="text-sm text-slate-800">"Strong opening! Consider adding supporting evidence..."</p>
+              <p class="text-xs font-medium text-brand-600 mb-1">AI Feedback</p>
+              <p class="text-sm text-slate-700 leading-relaxed">"Strong opening! Consider adding supporting evidence..."</p>
             </div>
           </div>
         </div>
+
+        <!-- Score card (left side) -->
+        <div class="absolute -top-2 -left-4 lg:top-12 lg:-left-8 glass-card p-3 hidden sm:block animate-float opacity-0" style="animation-delay: 900ms; animation-fill-mode: forwards;">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/25">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-emerald-600">Score</p>
+              <p class="text-xl font-bold text-slate-900">87<span class="text-sm font-normal text-slate-400">/100</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:block opacity-0 animate-fade-in" style="animation-delay: 1200ms; animation-fill-mode: forwards;">
+        <a href="#features" class="flex flex-col items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors">
+          <span class="text-xs font-medium">Scroll to explore</span>
+          <svg class="w-5 h-5 animate-bounce-subtle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </a>
       </div>
     </div>
   </section>
 
   <!-- ==================== FEATURES SECTION ==================== -->
-  <section id="features" class="section-padding bg-white">
+  <section id="features" class="section-padding bg-white scroll-mt-nav">
     <div class="container-custom">
       <!-- Section header -->
       <div class="text-center max-w-2xl mx-auto mb-16">
         <span class="badge-blue mb-4" data-animate="fade-in">Features</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" data-animate="fade-in-up" data-delay="100">
-          Everything you need to become a better debater
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5" data-animate="fade-in-up" data-delay="100">
+          Everything you need to become a <span class="text-gradient">better debater</span>
         </h2>
-        <p class="text-lg text-slate-600" data-animate="fade-in-up" data-delay="200">
-          Powered by advanced AI to give you real-time coaching and feedback.
+        <p class="text-lg text-slate-600 leading-relaxed" data-animate="fade-in-up" data-delay="200">
+          Powered by advanced AI to give you real-time coaching and personalized feedback.
         </p>
       </div>
 
       <!-- Feature grid (Bento-style) -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Feature 1: AI Opponent -->
-        <div class="feature-card lg:col-span-2" data-animate="fade-in-up" data-delay="100">
-          <div class="flex flex-col lg:flex-row gap-6 items-center">
+        
+        <!-- Feature 1: AI Opponent (Full Width) -->
+        <div class="feature-card group lg:col-span-3" data-animate="fade-in-up" data-delay="100">
+          <div class="flex flex-col lg:flex-row gap-8 items-center">
             <div class="flex-1">
-              <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:scale-110 transition-all duration-300">
+                <svg class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.54"></path>
                   <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.54"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-semibold text-slate-900 mb-2">Debate Against AI</h3>
-              <p class="text-slate-600">
-                Practice with an AI opponent that adapts to your skill level. Choose any topic and format — the AI will challenge your arguments in real-time.
+              <h3 class="text-2xl font-bold text-slate-900 mb-3">Debate Against AI</h3>
+              <p class="text-slate-600 leading-relaxed mb-4">
+                Practice with an AI opponent that adapts to your skill level. Choose any topic and format — the AI will challenge your arguments in real-time with intelligent counter-points.
               </p>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-sm text-slate-600">
+                  <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Multiple debate formats</span>
+                </li>
+                <li class="flex items-center gap-2 text-sm text-slate-600">
+                  <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Adjustable difficulty levels</span>
+                </li>
+                <li class="flex items-center gap-2 text-sm text-slate-600">
+                  <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Powered by Groq LLaMA</span>
+                </li>
+              </ul>
             </div>
             <div class="flex-1 w-full">
-              <div class="bg-slate-100 rounded-xl p-4 h-40 flex items-center justify-center">
-                <span class="text-slate-400 text-sm">Feature illustration</span>
+              <div class="relative bg-gradient-to-br from-brand-50 to-slate-50 rounded-2xl p-8 border border-brand-100/50 overflow-hidden">
+                <!-- Decorative circles -->
+                <div class="absolute top-4 right-4 w-20 h-20 bg-brand-200/30 rounded-full blur-xl"></div>
+                <div class="absolute bottom-4 left-4 w-16 h-16 bg-purple-200/30 rounded-full blur-xl"></div>
+                
+                <div class="relative flex items-center justify-center h-40">
+                  <!-- AI Avatar -->
+                  <div class="w-24 h-24 bg-gradient-to-br from-brand-500 to-brand-600 rounded-2xl flex items-center justify-center shadow-xl shadow-brand-500/30 animate-float-slow">
+                    <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44"></path>
+                      <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44"></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Feature 2: Voice Recognition -->
-        <div class="feature-card" data-animate="fade-in-up" data-delay="200">
-          <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <div class="feature-card group" data-animate="fade-in-up" data-delay="200">
+          <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-emerald-500 group-hover:scale-110 transition-all duration-300">
+            <svg class="w-6 h-6 text-emerald-600 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
               <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
               <line x1="12" y1="19" x2="12" y2="23"></line>
               <line x1="8" y1="23" x2="16" y2="23"></line>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-slate-900 mb-2">Voice Recognition</h3>
-          <p class="text-slate-600">
-            Speak naturally — our Deepgram-powered transcription captures every word with 95%+ accuracy.
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Voice Recognition</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Speak naturally — our Deepgram-powered transcription captures every word with <strong class="text-slate-900">95%+ accuracy</strong> in real-time.
           </p>
         </div>
 
         <!-- Feature 3: Real-time Feedback -->
-        <div class="feature-card" data-animate="fade-in-up" data-delay="300">
-          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <div class="feature-card group" data-animate="fade-in-up" data-delay="300">
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-purple-500 group-hover:scale-110 transition-all duration-300">
+            <svg class="w-6 h-6 text-purple-600 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-slate-900 mb-2">Real-time Feedback</h3>
-          <p class="text-slate-600">
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Real-time Feedback</h3>
+          <p class="text-slate-600 leading-relaxed">
             Get instant analysis of your arguments, logical fallacies, and rhetorical effectiveness as you speak.
           </p>
         </div>
 
         <!-- Feature 4: P2P Debates -->
-        <div class="feature-card" data-animate="fade-in-up" data-delay="400">
-          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <div class="feature-card group" data-animate="fade-in-up" data-delay="400">
+          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-amber-500 group-hover:scale-110 transition-all duration-300">
+            <svg class="w-6 h-6 text-amber-600 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
               <circle cx="9" cy="7" r="4"></circle>
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-slate-900 mb-2">Peer-to-Peer Debates</h3>
-          <p class="text-slate-600">
-            Create rooms and invite friends for live debates. AI moderates and scores both participants.
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Peer-to-Peer Debates</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Create rooms and invite friends for live debates. AI moderates and scores both participants fairly.
           </p>
         </div>
 
-        <!-- Feature 5: Progress Tracking -->
-        <div class="feature-card lg:col-span-2" data-animate="fade-in-up" data-delay="500">
-          <div class="flex flex-col lg:flex-row gap-6 items-center">
+        <!-- Feature 5: Progress Tracking (Full Width) -->
+        <div class="feature-card group lg:col-span-3" data-animate="fade-in-up" data-delay="500">
+          <div class="flex flex-col lg:flex-row gap-8 items-center">
             <div class="flex-1">
-              <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-rose-500 group-hover:scale-110 transition-all duration-300">
+                <svg class="w-6 h-6 text-rose-600 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                   <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                   <path d="M4 22h16"></path>
@@ -266,14 +384,32 @@
                   <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
                 </svg>
               </div>
-              <h3 class="text-xl font-semibold text-slate-900 mb-2">Track Your Progress</h3>
-              <p class="text-slate-600">
-                View detailed stats on your wins, losses, and improvement over time. See which argument styles work best for you.
+              <h3 class="text-2xl font-bold text-slate-900 mb-3">Track Your Progress</h3>
+              <p class="text-slate-600 leading-relaxed">
+                View detailed stats on your wins, losses, and improvement over time. See which argument styles work best for you and identify areas for growth.
               </p>
             </div>
             <div class="flex-1 w-full">
-              <div class="bg-slate-100 rounded-xl p-4 h-40 flex items-center justify-center">
-                <span class="text-slate-400 text-sm">Stats visualization</span>
+              <div class="bg-gradient-to-br from-rose-50 to-slate-50 rounded-2xl p-6 border border-rose-100/50">
+                <!-- Mini Stats Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-white rounded-xl p-4 text-center border border-slate-100 shadow-sm">
+                    <p class="text-2xl font-bold text-slate-900">24</p>
+                    <p class="text-xs text-slate-500 mt-1">Total Debates</p>
+                  </div>
+                  <div class="bg-white rounded-xl p-4 text-center border border-slate-100 shadow-sm">
+                    <p class="text-2xl font-bold text-emerald-600">18</p>
+                    <p class="text-xs text-slate-500 mt-1">Wins</p>
+                  </div>
+                  <div class="bg-white rounded-xl p-4 text-center border border-slate-100 shadow-sm">
+                    <p class="text-2xl font-bold text-brand-600">87%</p>
+                    <p class="text-xs text-slate-500 mt-1">Win Rate</p>
+                  </div>
+                  <div class="bg-white rounded-xl p-4 text-center border border-slate-100 shadow-sm">
+                    <p class="text-2xl font-bold text-purple-600">↑12%</p>
+                    <p class="text-xs text-slate-500 mt-1">This Month</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -283,25 +419,28 @@
   </section>
 
   <!-- ==================== HOW IT WORKS ==================== -->
-  <section id="how-it-works" class="section-padding bg-slate-50">
+  <section id="how-it-works" class="section-padding bg-slate-50 scroll-mt-nav">
     <div class="container-custom">
       <!-- Section header -->
       <div class="text-center max-w-2xl mx-auto mb-16">
         <span class="badge-blue mb-4" data-animate="fade-in">How It Works</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" data-animate="fade-in-up" data-delay="100">
-          Start debating in 3 simple steps
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5" data-animate="fade-in-up" data-delay="100">
+          Start debating in <span class="text-gradient">3 simple steps</span>
         </h2>
-        <p class="text-lg text-slate-600" data-animate="fade-in-up" data-delay="200">
-          No account required. Download, pick a topic, and start improving.
+        <p class="text-lg text-slate-600 leading-relaxed" data-animate="fade-in-up" data-delay="200">
+          No account required. Download, pick a topic, and start improving your skills.
         </p>
       </div>
 
       <!-- Steps -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
+        <!-- Connecting line (desktop) -->
+        <div class="hidden md:block absolute top-[60px] left-[calc(16.67%+48px)] right-[calc(16.67%+48px)] h-0.5 bg-gradient-to-r from-brand-200 via-purple-200 to-brand-200"></div>
+
         <!-- Step 1 -->
-        <div class="text-center" data-animate="fade-in-up" data-delay="100">
+        <div class="text-center relative" data-animate="fade-in-up" data-delay="100">
           <div class="mb-6">
-            <div class="w-24 h-24 bg-white rounded-2xl shadow-lg mx-auto flex items-center justify-center">
+            <div class="w-24 h-24 bg-white rounded-2xl shadow-xl shadow-slate-200/50 mx-auto flex items-center justify-center border border-slate-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative z-10">
               <svg class="w-10 h-10 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -310,16 +449,16 @@
             </div>
           </div>
           <span class="step-number">1</span>
-          <h3 class="text-xl font-semibold text-slate-900 mt-2 mb-3">Download the App</h3>
-          <p class="text-slate-600">
-            Get discourse.ai for Windows, macOS, or Linux. It's free to use.
+          <h3 class="text-xl font-bold text-slate-900 mt-3 mb-3">Download the App</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Get discourse.ai for Windows, macOS, or Linux. It's completely free to use.
           </p>
         </div>
 
         <!-- Step 2 -->
-        <div class="text-center" data-animate="fade-in-up" data-delay="200">
+        <div class="text-center relative" data-animate="fade-in-up" data-delay="200">
           <div class="mb-6">
-            <div class="w-24 h-24 bg-white rounded-2xl shadow-lg mx-auto flex items-center justify-center">
+            <div class="w-24 h-24 bg-white rounded-2xl shadow-xl shadow-slate-200/50 mx-auto flex items-center justify-center border border-slate-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative z-10">
               <svg class="w-10 h-10 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <circle cx="12" cy="12" r="10"></circle>
                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
@@ -328,16 +467,16 @@
             </div>
           </div>
           <span class="step-number">2</span>
-          <h3 class="text-xl font-semibold text-slate-900 mt-2 mb-3">Choose a Topic</h3>
-          <p class="text-slate-600">
+          <h3 class="text-xl font-bold text-slate-900 mt-3 mb-3">Choose a Topic</h3>
+          <p class="text-slate-600 leading-relaxed">
             Select from suggested topics or enter your own. Pick your stance and format.
           </p>
         </div>
 
         <!-- Step 3 -->
-        <div class="text-center" data-animate="fade-in-up" data-delay="300">
+        <div class="text-center relative" data-animate="fade-in-up" data-delay="300">
           <div class="mb-6">
-            <div class="w-24 h-24 bg-white rounded-2xl shadow-lg mx-auto flex items-center justify-center">
+            <div class="w-24 h-24 bg-white rounded-2xl shadow-xl shadow-slate-200/50 mx-auto flex items-center justify-center border border-slate-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative z-10">
               <svg class="w-10 h-10 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                 <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
@@ -347,8 +486,8 @@
             </div>
           </div>
           <span class="step-number">3</span>
-          <h3 class="text-xl font-semibold text-slate-900 mt-2 mb-3">Start Debating</h3>
-          <p class="text-slate-600">
+          <h3 class="text-xl font-bold text-slate-900 mt-3 mb-3">Start Debating</h3>
+          <p class="text-slate-600 leading-relaxed">
             Speak your arguments and get real-time feedback from the AI moderator.
           </p>
         </div>
@@ -359,64 +498,69 @@
   <!-- ==================== STATS SECTION ==================== -->
   <section class="py-16 bg-white border-y border-slate-100">
     <div class="container-custom">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-16">
         <div class="text-center" data-animate="fade-in-up" data-delay="100">
           <p class="stat-number">95%</p>
-          <p class="text-sm font-medium text-slate-900 mt-1">Transcription Accuracy</p>
+          <p class="text-sm font-medium text-slate-600 mt-2">Transcription Accuracy</p>
         </div>
         <div class="text-center" data-animate="fade-in-up" data-delay="200">
           <p class="stat-number">&lt;300ms</p>
-          <p class="text-sm font-medium text-slate-900 mt-1">Response Time</p>
+          <p class="text-sm font-medium text-slate-600 mt-2">Response Time</p>
         </div>
         <div class="text-center" data-animate="fade-in-up" data-delay="300">
-          <p class="stat-number">12+</p>
-          <p class="text-sm font-medium text-slate-900 mt-1">Languages Supported</p>
-        </div>
-        <div class="text-center" data-animate="fade-in-up" data-delay="400">
-          <p class="stat-number">Free</p>
-          <p class="text-sm font-medium text-slate-900 mt-1">To Get Started</p>
+          <p class="stat-number">100%</p>
+          <p class="text-sm font-medium text-slate-600 mt-2">Free to Use</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ==================== DOWNLOAD SECTION ==================== -->
-  <section id="download" class="section-padding bg-slate-50">
+  <section id="download" class="section-padding bg-gradient-to-b from-slate-50 to-white scroll-mt-nav">
     <div class="container-custom">
       <div class="max-w-3xl mx-auto text-center">
         <!-- Section header -->
-        <span class="badge-green mb-4" data-animate="fade-in">
-          <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1"></span>
+        <div class="inline-flex items-center gap-2 badge-green mb-6" data-animate="fade-in">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
           Available Now
-        </span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4" data-animate="fade-in-up" data-delay="100">
-          Download discourse.ai
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5" data-animate="fade-in-up" data-delay="100">
+          Ready to sharpen your <span class="text-gradient">debate skills?</span>
         </h2>
-        <p class="text-lg text-slate-600 mb-10" data-animate="fade-in-up" data-delay="200">
-          Join the waitlist to get access. Available for Windows, macOS, and Linux.
+        <p class="text-lg text-slate-600 mb-10 leading-relaxed" data-animate="fade-in-up" data-delay="200">
+          Join the waitlist to get early access. Available for Windows, macOS, and Linux.
         </p>
 
         <!-- Waitlist Form -->
-        <form class="waitlist-form max-w-md mx-auto mb-12" data-animate="fade-in-up" data-delay="300">
+        <form class="waitlist-form max-w-lg mx-auto mb-12" data-animate="fade-in-up" data-delay="300">
           <div class="flex flex-col sm:flex-row gap-3">
             <input 
               type="email" 
-              placeholder="Enter your email" 
+              placeholder="Enter your email address" 
               required
-              class="input-field flex-1"
+              class="input-field flex-1 text-base"
             >
             <button type="submit" class="btn-primary whitespace-nowrap">
-              Join Waitlist
+              <span>Join Waitlist</span>
+              <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
             </button>
           </div>
-          <div class="form-message hidden"></div>
+          <div class="form-message hidden mt-3"></div>
+          <p class="text-sm text-slate-500 mt-4">
+            🔒 We respect your privacy. No spam, ever.
+          </p>
         </form>
 
         <!-- Download Buttons (Placeholders) -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12" data-animate="fade-in-up" data-delay="400">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8" data-animate="fade-in-up" data-delay="400">
           <!-- Windows -->
           <a href="#download" class="btn-download group">
-            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
               <path d="M3 5.5l7.5-1v7.25H3V5.5zm0 13l7.5 1v-7.25H3V18.5zm8.5 1.25l9.5 1.25v-9.25h-9.5v8zm0-16.5v8h9.5V3L11.5 3.25z"/>
             </svg>
             <div class="text-left">
@@ -427,7 +571,7 @@
 
           <!-- macOS -->
           <a href="#download" class="btn-download-outline group">
-            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
             </svg>
             <div class="text-left">
@@ -438,7 +582,7 @@
 
           <!-- Linux -->
           <a href="#download" class="btn-download-outline group">
-            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139z"/>
             </svg>
             <div class="text-left">
@@ -459,17 +603,23 @@
   <!-- ==================== FOOTER ==================== -->
   <footer class="bg-white border-t border-slate-100">
     <div class="container-custom py-12 lg:py-16">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 mb-12">
         <!-- Logo & Status -->
         <div class="col-span-2 md:col-span-1">
-          <a href="/" class="flex items-center gap-2 mb-4">
-            <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-sm">d.</span>
+          <a href="/" class="flex items-center gap-2.5 mb-4 group">
+            <div class="w-9 h-9 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-all">
+              <span class="text-white font-bold">d.</span>
             </div>
-            <span class="text-xl font-bold text-slate-900">discourse.ai</span>
+            <span class="text-xl font-bold text-slate-900">discourse<span class="text-brand-600">.ai</span></span>
           </a>
-          <a href="#" class="inline-flex items-center gap-2 text-sm text-emerald-600 hover:text-emerald-700">
-            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+          <p class="text-sm text-slate-500 mb-4 leading-relaxed">
+            Master the art of argumentation with AI-powered debate training.
+          </p>
+          <a href="#" class="inline-flex items-center gap-2 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
             All systems operational
           </a>
         </div>
@@ -478,9 +628,9 @@
         <div>
           <h4 class="font-semibold text-slate-900 mb-4">Product</h4>
           <ul class="space-y-3 text-sm">
-            <li><a href="#features" class="text-slate-600 hover:text-slate-900 transition-colors">Features</a></li>
-            <li><a href="#download" class="text-slate-600 hover:text-slate-900 transition-colors">Download</a></li>
-            <li><a href="#" class="text-slate-600 hover:text-slate-900 transition-colors">Changelog</a></li>
+            <li><a href="#features" class="text-slate-600 hover:text-brand-600 transition-colors">Features</a></li>
+            <li><a href="#download" class="text-slate-600 hover:text-brand-600 transition-colors">Download</a></li>
+            <li><a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">Changelog</a></li>
           </ul>
         </div>
 
@@ -488,9 +638,9 @@
         <div>
           <h4 class="font-semibold text-slate-900 mb-4">Resources</h4>
           <ul class="space-y-3 text-sm">
-            <li><a href="#" class="text-slate-600 hover:text-slate-900 transition-colors">Documentation</a></li>
-            <li><a href="#" class="text-slate-600 hover:text-slate-900 transition-colors">API</a></li>
-            <li><a href="#" class="text-slate-600 hover:text-slate-900 transition-colors">Support</a></li>
+            <li><a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">Documentation</a></li>
+            <li><a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">API</a></li>
+            <li><a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">Support</a></li>
           </ul>
         </div>
 
@@ -498,9 +648,9 @@
         <div>
           <h4 class="font-semibold text-slate-900 mb-4">Legal</h4>
           <ul class="space-y-3 text-sm">
-            <li><a href="#" class="text-slate-600 hover:text-slate-900 transition-colors">Privacy</a></li>
-            <li><a href="#" class="text-slate-600 hover:text-slate-900 transition-colors">Terms</a></li>
-            <li><a href="#" class="text-slate-600 hover:text-slate-900 transition-colors">License</a></li>
+            <li><a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">Privacy</a></li>
+            <li><a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">Terms</a></li>
+            <li><a href="#" class="text-slate-600 hover:text-brand-600 transition-colors">License</a></li>
           </ul>
         </div>
       </div>
@@ -512,18 +662,18 @@
         </p>
         
         <!-- Social links -->
-        <div class="flex items-center gap-4">
-          <a href="#" class="text-slate-400 hover:text-slate-600 transition-colors" aria-label="GitHub">
+        <div class="flex items-center gap-1">
+          <a href="#" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-all" aria-label="GitHub">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
           </a>
-          <a href="#" class="text-slate-400 hover:text-slate-600 transition-colors" aria-label="Twitter">
+          <a href="#" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-all" aria-label="Twitter">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
           </a>
-          <a href="#" class="text-slate-400 hover:text-slate-600 transition-colors" aria-label="Discord">
+          <a href="#" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-all" aria-label="Discord">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/>
             </svg>
