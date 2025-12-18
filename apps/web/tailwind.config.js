@@ -6,11 +6,9 @@ export default {
   ],
   theme: {
     extend: {
-      // Fonts
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],
       },
-      // Colors (Cluely-inspired)
       colors: {
         'brand': {
           50: '#eff6ff',
@@ -21,9 +19,10 @@ export default {
           500: '#3b82f6',
           600: '#2563eb',
           700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
         },
       },
-      // Animations
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out forwards',
         'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
@@ -43,7 +42,6 @@ export default {
           '100%': { transform: 'translateX(100%)' },
         },
       },
-      // Shadows
       boxShadow: {
         'glass': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.08)',
         'glow': '0 0 20px rgba(59, 130, 246, 0.35)',

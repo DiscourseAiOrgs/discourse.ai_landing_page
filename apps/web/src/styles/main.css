@@ -1,6 +1,5 @@
 /* ============================================
-   apps/web/src/styles/main.css
-   Tailwind CSS + Custom Styles
+   Tailwind CSS v3 Configuration
    ============================================ */
 
 @tailwind base;
@@ -9,9 +8,6 @@
 
 /* ==================== BASE STYLES ==================== */
 @layer base {
-  /* Import Inter font */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -21,17 +17,14 @@
     @apply bg-white text-slate-900 font-sans;
   }
 
-  /* Headings */
   h1, h2, h3, h4 {
     @apply font-bold tracking-tight;
   }
 
-  /* Focus states for accessibility */
   :focus-visible {
     @apply outline-none ring-2 ring-brand-500 ring-offset-2;
   }
 
-  /* Selection color */
   ::selection {
     @apply bg-brand-100 text-brand-900;
   }
@@ -62,7 +55,6 @@
            overflow-hidden;
   }
 
-  /* Button shimmer effect */
   .btn-primary::before {
     content: '';
     @apply absolute inset-0 
@@ -123,11 +115,11 @@
   }
 
   .badge-blue {
-    @apply badge bg-brand-50 text-brand-700;
+    @apply bg-brand-50 text-brand-700;
   }
 
   .badge-green {
-    @apply badge bg-emerald-50 text-emerald-700;
+    @apply bg-emerald-50 text-emerald-700;
   }
 
   /* Input field */
@@ -158,13 +150,11 @@
 
 /* ==================== UTILITY CLASSES ==================== */
 @layer utilities {
-  /* Text gradient */
   .text-gradient {
     @apply bg-gradient-to-r from-brand-600 to-emerald-500 
            bg-clip-text text-transparent;
   }
 
-  /* Animated gradient background */
   .animated-gradient {
     background: linear-gradient(-45deg, #f8fafc, #eff6ff, #f0fdf4, #faf5ff);
     background-size: 400% 400%;
@@ -176,7 +166,6 @@
     50% { background-position: 100% 50%; }
   }
 
-  /* Animation delays */
   .delay-100 { animation-delay: 100ms; }
   .delay-200 { animation-delay: 200ms; }
   .delay-300 { animation-delay: 300ms; }
