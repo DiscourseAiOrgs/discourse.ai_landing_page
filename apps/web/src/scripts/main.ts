@@ -71,6 +71,7 @@ function initStickyNav(): void {
   const transparentClasses = ['bg-transparent'];
 
   function updateNav() {
+    if (!nav) return;
     if (window.scrollY > 50) {
       // Scrolled - add background
       nav.classList.remove(...transparentClasses);
