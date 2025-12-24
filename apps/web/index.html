@@ -137,8 +137,13 @@
 
       <!-- CTA Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 opacity-0 animate-fade-in-up" style="animation-delay: 400ms; animation-fill-mode: forwards;">
-        <a href="#download" class="btn-primary text-lg px-8 py-4 group">
-          <span>Download Free</span>
+        <!-- In Hero section, update the Download button -->
+        <a 
+          href="/downloads/Discourse-AI-Windows.zip" 
+          class="btn-primary text-lg px-8 py-4 group"
+          download
+        >
+          <span>Download for Windows</span>
           <svg class="w-5 h-5 group-hover:translate-y-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
@@ -515,92 +520,117 @@
     </div>
   </section>
 
-  <!-- ==================== DOWNLOAD SECTION ==================== -->
-  <section id="download" class="section-padding bg-gradient-to-b from-slate-50 to-white scroll-mt-nav">
-    <div class="container-custom">
-      <div class="max-w-3xl mx-auto text-center">
-        <!-- Section header -->
-        <div class="inline-flex items-center gap-2 badge-green mb-6" data-animate="fade-in">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          Available Now
+<!-- ==================== DOWNLOAD SECTION ==================== -->
+<section id="download" class="section-padding bg-gradient-to-b from-slate-50 to-white scroll-mt-nav">
+  <div class="container-custom">
+    <div class="max-w-3xl mx-auto text-center">
+      <!-- Section header -->
+      <div class="inline-flex items-center gap-2 badge-green mb-6" data-animate="fade-in">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        Beta Available
+      </div>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5" data-animate="fade-in-up" data-delay="100">
+        Ready to sharpen your <span class="text-gradient">debate skills?</span>
+      </h2>
+      <p class="text-lg text-slate-600 mb-10 leading-relaxed" data-animate="fade-in-up" data-delay="200">
+        Download the beta version now. More platforms coming soon!
+      </p>
+
+      <!-- Waitlist Form -->
+      <form class="waitlist-form max-w-lg mx-auto mb-12" data-animate="fade-in-up" data-delay="300">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input 
+            type="email" 
+            placeholder="Enter your email for updates" 
+            required
+            autocomplete="email"
+            class="input-field flex-1 text-base"
+          >
+          <button type="submit" class="btn-primary whitespace-nowrap">
+            <span>Get Notified</span>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </button>
         </div>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-5" data-animate="fade-in-up" data-delay="100">
-          Ready to sharpen your <span class="text-gradient">debate skills?</span>
-        </h2>
-        <p class="text-lg text-slate-600 mb-10 leading-relaxed" data-animate="fade-in-up" data-delay="200">
-          Join the waitlist to get early access. Available for Windows, macOS, and Linux.
+        <div class="form-message hidden"></div>
+        <p class="text-sm text-slate-500 mt-4">
+          🔔 Get notified when macOS and Linux versions are ready.
         </p>
+      </form>
 
-        <!-- Waitlist Form -->
-        <form class="waitlist-form max-w-lg mx-auto mb-12" data-animate="fade-in-up" data-delay="300">
-          <div class="flex flex-col sm:flex-row gap-3">
-            <input 
-              type="email" 
-              placeholder="Enter your email address" 
-              required
-              autocomplete="email"
-              class="input-field flex-1 text-base"
-            >
-            <button type="submit" class="btn-primary whitespace-nowrap">
-              <span>Join Waitlist</span>
-              <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
-              </svg>
-            </button>
+      <!-- Download Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8" data-animate="fade-in-up" data-delay="400">
+        <!-- Windows - AVAILABLE -->
+        <a 
+          href="./public/downloads/Discourse-AI-Windows.zip" 
+          class="btn-download group" 
+          data-platform="windows"
+          download
+        >
+          <svg class="w-8 h-8 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 5.5l7.5-1v7.25H3V5.5zm0 13l7.5 1v-7.25H3V18.5zm8.5 1.25l9.5 1.25v-9.25h-9.5v8zm0-16.5v8h9.5V3L11.5 3.25z"/>
+          </svg>
+          <div class="text-left">
+            <p class="text-xs text-slate-400">Download for</p>
+            <p class="font-semibold">Windows</p>
           </div>
-          <!-- Message container (hidden by default) -->
-          <div class="form-message hidden"></div>
-          <p class="text-sm text-slate-500 mt-4">
-            🔒 We respect your privacy. No spam, ever.
-          </p>
-        </form>
+          <span class="ml-auto text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full">v1.0.0</span>
+        </a>
 
-        <!-- Download Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8" data-animate="fade-in-up" data-delay="400">
-          <!-- Windows -->
-          <a href="#download" class="btn-download group" data-platform="windows">
-            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 5.5l7.5-1v7.25H3V5.5zm0 13l7.5 1v-7.25H3V18.5zm8.5 1.25l9.5 1.25v-9.25h-9.5v8zm0-16.5v8h9.5V3L11.5 3.25z"/>
-            </svg>
-            <div class="text-left">
-              <p class="text-xs text-slate-400">Download for</p>
-              <p class="font-semibold">Windows</p>
-            </div>
-          </a>
-
-          <!-- macOS -->
-          <a href="#download" class="btn-download-outline group" data-platform="macos">
-            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-            </svg>
-            <div class="text-left">
-              <p class="text-xs text-slate-500">Download for</p>
-              <p class="font-semibold">macOS</p>
-            </div>
-          </a>
-
-          <!-- Linux -->
-          <a href="#download" class="btn-download-outline group" data-platform="linux">
-            <svg class="w-8 h-8 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139z"/>
-            </svg>
-            <div class="text-left">
-              <p class="text-xs text-slate-500">Download for</p>
-              <p class="font-semibold">Linux</p>
-            </div>
-          </a>
+        <!-- macOS - COMING SOON -->
+        <div class="btn-download-outline opacity-60 cursor-not-allowed" data-platform="macos">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+          <div class="text-left">
+            <p class="text-xs text-slate-500">Download for</p>
+            <p class="font-semibold">macOS</p>
+          </div>
+          <span class="ml-auto text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">Soon</span>
         </div>
 
-        <!-- System requirements -->
-        <p class="text-sm text-slate-500" data-animate="fade-in-up" data-delay="500">
-          Requires Windows 10+, macOS 10.15+, or Ubuntu 18.04+. 4GB RAM recommended.
+        <!-- Linux - COMING SOON -->
+        <div class="btn-download-outline opacity-60 cursor-not-allowed" data-platform="linux">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139z"/>
+          </svg>
+          <div class="text-left">
+            <p class="text-xs text-slate-500">Download for</p>
+            <p class="font-semibold">Linux</p>
+          </div>
+          <span class="ml-auto text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">Soon</span>
+        </div>
+      </div>
+
+      <!-- File info -->
+      <div class="text-sm text-slate-500 space-y-2" data-animate="fade-in-up" data-delay="500">
+        <p>
+          <strong class="text-slate-700">Windows:</strong> 214 MB • ZIP archive • Extract and run <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs">Discourse AI.exe</code>
+        </p>
+        <p>
+          Requires Windows 10+ (64-bit) • 4GB RAM minimum • 500MB free disk space
         </p>
       </div>
+
+      <!-- Beta notice -->
+      <div class="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800" data-animate="fade-in-up" data-delay="600">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <div class="text-left">
+            <p class="font-medium text-amber-900">Beta Release</p>
+            <p class="mt-1">This is a beta version for testing. Some features may be incomplete. Found a bug? <a href="https://github.com/DiscourseAiOrgs/Discourse_frontend/issues" target="_blank" rel="noopener" class="underline hover:text-amber-900">Report it here</a>.</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="bg-white border-t border-slate-100">
