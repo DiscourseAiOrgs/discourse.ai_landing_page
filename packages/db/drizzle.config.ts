@@ -19,7 +19,7 @@ export default defineConfig({
   dbCredentials: {
     url:
       process.env.DATABASE_URL ||
-      "postgres://discourse:discourse_dev@localhost:5432/discourse_ai",
+      "postgres://cortify:cortify_dev@localhost:5432/cortify_ai",
   },
 
   // Enable verbose logging

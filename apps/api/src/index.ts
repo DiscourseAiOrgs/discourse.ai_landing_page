@@ -37,7 +37,7 @@ app.use(
 
 app.get("/", (c) => {
   return c.json({
-    name: "discourse.ai API",
+    name: "cortify.ai API",
     version: "0.1.0",
     status: "running",
     timestamp: new Date().toISOString(),
@@ -94,7 +94,7 @@ app.onError((err, c) => {
 // ==================== SERVER STARTUP ====================
 
 console.log(`
-🔥 discourse.ai API
+🔥 cortify.ai API
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 Server:      http://localhost:${config.port}
 🌍 Environment: ${config.nodeEnv}

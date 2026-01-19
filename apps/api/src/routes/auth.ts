@@ -5,7 +5,7 @@
 
 import { Hono } from "hono";
 import { eq } from "drizzle-orm";
-import { db, users } from "@discourse/db";
+import { db, users } from "@cortify/db";
 import { requireAuth } from "../middleware/auth";
 import { validateBody } from "../middleware/validate";
 import { signupSchema, loginSchema } from "../validators";

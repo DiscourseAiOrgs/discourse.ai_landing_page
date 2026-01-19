@@ -13,6 +13,6 @@ export default defineConfig({
   preview: {
     host: true,
     port: 3000,
-    allowedHosts: ['discourse-ai-landing.5.161.237.174.sslip.io'],
+    allowedHosts: ['cortify-ai-landing.5.161.237.174.sslip.io'],
   },
 })

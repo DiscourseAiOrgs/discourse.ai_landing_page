@@ -1,6 +1,6 @@
 // ============================================
 // apps/api/src/types/index.ts
-// Type definitions for discourse.ai API
+// Type definitions for cortify.ai API
 // 
 // Note: PostgreSQL returns `null` for empty columns,
 // not `undefined`. Our types reflect this reality.

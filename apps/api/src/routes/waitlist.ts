@@ -5,7 +5,7 @@
 
 import { Hono } from "hono";
 import { eq, count } from "drizzle-orm";
-import { db, waitlist } from "@discourse/db";
+import { db, waitlist } from "@cortify/db";
 import { validateBody } from "../middleware/validate";
 import { joinWaitlistSchema } from "../validators";
 import { successResponse, errorResponse } from "../utils";

@@ -64,7 +64,7 @@ export const config: Config = {
   // Database
   databaseUrl: getEnvVar(
     "DATABASE_URL",
-    "postgres://discourse:discourse_dev@localhost:5432/discourse_ai"
+    "postgres://cortify:cortify_dev@localhost:5432/cortify_ai"
   ),
 
   // Auth - has default for development, MUST be changed in production
@@ -76,7 +76,7 @@ export const config: Config = {
   deepgramApiKey: getEnvVar("DEEPGRAM_API_KEY", ""),
   aiBackendUrl: getEnvVar(
     "AI_BACKEND_URL",
-    "http://discourse-agents.5.161.237.174.sslip.io"
+    "http://cortify-agents.5.161.237.174.sslip.io"
   ),
 
   // CORS - split comma-separated string into array

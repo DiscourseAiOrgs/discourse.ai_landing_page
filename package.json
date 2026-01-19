@@ -1,5 +1,5 @@
 {
-  "name": "discourse.ai",
+  "name": "cortify.ai",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -7,13 +7,13 @@
   ],
   "scripts": {
     "dev": "bun run --parallel dev:api dev:web",
-    "dev:api": "bun run --filter @discourse/api dev",
-    "dev:web": "bun run --filter @discourse/web dev",
+    "dev:api": "bun run --filter @cortify/api dev",
+    "dev:web": "bun run --filter @cortify/web dev",
     "build": "echo 'No build step needed for Bun'",
     "start": "bun run apps/api/src/index.ts",
-    "db:migrate": "bun run --filter @discourse/db migrate",
-    "db:push": "bun run --filter @discourse/db push",
-    "db:studio": "bun run --filter @discourse/db studio",
+    "db:migrate": "bun run --filter @cortify/db migrate",
+    "db:push": "bun run --filter @cortify/db push",
+    "db:studio": "bun run --filter @cortify/db studio",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",

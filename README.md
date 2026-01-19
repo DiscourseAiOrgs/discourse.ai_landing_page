@@ -1,4 +1,4 @@
-# discourse.ai
+# cortify.ai
 
 AI-powered debate platform to sharpen your argumentation skills.
 
@@ -12,7 +12,7 @@ AI-powered debate platform to sharpen your argumentation skills.
 
 ## Project Structure
 ```
-discourse.ai/
+cortify.ai/
 ├── apps/
 │   ├── api/           # Hono + TypeScript backend (auth, debates, transcription)
 │   ├── web/           # Hono JSX landing page (cluely-style dark theme)
@@ -109,7 +109,7 @@ Route Handler runs, accesses c.get("validatedBody")
 **Architecture Diagram(Aligned with Desktop APP)**
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        discourse.ai API                         │
+│                        cortify.ai API                         │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌─────────────────────┐       ┌─────────────────────────────┐ │

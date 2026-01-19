@@ -14,7 +14,7 @@ import * as schema from "./schema";
  */
 const connectionString =
   process.env.DATABASE_URL ||
-  "postgres://discourse:discourse_dev@localhost:5432/discourse_ai";
+  "postgres://cortify:cortify_dev@localhost:5432/cortify_ai";
 
 /**
  * Create PostgreSQL client

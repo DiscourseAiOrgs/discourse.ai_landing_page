@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo 🚀 Setting up discourse.ai...
+echo 🚀 Setting up cortify.ai...
 
 REM Check for Bun
 where bun >nul 2>nul

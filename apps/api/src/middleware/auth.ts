@@ -5,7 +5,7 @@
 
 import { createMiddleware } from "hono/factory";
 import { eq } from "drizzle-orm";
-import { db, users } from "@discourse/db";
+import { db, users } from "@cortify/db";
 import { verifyToken } from "../utils/jwt";
 import { errorResponse } from "../utils";
 import type { SafeUser, UserId } from "../types";

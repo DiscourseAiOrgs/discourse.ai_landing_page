@@ -72,7 +72,7 @@ async function callAIDebate(request: {
   humanStatement: string;
   history: DebateHistoryEntry[];
 }) {
-  const response = await fetch(`${config.aiBackendUrl}/debate/discourseWithAi`, {
+  const response = await fetch(`${config.aiBackendUrl}/debate/cortifyWithAi`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(request),
