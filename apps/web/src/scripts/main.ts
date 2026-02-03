@@ -5,10 +5,46 @@
 const API_BASE = '/api';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initMobileMenu();
   initWaitlistForms();
   initSmoothScroll();
 });
+
+// ==================== THEME TOGGLE ====================
+
+function initThemeToggle(): void {
+  const themeToggle = document.getElementById('theme-toggle');
+  const darkIcon = document.getElementById('theme-icon-dark');
+  const lightIcon = document.getElementById('theme-icon-light');
+  const html = document.documentElement;
+
+  if (!themeToggle || !darkIcon || !lightIcon) return;
+
+  // Check for saved theme preference or default to dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  setTheme(savedTheme);
+
+  // Toggle theme on button click
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = html.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+
+  function setTheme(theme: string): void {
+    if (theme === 'light') {
+      html.setAttribute('data-theme', 'light');
+      darkIcon?.classList.add('hidden');
+      lightIcon?.classList.remove('hidden');
+    } else {
+      html.removeAttribute('data-theme');
+      darkIcon?.classList.remove('hidden');
+      lightIcon?.classList.add('hidden');
+    }
+  }
+}
 
 // ==================== MOBILE MENU ====================
 
@@ -27,12 +63,12 @@ function initMobileMenu(): void {
       mobileMenu.className = 'fixed inset-0 top-16 z-40 bg-dark/95 backdrop-blur-xl md:hidden';
       mobileMenu.innerHTML = `
         <div class="p-6 space-y-4">
-          <a href="#features" class="block py-3 text-lg text-gray-300 hover:text-white transition-colors">Features</a>
-          <a href="#pricing" class="block py-3 text-lg text-gray-300 hover:text-white transition-colors">Pricing</a>
-          <a href="#about" class="block py-3 text-lg text-gray-300 hover:text-white transition-colors">About Us</a>
-          <div class="pt-4 border-t border-white/10 space-y-3">
+          <a href="#features" class="block py-3 text-lg text-theme-secondary hover:text-theme-primary transition-colors">Features</a>
+          <a href="#pricing" class="block py-3 text-lg text-theme-secondary hover:text-theme-primary transition-colors">Pricing</a>
+          <a href="#about" class="block py-3 text-lg text-theme-secondary hover:text-theme-primary transition-colors">About Us</a>
+          <div class="pt-4 space-y-3" style="border-top: 1px solid var(--border-primary);">
             <a href="#download" class="btn-primary-blue w-full justify-center">Download for Windows</a>
-            <a href="#waitlist" class="btn-outline w-full justify-center">Join the Wishlist</a>
+            <a href="#waitlist" class="btn-outline w-full justify-center">Join the Waitlist</a>
           </div>
         </div>
       `;
