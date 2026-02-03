@@ -2,21 +2,9 @@
 // Cortify Landing Page - Main Script
 // ============================================
 
-import { loadComponents } from './components';
-
 const API_BASE = '/api';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  // Load all components first
-  await loadComponents([
-    { name: 'nav', target: '#nav-root' },
-    { name: 'hero', target: '#hero-root' },
-    { name: 'stats', target: '#stats-root' },
-    { name: 'features', target: '#features-root' },
-    { name: 'footer', target: '#footer-root' }
-  ]);
-
-  // Initialize features after components are loaded
+document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initMobileMenu();
   initWaitlistForms();
