@@ -2,13 +2,27 @@
 // Cortify Landing Page - Main Script
 // ============================================
 
+import { loadComponents } from './components';
+
 const API_BASE = '/api';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Load all components first
+  await loadComponents([
+    { name: 'nav', target: '#nav-root' },
+    { name: 'hero', target: '#hero-root' },
+    { name: 'stats', target: '#stats-root' },
+    { name: 'features', target: '#features-root' },
+    { name: 'footer', target: '#footer-root' }
+  ]);
+
+  // Initialize features after components are loaded
   initThemeToggle();
   initMobileMenu();
   initWaitlistForms();
   initSmoothScroll();
+  initScrollAnimations();
+  initCounters();
 });
 
 // ==================== THEME TOGGLE ====================
@@ -227,4 +241,71 @@ function initSmoothScroll(): void {
       history.pushState(null, '', href);
     });
   });
+}
+
+// ==================== SCROLL ANIMATIONS ====================
+
+function initScrollAnimations(): void {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-fade-in-up');
+        entry.target.classList.remove('opacity-0');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Observe feature cards
+  document.querySelectorAll('.feature-card').forEach(card => {
+    card.classList.add('opacity-0');
+    observer.observe(card);
+  });
+
+  // Observe stats items
+  document.querySelectorAll('.stats-item').forEach(stat => {
+    observer.observe(stat);
+  });
+}
+
+// ==================== COUNTER ANIMATION ====================
+
+function initCounters(): void {
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const counter = entry.target as HTMLElement;
+        animateCounter(counter);
+        counterObserver.unobserve(counter);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.counter').forEach(counter => {
+    counterObserver.observe(counter);
+  });
+}
+
+function animateCounter(element: HTMLElement): void {
+  const target = parseInt(element.getAttribute('data-target') || '0');
+  const duration = 2000; // 2 seconds
+  const increment = target / (duration / 16); // 60fps
+  let current = 0;
+
+  const updateCounter = () => {
+    current += increment;
+    if (current < target) {
+      element.textContent = Math.floor(current).toLocaleString();
+      requestAnimationFrame(updateCounter);
+    } else {
+      element.textContent = target.toLocaleString();
+    }
+  };
+
+  updateCounter();
 }

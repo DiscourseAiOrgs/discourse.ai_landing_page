@@ -1,0 +1,58 @@
+<!-- ==================== NAVIGATION COMPONENT ==================== -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-xl border-b border-white/5">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2">
+        <img src="/images/cortify.svg" alt="Cortify" class="h-8 w-auto">
+        <span class="text-xl font-semibold text-theme-primary">Cortify</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-sm text-theme-secondary hover:text-theme-primary transition-colors">Features</a>
+        <a href="#pricing" class="text-sm text-theme-secondary hover:text-theme-primary transition-colors">Pricing</a>
+        <a href="#about" class="text-sm text-theme-secondary hover:text-theme-primary transition-colors">About Us</a>
+      </div>
+
+      <!-- Desktop CTA -->
+      <div class="hidden md:flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="p-2 rounded-lg transition-colors" style="background-color: var(--bg-tertiary);" aria-label="Toggle theme">
+          <svg id="theme-icon-dark" class="w-5 h-5 text-theme-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg id="theme-icon-light" class="w-5 h-5 text-theme-secondary hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <a href="#download" class="btn-primary-blue">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 5.5l7.5-1v7.25H3V5.5zm0 13l7.5 1v-7.25H3V18.5zm8.5 1.25l9.5 1.25v-9.25h-9.5v8zm0-16.5v8h9.5V3L11.5 3.25z"/>
+          </svg>
+          <span>Download for Windows</span>
+        </a>
+        <a href="#waitlist" class="btn-outline">
+          Join the Waitlist
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-button" class="md:hidden p-2 text-gray-400 hover:text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
