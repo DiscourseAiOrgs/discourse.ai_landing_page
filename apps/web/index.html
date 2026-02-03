@@ -29,6 +29,19 @@
 </head>
 <body class="bg-dark antialiased">
 
+  <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║          CORTIFY LANDING PAGE - COMPONENT MAP           ║
+    ╠══════════════════════════════════════════════════════════╣
+    ║  1. Navigation   - Fixed header with logo & CTAs         ║
+    ║  2. Hero         - Main headline + product image         ║
+    ║  3. Integrations - Platform logos bar                    ║
+    ║  4. Stats        - Animated counter section              ║
+    ║  5. Features     - 3-column feature cards                ║
+    ║  6. Footer       - Waitlist form + copyright             ║
+    ╚══════════════════════════════════════════════════════════╝
+  -->
+
   <!-- ==================== NAVIGATION ==================== -->
   <nav class="fixed top-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-xl border-b border-white/5">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -95,7 +108,7 @@
 
         <!-- Left Content -->
         <div class="text-left">
-          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-theme-primary leading-[1.1] mb-6">
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 text-gradient-animate">
             Decode the<br>Unspoken
           </h1>
 
@@ -160,6 +173,39 @@
             <span class="text-sm font-medium">Any Audio</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STATS SECTION ==================== -->
+  <section class="py-16 lg:py-20 bg-dark">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+
+        <!-- Stat 1 -->
+        <div class="stats-item opacity-0">
+          <div class="text-4xl lg:text-5xl font-bold text-gradient-animate mb-2">
+            <span class="counter" data-target="50000">0</span>+
+          </div>
+          <p class="text-theme-secondary text-sm">Conversations Analyzed</p>
+        </div>
+
+        <!-- Stat 2 -->
+        <div class="stats-item opacity-0">
+          <div class="text-4xl lg:text-5xl font-bold text-gradient-animate mb-2">
+            <span class="counter" data-target="95">0</span>%
+          </div>
+          <p class="text-theme-secondary text-sm">Accuracy Rate</p>
+        </div>
+
+        <!-- Stat 3 -->
+        <div class="stats-item opacity-0">
+          <div class="text-4xl lg:text-5xl font-bold text-gradient-animate mb-2">
+            <span class="counter" data-target="1200">0</span>+
+          </div>
+          <p class="text-theme-secondary text-sm">Active Users</p>
+        </div>
+
       </div>
     </div>
   </section>

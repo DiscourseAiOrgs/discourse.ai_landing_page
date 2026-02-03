@@ -279,6 +279,11 @@
     color: inherit;
   }
 
+  /* Stats Section Background */
+  .py-16.lg\:py-20.bg-dark:has(.stats-item) {
+    background: linear-gradient(180deg, #eef3fc 0%, #ffffff 50%, #f8faff 100%) !important;
+  }
+
   /* Features Section Background */
   #features {
     background: linear-gradient(180deg, #ffffff 0%, #f8faff 50%, #eef3fc 100%) !important;
@@ -351,6 +356,11 @@
   50% { transform: translateY(-10px); }
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -400,5 +410,20 @@
 
   .text-theme-tertiary {
     color: var(--text-tertiary);
+  }
+
+  /* Animated Gradient Text */
+  .text-gradient-animate {
+    background: linear-gradient(
+      90deg,
+      var(--text-primary) 0%,
+      var(--accent-blue) 50%,
+      var(--text-primary) 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
   }
 }
