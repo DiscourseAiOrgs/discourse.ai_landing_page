@@ -2,7 +2,7 @@
 // Cortify Landing Page - Main Script
 // ============================================
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
 
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
@@ -119,12 +119,19 @@ async function handleWaitlistSubmit(event: Event): Promise<void> {
   event.preventDefault();
 
   const form = event.target as HTMLFormElement;
-  const emailInput = form.querySelector<HTMLInputElement>('input[type="email"]');
+  const nameInput = form.querySelector<HTMLInputElement>('input[name="name"]');
+  const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
   const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-  if (!emailInput || !submitButton) return;
+  if (!nameInput || !emailInput || !submitButton) return;
 
+  const name = nameInput.value.trim();
   const email = emailInput.value.trim();
+
+  if (!name || name.length < 2) {
+    showToast('Please enter your name (at least 2 characters).', 'error');
+    return;
+  }
 
   if (!email || !isValidEmail(email)) {
     showToast('Please enter a valid email address.', 'error');
@@ -144,14 +151,15 @@ async function handleWaitlistSubmit(event: Event): Promise<void> {
     const response = await fetch(`${API_BASE}/waitlist`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, source: 'landing_page' }),
+      body: JSON.stringify({ name, email, source: 'landing_page' }),
     });
 
     const data: WaitlistResponse = await response.json();
 
     if (response.ok && data.success && data.data) {
+      nameInput.value = '';
       emailInput.value = '';
-      showToast(`You're #${data.data.position} on the waitlist!`, 'success');
+      showToast(`Welcome ${name}! You're #${data.data.position} on the waitlist! 🎉`, 'success');
     } else {
       const errorMessage = data.error || data.message || 'Something went wrong.';
       if (errorMessage.toLowerCase().includes('already')) {

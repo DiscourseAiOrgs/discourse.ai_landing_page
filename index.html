@@ -116,9 +116,14 @@
             The world's first communication intelligence platform. Analyze any conversation in real-time, practice with AI coaches, and master the art of persuasion.
           </p>
 
-          <a href="#features" class="btn-cta inline-flex">
-            Reveal Intent
-          </a>
+          <div class="flex gap-4">
+            <a href="#waitlist" class="btn-cta inline-flex">
+              Apply for Beta Access
+            </a>
+            <a href="#features" class="btn-outline inline-flex">
+              Learn More
+            </a>
+          </div>
         </div>
 
         <!-- Right Content - Laptop Image -->
@@ -262,43 +267,121 @@
   </section>
 
   <!-- ==================== FOOTER / WAITLIST ==================== -->
-  <footer id="waitlist" class="py-16 bg-dark border-t" style="border-color: var(--border-primary);">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+  <footer id="waitlist" class="relative py-24 overflow-hidden" style="background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);">
+    <!-- Background Decoration -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
+    </div>
 
-      <!-- Coming Soon Message -->
-      <div class="text-center mb-10">
-        <p class="text-theme-secondary text-sm">
-          Mastery isn't just for Windows. We're coming to macOS & Mobile soon.
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
+
+      <!-- Main Waitlist Section -->
+      <div class="text-center mb-12">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style="background: var(--bg-tertiary); border: 1px solid var(--border-primary);">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          <span class="text-sm text-theme-secondary">Limited Beta Access Available</span>
+        </div>
+
+        <!-- Heading -->
+        <h2 class="text-4xl sm:text-5xl font-bold text-theme-primary mb-4">
+          Join the Waitlist
+        </h2>
+        <p class="text-xl text-theme-secondary max-w-2xl mx-auto mb-10">
+          Be the first to decode conversations with AI. Get exclusive early access when we launch.
         </p>
+
+        <!-- Benefits Grid -->
+        <div class="grid sm:grid-cols-3 gap-6 mb-12 max-w-3xl mx-auto">
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: rgba(37, 99, 235, 0.1);">
+              <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <h3 class="text-sm font-semibold text-theme-primary mb-1">Early Access</h3>
+            <p class="text-xs text-theme-tertiary">First to use new features</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: rgba(139, 92, 246, 0.1);">
+              <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+              </svg>
+            </div>
+            <h3 class="text-sm font-semibold text-theme-primary mb-1">Founder Pricing</h3>
+            <p class="text-xs text-theme-tertiary">Lifetime discount</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: rgba(34, 197, 94, 0.1);">
+              <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-sm font-semibold text-theme-primary mb-1">VIP Support</h3>
+            <p class="text-xs text-theme-tertiary">Direct access to founders</p>
+          </div>
+        </div>
+
+        <!-- Signup Form -->
+        <form class="waitlist-form max-w-xl mx-auto">
+          <div class="p-1 rounded-2xl" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);">
+            <div class="backdrop-blur-sm rounded-2xl p-6" style="background: var(--bg-secondary);">
+              <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                  minlength="2"
+                  class="input-dark"
+                >
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your email"
+                  required
+                  class="input-dark"
+                >
+              </div>
+              <div class="flex justify-center">
+                <button type="submit" class="btn-primary-blue px-8 py-3 group relative overflow-hidden">
+                  <span class="relative z-10 flex items-center gap-2">
+                    <span>Join Waitlist</span>
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                  </span>
+                  <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </button>
+              </div>
+              <p class="text-xs text-theme-tertiary mt-4 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                Your information is secure and will never be shared
+              </p>
+            </div>
+          </div>
+        </form>
       </div>
 
-      <!-- Email Signup -->
-      <form class="waitlist-form max-w-md mx-auto mb-12">
-        <div class="flex gap-3">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            required
-            class="input-dark flex-1"
-          >
-          <button type="submit" class="btn-primary-blue px-6">
-            Notify Me
-          </button>
+      <!-- Social Proof -->
+      <div class="text-center py-8 border-t border-b mb-8" style="border-color: var(--border-primary);">
+        <p class="text-sm text-theme-tertiary mb-2">Trusted by forward-thinking professionals</p>
+        <div class="flex items-center justify-center gap-8 text-theme-tertiary opacity-50">
+          <span class="text-xs">🎯 Coming to macOS & Mobile</span>
         </div>
-      </form>
+      </div>
 
-      <!-- Copyright -->
+      <!-- Footer Links -->
       <div class="text-center">
         <p class="text-theme-tertiary text-sm">
           &copy; 2026 Cortify. All rights reserved.
         </p>
-      </div>
-
-      <!-- Decorative Star -->
-      <div class="fixed bottom-8 right-8 opacity-20">
-        <svg class="w-12 h-12 text-theme-tertiary" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-        </svg>
       </div>
     </div>
   </footer>

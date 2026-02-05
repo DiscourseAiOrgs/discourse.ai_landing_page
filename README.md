@@ -1,135 +1,41 @@
-# cortify.ai
+# Cortify Landing Page
 
-AI-powered debate platform to sharpen your argumentation skills.
+AI-powered communication intelligence platform landing page.
+
+## Overview
+
+This is the public-facing landing page for Cortify - showcasing features, collecting waitlist signups, and driving downloads. The landing page connects to a production API for waitlist management.
 
 ## Tech Stack
 
-- **Runtime**: Bun
-- **Backend**: Hono.js + TypeScript
-- **Database**: PostgreSQL (Docker) + Drizzle ORM
-- **AI**: Groq (LLaMA) + Deepgram (STT)
+- **Frontend**: Vite + TypeScript
 - **Styling**: Tailwind CSS
+- **Runtime**: Bun
+- **API**: Connects to production backend via environment variables
 
 ## Project Structure
+
 ```
-cortify.ai/
-├── apps/
-│   ├── api/           # Hono + TypeScript backend (auth, debates, transcription)
-│   ├── web/           # Hono JSX landing page (cluely-style dark theme)
+cortify-landing-page/
+├── .env                    # Production API configuration
+├── .env.example           # Environment template
+├── index.html             # Main landing page
+├── vite.config.ts         # Vite configuration
+├── package.json           # Dependencies
+├── tailwind.config.js     # Tailwind configuration
+├── postcss.config.js      # PostCSS configuration
+├── tsconfig.json          # TypeScript configuration
 │
-├── packages/
-│   └── db/            # Drizzle ORM + PostgreSQL schema
-├── scripts/
-│   ├── setup.sh       # Unix setup
-│   └── setup.bat      # Windows setup
-├── docker-compose.yml # PostgreSQL + Redis
-└── .env.example
-```
-
-**Authentication Flow Diagram:**
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        SIGNUP FLOW                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  Client                           Server                    │
-│    │                                │                       │
-│    │  POST /api/auth/signup         │                       │
-│    │  {email, username, password}   │                       │
-│    │ ──────────────────────────────>│                       │
-│    │                                │                       │
-│    │                         Validate with Zod              │
-│    │                         Check email unique             │
-│    │                         Check username unique          │
-│    │                         Hash password                  │
-│    │                         Save user                      │
-│    │                         Generate token                 │
-│    │                                │                       │
-│    │  {user, token}                 │                       │
-│    │ <──────────────────────────────│                       │
-│    │                                │                       │
-│    │  Store token in localStorage   │                       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│                     AUTHENTICATED REQUEST                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  Client                           Server                    │
-│    │                                │                       │
-│    │  GET /api/debates              │                       │
-│    │  Header: Authorization:        │                       │
-│    │          Bearer tok_xxxxx      │                       │
-│    │ ──────────────────────────────>│                       │
-│    │                                │                       │
-│    │                         Extract token                  │
-│    │                         Look up in sessions            │
-│    │                         Find user                      │
-│    │                         Return debates                 │
-│    │                                │                       │
-│    │  {debates: [...]}              │                       │
-│    │ <──────────────────────────────│                       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-**How the Middleware Flow Works:**
-```
-Request: POST /api/auth/signup
-         Body: { "email": "bad", "password": "123" }
-         
-         ↓
-         
-Middleware: validateBody(signupSchema)
-         ↓
-         Tries to validate...
-         ↓
-         FAILS! "bad" is not valid email, "123" is too short
-         ↓
-         Returns 400 error, route handler NEVER runs
-         
-─────────────────────────────────────────────────────────
-
-Request: POST /api/auth/signup  
-         Body: { "email": "alice@example.com", "username": "alice", "password": "password123" }
-         
-         ↓
-         
-Middleware: validateBody(signupSchema)
-         ↓
-         Validates successfully!
-         ↓
-         Stores data in c.set("validatedBody", {...})
-         ↓
-         Calls next()
-         ↓
-         
-Route Handler runs, accesses c.get("validatedBody")
-```
-**Architecture Diagram(Aligned with Desktop APP)**
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        cortify.ai API                         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌─────────────────────┐       ┌─────────────────────────────┐ │
-│  │   Hono HTTP Server  │       │     Socket.IO Server        │ │
-│  │   (REST API)        │       │     (Real-time Events)      │ │
-│  ├─────────────────────┤       ├─────────────────────────────┤ │
-│  │ • /api/auth         │       │ • join-room                 │ │
-│  │ • /api/users        │       │ • offer/answer/ice-candidate│ │
-│  │ • /api/debates      │       │ • transcription-data        │ │
-│  │ • /api/rooms        │       │ • chat-message              │ │
-│  │ • /api/waitlist     │       │ • participant-joined/left   │ │
-│  └─────────────────────┘       └─────────────────────────────┘ │
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                    PostgreSQL Database                    │  │
-│  │  users | debates | rooms | participants | messages | ...  │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-
+├── public/                # Static assets
+│   ├── components/        # Reusable HTML components
+│   └── images/           # Images and icons
+│
+└── src/                   # Source code
+    ├── scripts/           # TypeScript modules
+    │   └── main.ts       # Main application logic
+    ├── styles/           # CSS files
+    │   └── main.css      # Main stylesheet
+    └── vite-env.d.ts     # Vite environment types
 ```
 
 ## Quick Start
@@ -137,25 +43,13 @@ Route Handler runs, accesses c.get("validatedBody")
 ### Prerequisites
 
 - [Bun](https://bun.sh) (v1.1+)
-- [Docker](https://docker.com)
 
-### Setup
+### Installation
 
-**Linux/macOS:**
+1. Clone the repository:
 ```bash
-./scripts/setup.sh
-```
-
-**Windows:**
-```cmd
-scripts\setup.bat
-```
-
-### Manual Setup
-
-1. Start Docker containers:
-```bash
-docker-compose up -d
+git clone <repository-url>
+cd discourse.ai_landing_page
 ```
 
 2. Install dependencies:
@@ -163,30 +57,70 @@ docker-compose up -d
 bun install
 ```
 
-3. Copy environment file:
+3. Configure environment:
 ```bash
+# Copy the example environment file
 cp .env.example .env
+
+# Edit .env and add your production API URL
+# VITE_API_BASE_URL=https://your-production-api-url.com/api
 ```
 
-4. Push database schema:
+4. Start development server:
 ```bash
-bun run db:push
+bun run dev
 ```
 
-## Development
+The landing page will be available at `http://localhost:5173`
+
+## Development Commands
+
 ```bash
-bun run dev        # Start all services
-bun run dev:api    # API only (port 8787)
-bun run dev:web    # Web only (port 3000)
+bun run dev      # Start development server (port 5173)
+bun run build    # Build for production
+bun run preview  # Preview production build
+bun run clean    # Remove node_modules
 ```
 
-## Docker Commands
-```bash
-bun run docker:up    # Start containers
-bun run docker:down  # Stop containers
-bun run docker:logs  # View logs
+## Environment Variables
+
+The landing page requires the following environment variable:
+
+- `VITE_API_BASE_URL` - Production API endpoint for waitlist functionality
+
+Example `.env`:
+```env
+VITE_API_BASE_URL=https://api.cortify.ai/api
 ```
+
+## Features
+
+- **Dark/Light Theme Toggle** - User-selectable theme with localStorage persistence
+- **Waitlist Signup** - Name + email collection with Discord notifications
+- **Responsive Design** - Mobile-first design with Tailwind CSS
+- **Modern UI** - Glassmorphism effects, gradients, and smooth animations
+- **SEO Optimized** - Meta tags and semantic HTML
+
+## Deployment
+
+The landing page is deployed to Coolify. Build output is in the `dist/` folder:
+
+```bash
+bun run build
+```
+
+The build process:
+1. TypeScript compilation (`tsc`)
+2. Vite production build
+3. Output to `dist/` directory
+
+## Project Notes
+
+- This repository contains **only the landing page frontend**
+- The backend API is located in a separate repository at `D:\Discourse\discourse-web-app`
+- Waitlist data is sent to the production API via the configured `VITE_API_BASE_URL`
+- Discord notifications are handled by the backend API
 
 ## License
 
-<!-- MIT -->
+All rights reserved © 2026 Cortify
