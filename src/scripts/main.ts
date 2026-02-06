@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initScrollAnimations();
   initCounters();
+  initFAQAccordion();
+  initParallaxEffect();
 });
 
 // ==================== THEME TOGGLE ====================
@@ -259,13 +261,27 @@ function initScrollAnimations(): void {
 
   // Observe feature cards
   document.querySelectorAll('.feature-card').forEach(card => {
-    card.classList.add('opacity-0');
     observer.observe(card);
   });
 
   // Observe stats items
   document.querySelectorAll('.stats-item').forEach(stat => {
     observer.observe(stat);
+  });
+
+  // Observe feature card animates
+  document.querySelectorAll('.feature-card-animate').forEach(card => {
+    observer.observe(card);
+  });
+
+  // Observe use case cards
+  document.querySelectorAll('.use-case-card').forEach(card => {
+    observer.observe(card);
+  });
+
+  // Observe FAQ items
+  document.querySelectorAll('.faq-item').forEach(item => {
+    observer.observe(item);
   });
 }
 
@@ -304,4 +320,68 @@ function animateCounter(element: HTMLElement): void {
   };
 
   updateCounter();
+}
+
+// ==================== FAQ ACCORDION ====================
+
+function initFAQAccordion(): void {
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
+
+    if (!question || !answer) return;
+
+    question.addEventListener('click', () => {
+      const isOpen = question.classList.contains('active');
+
+      // Close all other FAQs
+      faqItems.forEach(otherItem => {
+        const otherQuestion = otherItem.querySelector('.faq-question');
+        const otherAnswer = otherItem.querySelector('.faq-answer');
+        if (otherQuestion && otherAnswer && otherItem !== item) {
+          otherQuestion.classList.remove('active');
+          otherAnswer.classList.remove('open');
+        }
+      });
+
+      // Toggle current FAQ
+      if (isOpen) {
+        question.classList.remove('active');
+        answer.classList.remove('open');
+      } else {
+        question.classList.add('active');
+        answer.classList.add('open');
+      }
+    });
+  });
+}
+
+// ==================== PARALLAX EFFECT ====================
+
+function initParallaxEffect(): void {
+  const heroImage = document.querySelector('.animate-float') as HTMLElement;
+
+  if (!heroImage) return;
+
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrolled = window.pageYOffset;
+        const parallaxSpeed = 0.3;
+
+        // Only apply parallax in the hero section (first 100vh)
+        if (scrolled < window.innerHeight) {
+          heroImage.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+        }
+
+        ticking = false;
+      });
+
+      ticking = true;
+    }
+  });
 }
