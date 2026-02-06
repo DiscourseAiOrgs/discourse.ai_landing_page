@@ -425,6 +425,77 @@
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
+/* Feature Card Animations */
+.feature-card-animate {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.use-case-card {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Gradient Shift Animation for Buttons */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.btn-gradient-animate {
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
+  background-size: 200% 100%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Card Hover Glow */
+.card-hover-glow:hover {
+  box-shadow: 0 0 40px var(--accent-primary-glow);
+  transition: box-shadow 0.3s ease;
+}
+
+/* FAQ Styles */
+.faq-item {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-question {
+  cursor: pointer;
+}
+
+.faq-question.active svg {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer.open {
+  max-height: 500px;
+  transition: max-height 0.5s ease;
+}
+
+/* Pricing Card Enhancements */
+.pricing-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px var(--accent-primary-glow);
+}
+
+/* Use Case Card Hover */
+.use-case-card:hover {
+  box-shadow: 0 10px 30px var(--accent-primary-glow);
+}
+
 /* ==================== UTILITY OVERRIDES ==================== */
 @layer utilities {
   .text-balance {
