@@ -307,6 +307,21 @@
     border-color: rgba(99, 102, 241, 0.2) !important;
   }
 
+  /* Download Button (Light Theme) */
+  nav a[href="#download"] {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(243, 246, 255, 0.98)) !important;
+    color: #1a1d2e !important;
+    border-color: rgba(99, 102, 241, 0.25) !important;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.12) !important;
+  }
+
+  nav a[href="#download"]:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(232, 238, 255, 1)) !important;
+    border-color: rgba(99, 102, 241, 0.45) !important;
+    box-shadow: 0 10px 22px rgba(99, 102, 241, 0.18) !important;
+    transform: scale(1.05) !important;
+  }
+
   /* Mobile Menu Button */
   nav button#mobile-menu-button {
     background: rgba(248, 250, 254, 0.8) !important;
