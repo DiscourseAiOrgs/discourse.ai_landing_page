@@ -95,6 +95,12 @@
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
           </button>
+          
+          <!-- Download Button -->
+          <a href="#download" class="relative inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold transition-all duration-300 group rounded-xl hover:scale-105" style="background: rgba(26, 31, 46, 0.6); color: var(--text-primary); border: 1px solid var(--border-primary);">
+            <span class="relative z-10">Download</span>
+            <div class="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.12));"></div>
+          </a>
 
           <!-- Enhanced CTA Button -->
           <a href="#waitlist" class="relative inline-flex items-center gap-2 px-6 py-3 overflow-hidden text-sm font-semibold transition-all duration-300 group rounded-xl hover:scale-105" style="background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%); color: white; box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.6);">
@@ -455,9 +461,9 @@
 
         <!-- Image: 70% -->
         <div class="relative opacity-0 lg:col-span-7 feature-card-animate group" style="animation-delay: 0.15s;">
-          <div class="relative overflow-hidden transition-all duration-500 cursor-zoom-in rounded-2xl group-hover:shadow-2xl" onclick="openImagePreview('/images/screenshots/listen&analyze live.png', 'Listen & Analyze Live')">
+          <div class="relative overflow-hidden transition-all duration-500 cursor-zoom-in rounded-2xl group-hover:shadow-2xl" onclick="openImagePreview('/images/screenshots/listen&analyzelive.png', 'Listen & Analyze Live')">
             <img
-              src="/images/screenshots/listen&analyze live.png"
+              src="/images/screenshots/listen&analyzelive.png"
               alt="Listen & Analyze Live"
               class="w-full transition-transform duration-700 group-hover:scale-105"
               style="border: 1px solid var(--border-primary);"
@@ -597,9 +603,9 @@
 
         <!-- Image: 70% -->
         <div class="relative opacity-0 lg:col-span-7 feature-card-animate group" style="animation-delay: 0.15s;">
-          <div class="relative overflow-hidden transition-all duration-500 cursor-zoom-in rounded-2xl group-hover:shadow-2xl" onclick="openImagePreview('/images/screenshots/listen&analyzelive.png', 'Decode Mode')">
+          <div class="relative overflow-hidden transition-all duration-500 cursor-zoom-in rounded-2xl group-hover:shadow-2xl" onclick="openImagePreview('/images/screenshots/listen&analyze2.png', 'Decode Mode')">
             <img
-              src="/images/screenshots/listen&analyzelive.png"
+              src="/images/screenshots/listen&analyze2.png"
               alt="Decode Mode"
               class="w-full transition-transform duration-700 group-hover:scale-105"
               style="border: 1px solid var(--border-primary);"
@@ -1046,7 +1052,7 @@
               <!-- Visual Icon Area -->
               <div class="relative flex items-center justify-center mb-8 h-44">
                 <div class="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
-                  <div class="absolute w-32 h-32 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-3xl" style="background: var(--accent-primary); opacity: 0.2;"></div>
+                  <div class="absolute w-32 h-32 -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 blur-3xl" style="background: var(--accent-primary); opacity: 0.2;"></div>
                 </div>
 
                 <!-- Animated Grid Selection Icon -->
@@ -1058,7 +1064,7 @@
                 </div>
 
                 <!-- Floating Arrow Indicator -->
-                <div class="absolute transition-all duration-300 opacity-0 -right-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 group-hover:-right-4">
+                <div class="absolute transition-all duration-300 -translate-y-1/2 opacity-0 -right-2 top-1/2 group-hover:opacity-100 group-hover:-right-4">
                   <svg class="w-6 h-6" style="color: var(--accent-primary);" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
                   </svg>
@@ -1097,7 +1103,7 @@
               <!-- Visual Icon Area -->
               <div class="relative flex items-center justify-center mb-8 h-44">
                 <div class="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
-                  <div class="absolute w-32 h-32 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-3xl" style="background: var(--accent-secondary); opacity: 0.2;"></div>
+                  <div class="absolute w-32 h-32 -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 blur-3xl" style="background: var(--accent-secondary); opacity: 0.2;"></div>
                 </div>
 
                 <!-- Animated Recording Pulse -->
@@ -1114,7 +1120,7 @@
                   </div>
 
                   <!-- Waveform Bars -->
-                  <div class="absolute flex items-end gap-1 -bottom-6 left-1/2 -translate-x-1/2">
+                  <div class="absolute flex items-end gap-1 -translate-x-1/2 -bottom-6 left-1/2">
                     <div class="w-1 rounded-full animate-pulse" style="height: 12px; background: var(--accent-secondary);"></div>
                     <div class="w-1 rounded-full animate-pulse" style="height: 20px; background: var(--accent-secondary); animation-delay: 0.1s;"></div>
                     <div class="w-1 rounded-full animate-pulse" style="height: 16px; background: var(--accent-secondary); animation-delay: 0.2s;"></div>
@@ -1160,7 +1166,7 @@
               <!-- Visual Icon Area -->
               <div class="relative flex items-center justify-center mb-8 h-44">
                 <div class="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
-                  <div class="absolute w-32 h-32 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-3xl" style="background: var(--accent-primary); opacity: 0.2;"></div>
+                  <div class="absolute w-32 h-32 -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 blur-3xl" style="background: var(--accent-primary); opacity: 0.2;"></div>
                 </div>
 
                 <!-- Animated Data Visualization -->
@@ -1492,212 +1498,299 @@
   </section>
 
   <!-- ==================== FAQ SECTION ==================== -->
-  <section class="py-20 lg:py-32" style="background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);">
-    <div class="max-w-4xl px-6 mx-auto lg:px-8">
+  <section class="py-20 lg:py-28" style="background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);">
+    <div class="max-w-3xl px-6 mx-auto lg:px-8">
 
       <!-- Section Header -->
-      <div class="mb-16 text-center">
-        <h2 class="mb-6 text-4xl font-bold sm:text-5xl text-theme-primary">
+      <div class="mb-12 text-center">
+        <h2 class="mb-4 text-3xl font-bold sm:text-4xl lg:text-5xl text-theme-primary">
           Frequently Asked <span class="text-gradient-animate">Questions</span>
         </h2>
-        <p class="text-xl text-theme-secondary">
+        <p class="text-lg text-theme-secondary">
           Everything you need to know about Cortify.
         </p>
       </div>
 
-      <!-- FAQ Accordion -->
-      <div class="space-y-4">
+      <!-- FAQ Accordion - Minimal Design -->
+      <div class="space-y-3">
+
         <!-- Question 1 -->
-        <div class="opacity-0 feature-card faq-item use-case-card">
-          <button class="flex items-center justify-between w-full p-6 text-left faq-question">
-            <span class="pr-8 text-lg font-semibold text-theme-primary">What platforms does Cortify support?</span>
-            <svg class="flex-shrink-0 w-6 h-6 transition-transform text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="overflow-hidden transition-all duration-300 border opacity-0 faq-item use-case-card rounded-xl hover:translate-x-1" style="border-color: var(--border-primary); background: var(--bg-secondary);">
+          <button class="flex items-center justify-between w-full px-5 py-4 text-left transition-colors duration-200 faq-question group">
+            <span class="pr-6 font-semibold transition-colors duration-200 text-theme-primary group-hover:text-gradient-animate">What platforms does Cortify support?</span>
+            <svg class="flex-shrink-0 w-5 h-5 transition-all duration-300 text-theme-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="hidden px-6 pb-6 faq-answer">
-            <p class="text-theme-secondary">
+          <div class="faq-answer">
+            <p class="px-5 pt-3 pb-4 text-sm leading-relaxed text-theme-secondary">
               Cortify is available for Windows and macOS as a native desktop application. Mobile versions for iOS and Android are currently in development and coming soon.
             </p>
           </div>
         </div>
 
         <!-- Question 2 -->
-        <div class="opacity-0 feature-card faq-item use-case-card" style="animation-delay: 0.1s;">
-          <button class="flex items-center justify-between w-full p-6 text-left faq-question">
-            <span class="pr-8 text-lg font-semibold text-theme-primary">Does Cortify work offline?</span>
-            <svg class="flex-shrink-0 w-6 h-6 transition-transform text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="overflow-hidden transition-all duration-300 border opacity-0 faq-item use-case-card rounded-xl hover:translate-x-1" style="animation-delay: 0.1s; border-color: var(--border-primary); background: var(--bg-secondary);">
+          <button class="flex items-center justify-between w-full px-5 py-4 text-left transition-colors duration-200 faq-question group">
+            <span class="pr-6 font-semibold transition-colors duration-200 text-theme-primary group-hover:text-gradient-animate">Does Cortify work offline?</span>
+            <svg class="flex-shrink-0 w-5 h-5 transition-all duration-300 text-theme-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="hidden px-6 pb-6 faq-answer">
-            <p class="text-theme-secondary">
+          <div class="faq-answer">
+            <p class="px-5 pt-3 pb-4 text-sm leading-relaxed text-theme-secondary">
               Basic transcription requires internet connection for real-time AI processing. However, analysis and playback of previously recorded sessions work offline once captured. We're working on offline transcription for Pro users.
             </p>
           </div>
         </div>
 
         <!-- Question 3 -->
-        <div class="opacity-0 feature-card faq-item use-case-card" style="animation-delay: 0.2s;">
-          <button class="flex items-center justify-between w-full p-6 text-left faq-question">
-            <span class="pr-8 text-lg font-semibold text-theme-primary">How accurate is the transcription?</span>
-            <svg class="flex-shrink-0 w-6 h-6 transition-transform text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="overflow-hidden transition-all duration-300 border opacity-0 faq-item use-case-card rounded-xl hover:translate-x-1" style="animation-delay: 0.2s; border-color: var(--border-primary); background: var(--bg-secondary);">
+          <button class="flex items-center justify-between w-full px-5 py-4 text-left transition-colors duration-200 faq-question group">
+            <span class="pr-6 font-semibold transition-colors duration-200 text-theme-primary group-hover:text-gradient-animate">How accurate is the transcription?</span>
+            <svg class="flex-shrink-0 w-5 h-5 transition-all duration-300 text-theme-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="hidden px-6 pb-6 faq-answer">
-            <p class="text-theme-secondary">
+          <div class="faq-answer">
+            <p class="px-5 pt-3 pb-4 text-sm leading-relaxed text-theme-secondary">
               Cortify achieves 95%+ accuracy using Deepgram's state-of-the-art speech recognition technology. Accuracy may vary based on audio quality, speaker accents, and background noise. We continuously improve our models for better performance.
             </p>
           </div>
         </div>
 
         <!-- Question 4 -->
-        <div class="opacity-0 feature-card faq-item use-case-card" style="animation-delay: 0.3s;">
-          <button class="flex items-center justify-between w-full p-6 text-left faq-question">
-            <span class="pr-8 text-lg font-semibold text-theme-primary">Can I use Cortify for Zoom/Teams meetings?</span>
-            <svg class="flex-shrink-0 w-6 h-6 transition-transform text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="overflow-hidden transition-all duration-300 border opacity-0 faq-item use-case-card rounded-xl hover:translate-x-1" style="animation-delay: 0.3s; border-color: var(--border-primary); background: var(--bg-secondary);">
+          <button class="flex items-center justify-between w-full px-5 py-4 text-left transition-colors duration-200 faq-question group">
+            <span class="pr-6 font-semibold transition-colors duration-200 text-theme-primary group-hover:text-gradient-animate">Can I use Cortify for Zoom/Teams meetings?</span>
+            <svg class="flex-shrink-0 w-5 h-5 transition-all duration-300 text-theme-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="hidden px-6 pb-6 faq-answer">
-            <p class="text-theme-secondary">
+          <div class="faq-answer">
+            <p class="px-5 pt-3 pb-4 text-sm leading-relaxed text-theme-secondary">
               Yes! Cortify captures system audio from any application on your computer, including Zoom, Microsoft Teams, Google Meet, Discord, and more. Simply select "System Audio" mode and Cortify will transcribe and analyze your meeting in real-time.
             </p>
           </div>
         </div>
 
         <!-- Question 5 -->
-        <div class="opacity-0 feature-card faq-item use-case-card" style="animation-delay: 0.4s;">
-          <button class="flex items-center justify-between w-full p-6 text-left faq-question">
-            <span class="pr-8 text-lg font-semibold text-theme-primary">Is my data private?</span>
-            <svg class="flex-shrink-0 w-6 h-6 transition-transform text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="overflow-hidden transition-all duration-300 border opacity-0 faq-item use-case-card rounded-xl hover:translate-x-1" style="animation-delay: 0.4s; border-color: var(--border-primary); background: var(--bg-secondary);">
+          <button class="flex items-center justify-between w-full px-5 py-4 text-left transition-colors duration-200 faq-question group">
+            <span class="pr-6 font-semibold transition-colors duration-200 text-theme-primary group-hover:text-gradient-animate">Is my data private?</span>
+            <svg class="flex-shrink-0 w-5 h-5 transition-all duration-300 text-theme-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
-          <div class="hidden px-6 pb-6 faq-answer">
-            <p class="text-theme-secondary">
+          <div class="faq-answer">
+            <p class="px-5 pt-3 pb-4 text-sm leading-relaxed text-theme-secondary">
               Absolutely. Your conversations are processed securely and stored locally by default. We use end-to-end encryption for all data transmission. Pro users can enable cloud backup with enterprise-grade encryption. We never sell or share your data with third parties.
             </p>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
   <!-- ==================== FOOTER / WAITLIST ==================== -->
-  <footer id="waitlist" class="relative py-24 overflow-hidden" style="background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);">
-    <!-- Background Decoration -->
-    <div class="absolute inset-0 opacity-5">
-      <div class="absolute bg-blue-500 rounded-full top-20 left-10 w-72 h-72 blur-3xl"></div>
-      <div class="absolute bg-purple-500 rounded-full bottom-20 right-10 w-96 h-96 blur-3xl"></div>
+  <footer id="waitlist" class="relative py-24 overflow-hidden lg:py-32" style="background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 50%, var(--bg-secondary) 100%);">
+
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+      <div class="absolute rounded-full animate-pulse top-20 left-10 w-96 h-96 blur-3xl" style="background: var(--accent-primary);"></div>
+      <div class="absolute rounded-full animate-pulse bottom-20 right-10 w-96 h-96 blur-3xl" style="background: var(--accent-secondary); animation-delay: 1s;"></div>
+
+      <!-- Floating Particles -->
+      <div class="absolute w-2 h-2 rounded-full animate-float top-40 left-1/4" style="background: var(--accent-primary); animation-duration: 6s;"></div>
+      <div class="absolute w-2 h-2 rounded-full animate-float top-60 right-1/4" style="background: var(--accent-secondary); animation-duration: 8s; animation-delay: 2s;"></div>
+      <div class="absolute w-1 h-1 rounded-full animate-float bottom-40 left-1/3" style="background: var(--accent-primary); animation-duration: 7s; animation-delay: 1s;"></div>
     </div>
 
-    <div class="relative z-10 max-w-4xl px-6 mx-auto lg:px-8">
+    <div class="relative z-10 max-w-5xl px-6 mx-auto lg:px-8">
 
       <!-- Main Waitlist Section -->
-      <div class="mb-12 text-center">
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full" style="background: var(--bg-tertiary); border: 1px solid var(--border-primary);">
+      <div class="mb-16 text-center">
+
+        <!-- Status Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 transition-all duration-300 rounded-full hover:scale-105" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1)); border: 1px solid rgba(34, 197, 94, 0.3); box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);">
           <span class="relative flex w-2 h-2">
             <span class="absolute inline-flex w-full h-full bg-green-400 rounded-full opacity-75 animate-ping"></span>
             <span class="relative inline-flex w-2 h-2 bg-green-500 rounded-full"></span>
           </span>
-          <span class="text-sm text-theme-secondary">Limited Beta Access Available</span>
+          <span class="text-sm font-semibold" style="color: #22c55e;">Limited Beta Spots Available</span>
         </div>
 
-        <!-- Heading -->
-        <h2 class="mb-4 text-4xl font-bold sm:text-5xl text-theme-primary">
-          Join the Waitlist
+        <!-- Heading with Gradient -->
+        <h2 class="mb-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl text-theme-primary">
+          Ready to Transform Your<br><span style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Communication?</span>
         </h2>
-        <p class="max-w-2xl mx-auto mb-10 text-xl text-theme-secondary">
-          Be the first to decode conversations with AI. Get exclusive early access when we launch.
+        <p class="max-w-2xl mx-auto mb-12 text-lg sm:text-xl text-theme-secondary">
+          Join thousands on the waitlist. Be among the first to experience AI-powered conversation analysis and get exclusive founder benefits.
         </p>
 
         <!-- Benefits Grid -->
-        <div class="grid max-w-3xl gap-6 mx-auto mb-12 sm:grid-cols-3">
-          <div class="text-center">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto mb-3 rounded-full" style="background: rgba(37, 99, 235, 0.1);">
-              <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
+        <div class="grid max-w-4xl gap-6 mx-auto mb-12 sm:grid-cols-3">
+
+          <!-- Benefit 1 -->
+          <div class="relative p-6 text-center transition-all duration-300 rounded-2xl group hover:scale-105" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(99, 102, 241, 0.02)); border: 1px solid var(--border-primary);">
+            <div class="absolute inset-0 transition-opacity duration-300 opacity-0 rounded-2xl group-hover:opacity-100" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent); box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 transition-transform duration-300 rounded-2xl group-hover:scale-110" style="background: linear-gradient(135deg, var(--accent-primary), rgba(99, 102, 241, 0.5)); box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <h3 class="mb-2 text-lg font-bold text-theme-primary">Early Access</h3>
+              <p class="text-sm text-theme-secondary">Be first to use cutting-edge features before public launch</p>
             </div>
-            <h3 class="mb-1 text-sm font-semibold text-theme-primary">Early Access</h3>
-            <p class="text-xs text-theme-tertiary">First to use new features</p>
           </div>
-          <div class="text-center">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto mb-3 rounded-full" style="background: rgba(139, 92, 246, 0.1);">
-              <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
-              </svg>
+
+          <!-- Benefit 2 -->
+          <div class="relative p-6 text-center transition-all duration-300 rounded-2xl group hover:scale-105" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(139, 92, 246, 0.02)); border: 1px solid var(--border-primary);">
+            <div class="absolute inset-0 transition-opacity duration-300 opacity-0 rounded-2xl group-hover:opacity-100" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent); box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 transition-transform duration-300 rounded-2xl group-hover:scale-110" style="background: linear-gradient(135deg, #8b5cf6, rgba(139, 92, 246, 0.5)); box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h3 class="mb-2 text-lg font-bold text-theme-primary">Founder Pricing</h3>
+              <p class="text-sm text-theme-secondary">Lock in special pricing with up to 50% lifetime discount</p>
             </div>
-            <h3 class="mb-1 text-sm font-semibold text-theme-primary">Founder Pricing</h3>
-            <p class="text-xs text-theme-tertiary">Lifetime discount</p>
           </div>
-          <div class="text-center">
-            <div class="flex items-center justify-center w-12 h-12 mx-auto mb-3 rounded-full" style="background: rgba(34, 197, 94, 0.1);">
-              <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+
+          <!-- Benefit 3 -->
+          <div class="relative p-6 text-center transition-all duration-300 rounded-2xl group hover:scale-105" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(6, 182, 212, 0.02)); border: 1px solid var(--border-primary);">
+            <div class="absolute inset-0 transition-opacity duration-300 opacity-0 rounded-2xl group-hover:opacity-100" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), transparent); box-shadow: 0 8px 32px rgba(6, 182, 212, 0.2);"></div>
+
+            <div class="relative z-10">
+              <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 transition-transform duration-300 rounded-2xl group-hover:scale-110" style="background: linear-gradient(135deg, var(--accent-secondary), rgba(6, 182, 212, 0.5)); box-shadow: 0 4px 16px rgba(6, 182, 212, 0.3);">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                </svg>
+              </div>
+              <h3 class="mb-2 text-lg font-bold text-theme-primary">VIP Support</h3>
+              <p class="text-sm text-theme-secondary">Direct line to our founders and priority support</p>
             </div>
-            <h3 class="mb-1 text-sm font-semibold text-theme-primary">VIP Support</h3>
-            <p class="text-xs text-theme-tertiary">Direct access to founders</p>
           </div>
+
         </div>
 
-        <!-- Signup Form -->
-        <form class="max-w-xl mx-auto waitlist-form">
-          <div class="p-1 rounded-2xl" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);">
-            <div class="p-6 backdrop-blur-sm rounded-2xl" style="background: var(--bg-secondary);">
-              <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                  minlength="2"
-                  class="input-dark"
-                >
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your email"
-                  required
-                  class="input-dark"
-                >
+        <!-- Enhanced Signup Form -->
+        <form class="max-w-2xl mx-auto waitlist-form">
+          <div class="relative p-1 overflow-hidden rounded-3xl" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+
+            <!-- Shimmer Effect -->
+            <div class="absolute inset-0 opacity-30 animate-shimmer" style="background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); background-size: 200% 100%;"></div>
+
+            <div class="relative p-8 backdrop-blur-sm rounded-3xl" style="background: var(--bg-secondary);">
+              <div class="grid gap-4 mb-6 sm:grid-cols-2">
+                <div class="relative group">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your name"
+                    required
+                    minlength="2"
+                    class="w-full px-4 py-4 transition-all duration-300 rounded-xl focus:outline-none focus:ring-2"
+                    style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border);"
+                    onfocus="this.style.borderColor='var(--accent-primary)'; this.style.boxShadow='0 0 0 3px rgba(99, 102, 241, 0.1)'"
+                    onblur="this.style.borderColor='var(--input-border)'; this.style.boxShadow='none'"
+                  >
+                </div>
+                <div class="relative group">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your email"
+                    required
+                    class="w-full px-4 py-4 transition-all duration-300 rounded-xl focus:outline-none focus:ring-2"
+                    style="background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border);"
+                    onfocus="this.style.borderColor='var(--accent-primary)'; this.style.boxShadow='0 0 0 3px rgba(99, 102, 241, 0.1)'"
+                    onblur="this.style.borderColor='var(--input-border)'; this.style.boxShadow='none'"
+                  >
+                </div>
               </div>
-              <div class="flex justify-center">
-                <button type="submit" class="relative px-8 py-3 overflow-hidden btn-primary-blue group">
+
+              <div class="flex justify-center mb-6">
+                <button type="submit" class="relative px-10 py-4 overflow-hidden font-semibold text-white transition-all duration-300 rounded-xl group hover:scale-105" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);">
                   <span class="relative z-10 flex items-center gap-2">
-                    <span>Join Waitlist</span>
-                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span class="text-base">Join the Waitlist</span>
+                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
                   </span>
-                  <div class="absolute inset-0 transition-opacity opacity-0 bg-gradient-to-r from-blue-600 to-blue-500 group-hover:opacity-100"></div>
+                  <div class="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100" style="background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));"></div>
                 </button>
               </div>
-              <p class="flex items-center justify-center gap-2 mt-4 text-xs text-theme-tertiary">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-                Your information is secure and will never be shared
-              </p>
+
+              <!-- Trust Indicators -->
+              <div class="flex flex-wrap items-center justify-center gap-6 pt-4 border-t" style="border-color: var(--border-primary);">
+                <div class="flex items-center gap-2 text-sm text-theme-tertiary">
+                  <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Secure & Encrypted</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-theme-tertiary">
+                  <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>No Spam, Ever</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-theme-tertiary">
+                  <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                  </svg>
+                  <span>5,000+ on Waitlist</span>
+                </div>
+              </div>
             </div>
           </div>
         </form>
       </div>
 
-      <!-- Social Proof -->
-      <div class="py-8 mb-8 text-center border-t border-b" style="border-color: var(--border-primary);">
-        <p class="mb-2 text-sm text-theme-tertiary">Trusted by forward-thinking professionals</p>
-        <div class="flex items-center justify-center gap-8 opacity-50 text-theme-tertiary">
-          <span class="text-xs">🎯 Coming to macOS & Mobile</span>
+      <!-- Platform Availability -->
+      <div class="py-12 mt-16 text-center border-t" style="border-color: var(--border-primary);">
+        <p class="mb-6 text-sm font-semibold tracking-wide uppercase text-theme-tertiary">Available On</p>
+        <div class="flex flex-wrap items-center justify-center gap-6 mb-8">
+          <div class="flex items-center gap-2 px-4 py-2 transition-all duration-300 rounded-xl hover:scale-105" style="background: var(--bg-tertiary); border: 1px solid var(--border-primary);">
+            <svg class="w-5 h-5" style="color: var(--accent-primary);" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z"/>
+            </svg>
+            <span class="text-sm font-medium text-theme-primary">Windows</span>
+          </div>
+          <div class="flex items-center gap-2 px-4 py-2 transition-all duration-300 rounded-xl hover:scale-105" style="background: var(--bg-tertiary); border: 1px solid var(--border-primary);">
+            <svg class="w-5 h-5" style="color: var(--accent-secondary);" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm font-medium text-theme-primary">macOS</span>
+          </div>
+          <div class="flex items-center gap-2 px-4 py-2 transition-all duration-300 opacity-60 rounded-xl" style="background: var(--bg-tertiary); border: 1px dashed var(--border-primary);">
+            <svg class="w-5 h-5 text-theme-tertiary" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+            </svg>
+            <span class="text-sm font-medium text-theme-tertiary">iOS & Android</span>
+            <span class="px-2 py-0.5 text-xs rounded-full" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">Soon</span>
+          </div>
         </div>
       </div>
 
-      <!-- Footer Links -->
-      <div class="text-center">
+      <!-- Footer Info -->
+      <div class="pt-8 text-center border-t" style="border-color: var(--border-primary);">
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <div class="relative flex items-center justify-center w-8 h-8 transition-transform duration-300 hover:scale-110">
+            <div class="absolute inset-0 transition-opacity duration-300 opacity-0 rounded-xl hover:opacity-100 blur-lg" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));"></div>
+            <img src="/images/cortify.svg" alt="Cortify" class="relative z-10 w-6 h-6">
+          </div>
+          <span class="text-xl font-bold font-display text-theme-primary">Cortify</span>
+        </div>
+        <p class="mb-4 text-sm text-theme-secondary">
+          AI-Powered Conversation Intelligence Platform
+        </p>
         <p class="text-sm text-theme-tertiary">
           &copy; 2026 Cortify. All rights reserved.
         </p>
