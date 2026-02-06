@@ -22,6 +22,12 @@
     color: var(--text-primary);
   }
 
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Syne', 'Inter', -apple-system, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
   ::selection {
     @apply bg-blue-500/30 text-white;
   }
@@ -34,63 +40,89 @@
 
 /* ==================== CUSTOM PROPERTIES (THEME SYSTEM) ==================== */
 :root {
-  /* Dark Theme (Default) */
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-tertiary: #1a1f26;
-  --bg-hover: #1e242c;
+  /* Dark Theme (Default) - Purple/Blue + Cyan/Green Accents */
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #131726;
+  --bg-tertiary: #1a1f2e;
+  --bg-hover: #1e2436;
 
   --text-primary: #ffffff;
-  --text-secondary: #9ca3af;
+  --text-secondary: #a0aec0;
   --text-tertiary: #6b7280;
 
-  --border-primary: rgba(255, 255, 255, 0.08);
-  --border-secondary: rgba(255, 255, 255, 0.05);
-  --border-hover: rgba(255, 255, 255, 0.1);
+  --border-primary: rgba(147, 197, 253, 0.1);
+  --border-secondary: rgba(147, 197, 253, 0.05);
+  --border-hover: rgba(147, 197, 253, 0.15);
 
-  --accent-blue: #2563eb;
-  --accent-blue-hover: #3b82f6;
-  --accent-blue-active: #1d4ed8;
-  --accent-blue-glow: rgba(37, 99, 235, 0.4);
+  /* Primary: Purple/Blue */
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #7c3aed;
+  --accent-primary-active: #5b21b6;
+  --accent-primary-glow: rgba(99, 102, 241, 0.4);
 
-  --input-bg: #1a1f26;
-  --input-border: rgba(255, 255, 255, 0.1);
+  /* Secondary: Cyan/Green */
+  --accent-secondary: #06b6d4;
+  --accent-secondary-hover: #0891b2;
+  --accent-secondary-active: #0e7490;
+  --accent-secondary-glow: rgba(6, 182, 212, 0.3);
+
+  /* Legacy blue (for compatibility) */
+  --accent-blue: #6366f1;
+  --accent-blue-hover: #7c3aed;
+  --accent-blue-active: #5b21b6;
+  --accent-blue-glow: rgba(99, 102, 241, 0.4);
+
+  --input-bg: #1a1f2e;
+  --input-border: rgba(147, 197, 253, 0.1);
   --input-placeholder: #6b7280;
 
-  --scrollbar-track: #0d1117;
-  --scrollbar-thumb: rgba(255, 255, 255, 0.1);
-  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+  --scrollbar-track: #0a0e1a;
+  --scrollbar-thumb: rgba(147, 197, 253, 0.1);
+  --scrollbar-thumb-hover: rgba(147, 197, 253, 0.2);
 
-  --ring-offset-color: #0d1117;
+  --ring-offset-color: #0a0e1a;
 }
 
-/* Light Theme - Inspired by Modern Design */
+/* Light Theme - Purple/Blue + Cyan/Green Accents */
 [data-theme="light"] {
   --bg-primary: #ffffff;
-  --bg-secondary: #f5f7fb;
-  --bg-tertiary: #eef2f9;
-  --bg-hover: #e3e9f4;
+  --bg-secondary: #f8f9fc;
+  --bg-tertiary: #f1f3f9;
+  --bg-hover: #e8ebf5;
 
   --text-primary: #1a1d2e;
   --text-secondary: #52566f;
   --text-tertiary: #7d8399;
 
-  --border-primary: rgba(201, 208, 228, 0.4);
-  --border-secondary: rgba(201, 208, 228, 0.25);
-  --border-hover: rgba(201, 208, 228, 0.6);
+  --border-primary: rgba(139, 92, 246, 0.15);
+  --border-secondary: rgba(139, 92, 246, 0.08);
+  --border-hover: rgba(139, 92, 246, 0.25);
 
-  --accent-blue: #4169e1;
-  --accent-blue-hover: #3154d4;
-  --accent-blue-active: #2644b8;
-  --accent-blue-glow: rgba(65, 105, 225, 0.25);
+  /* Primary: Purple/Blue */
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #7c3aed;
+  --accent-primary-active: #5b21b6;
+  --accent-primary-glow: rgba(99, 102, 241, 0.25);
+
+  /* Secondary: Cyan/Green */
+  --accent-secondary: #06b6d4;
+  --accent-secondary-hover: #0891b2;
+  --accent-secondary-active: #0e7490;
+  --accent-secondary-glow: rgba(6, 182, 212, 0.2);
+
+  /* Legacy blue (for compatibility) */
+  --accent-blue: #6366f1;
+  --accent-blue-hover: #7c3aed;
+  --accent-blue-active: #5b21b6;
+  --accent-blue-glow: rgba(99, 102, 241, 0.25);
 
   --input-bg: rgba(248, 250, 254, 0.8);
-  --input-border: rgba(201, 208, 228, 0.5);
+  --input-border: rgba(139, 92, 246, 0.2);
   --input-placeholder: #9ca4bb;
 
-  --scrollbar-track: #f5f7fb;
-  --scrollbar-thumb: rgba(125, 131, 153, 0.2);
-  --scrollbar-thumb-hover: rgba(125, 131, 153, 0.35);
+  --scrollbar-track: #f8f9fc;
+  --scrollbar-thumb: rgba(139, 92, 246, 0.15);
+  --scrollbar-thumb-hover: rgba(139, 92, 246, 0.25);
 
   --ring-offset-color: #ffffff;
 }
