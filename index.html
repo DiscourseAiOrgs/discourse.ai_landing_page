@@ -983,89 +983,235 @@
   </section>
 
   <!-- ==================== HOW IT WORKS SECTION ==================== -->
-  <section class="py-20 lg:py-32" style="background-color: var(--bg-primary);">
-    <div class="px-6 mx-auto max-w-7xl lg:px-8">
+  <section class="relative py-24 overflow-hidden lg:py-32" style="background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);">
+
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+      <div class="absolute top-0 w-px h-full animate-slide-down left-1/4" style="background: linear-gradient(to bottom, transparent, var(--accent-primary), transparent); animation-duration: 3s; animation-iteration-count: infinite;"></div>
+      <div class="absolute top-0 w-px h-full animate-slide-down right-1/4" style="background: linear-gradient(to bottom, transparent, var(--accent-secondary), transparent); animation-duration: 4s; animation-iteration-count: infinite; animation-delay: 1s;"></div>
+    </div>
+
+    <div class="relative z-10 px-6 mx-auto max-w-7xl lg:px-8">
 
       <!-- Section Header -->
-      <div class="mb-20 text-center">
-        <h2 class="mb-6 text-4xl font-bold sm:text-5xl lg:text-6xl text-theme-primary">
-          Get Started in <span class="text-gradient-animate">3 Simple Steps</span>
+      <div class="mb-24 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full" style="background: var(--bg-tertiary); border: 1px solid var(--border-primary);">
+          <span class="relative flex w-2 h-2">
+            <span class="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping" style="background: var(--accent-secondary);"></span>
+            <span class="relative inline-flex w-2 h-2 rounded-full" style="background: var(--accent-secondary);"></span>
+          </span>
+          <span class="text-xs font-semibold tracking-wide uppercase" style="color: var(--accent-secondary);">How It Works</span>
+        </div>
+
+        <h2 class="mb-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl text-theme-primary">
+          From Zero to Insights in<br><span class="text-gradient-animate">3 Powerful Steps</span>
         </h2>
-        <p class="max-w-3xl mx-auto text-xl text-theme-secondary">
-          Start analyzing conversations in minutes with Cortify's intuitive interface.
+        <p class="max-w-2xl mx-auto text-lg sm:text-xl text-theme-secondary">
+          Launch Cortify, start your conversation, and watch AI transform your communication in real-time.
         </p>
       </div>
 
-      <!-- Steps -->
+      <!-- Steps Flow -->
       <div class="relative">
-        <!-- Connection Line (Desktop) -->
-        <div class="absolute left-0 right-0 hidden h-1 lg:block top-1/3 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
+        <!-- Animated Connection Line (Desktop) -->
+        <div class="absolute hidden lg:block left-[16.6%] right-[16.6%] top-[120px]" style="height: 2px;">
+          <div class="absolute inset-0 opacity-20" style="background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));"></div>
+          <div class="absolute inset-0 animate-shimmer" style="background: linear-gradient(90deg, transparent 0%, var(--accent-primary) 50%, transparent 100%); background-size: 200% 100%;"></div>
+        </div>
 
-        <div class="relative grid gap-12 lg:grid-cols-3">
-          <!-- Step 1 -->
-          <div class="text-center opacity-0 use-case-card">
-            <div class="relative inline-flex items-center justify-center w-24 h-24 mx-auto mb-6 rounded-full" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
-              <div class="absolute flex items-center justify-center rounded-full inset-1" style="background: var(--bg-primary);">
-                <span class="text-3xl font-bold text-gradient-animate">1</span>
+        <!-- Floating Connection Dots -->
+        <div class="absolute hidden lg:block left-[16.6%] top-[113px]">
+          <div class="w-4 h-4 rounded-full animate-pulse" style="background: var(--accent-primary); box-shadow: 0 0 20px var(--accent-primary-glow);"></div>
+        </div>
+        <div class="absolute hidden lg:block left-1/2 -translate-x-1/2 top-[113px]">
+          <div class="w-4 h-4 rounded-full animate-pulse" style="background: var(--accent-secondary); box-shadow: 0 0 20px var(--accent-secondary-glow); animation-delay: 0.5s;"></div>
+        </div>
+        <div class="absolute hidden lg:block right-[16.6%] top-[113px]">
+          <div class="w-4 h-4 rounded-full animate-pulse" style="background: var(--accent-primary); box-shadow: 0 0 20px var(--accent-primary-glow); animation-delay: 1s;"></div>
+        </div>
+
+        <div class="grid gap-16 lg:grid-cols-3 lg:gap-8">
+
+          <!-- Step 1: Select Mode -->
+          <div class="relative group">
+            <div class="relative p-8 transition-all duration-500 opacity-0 rounded-3xl use-case-card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(6, 182, 212, 0.05)); border: 1px solid var(--border-primary); backdrop-filter: blur(10px);">
+
+              <!-- Step Number Badge -->
+              <div class="absolute -top-6 left-8">
+                <div class="relative flex items-center justify-center w-12 h-12 transition-transform duration-300 rounded-2xl group-hover:scale-110" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);">
+                  <span class="text-xl font-bold text-white">01</span>
+                </div>
+              </div>
+
+              <!-- Visual Icon Area -->
+              <div class="relative flex items-center justify-center mb-8 h-44">
+                <div class="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
+                  <div class="absolute w-32 h-32 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-3xl" style="background: var(--accent-primary); opacity: 0.2;"></div>
+                </div>
+
+                <!-- Animated Grid Selection Icon -->
+                <div class="relative grid grid-cols-2 gap-2 p-4 transition-transform duration-500 group-hover:scale-110">
+                  <div class="w-16 h-16 transition-all duration-300 rounded-xl" style="background: linear-gradient(135deg, var(--accent-primary), rgba(99, 102, 241, 0.5)); animation: pulse-glow 2s ease-in-out infinite;"></div>
+                  <div class="w-16 h-16 transition-all duration-300 delay-75 rounded-xl" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), transparent); border: 2px solid var(--border-primary);"></div>
+                  <div class="w-16 h-16 transition-all duration-300 delay-150 rounded-xl" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), transparent); border: 2px solid var(--border-primary);"></div>
+                  <div class="w-16 h-16 transition-all duration-300 delay-200 rounded-xl" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), transparent); border: 2px solid var(--border-primary);"></div>
+                </div>
+
+                <!-- Floating Arrow Indicator -->
+                <div class="absolute transition-all duration-300 opacity-0 -right-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 group-hover:-right-4">
+                  <svg class="w-6 h-6" style="color: var(--accent-primary);" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="space-y-3">
+                <h3 class="text-2xl font-bold sm:text-3xl text-theme-primary">Select Your Mode</h3>
+                <p class="text-base leading-relaxed text-theme-secondary">
+                  Choose from Listen & Analyze, AI Training, Decode, or P2P Debate. Each mode is optimized for different conversation types.
+                </p>
+
+                <!-- Mode Pills -->
+                <div class="flex flex-wrap gap-2 pt-2">
+                  <span class="px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary); border: 1px solid rgba(99, 102, 241, 0.2);">Listen</span>
+                  <span class="px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(6, 182, 212, 0.1); color: var(--accent-secondary); border: 1px solid rgba(6, 182, 212, 0.2);">Train</span>
+                  <span class="px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary); border: 1px solid rgba(99, 102, 241, 0.2);">Decode</span>
+                  <span class="px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(6, 182, 212, 0.1); color: var(--accent-secondary); border: 1px solid rgba(6, 182, 212, 0.2);">P2P</span>
+                </div>
               </div>
             </div>
-
-            <div class="mb-6">
-              <img
-                src="/images/screenshots/startingUi+optionSelection.png"
-                alt="Select Mode"
-                class="w-full mx-auto shadow-xl rounded-xl"
-                style="border: 1px solid var(--border-primary); max-width: 400px;"
-                loading="lazy"
-              >
-            </div>
-
-            <h3 class="mb-4 text-2xl font-bold text-theme-primary">🎤 Select Your Mode</h3>
-            <p class="text-theme-secondary">
-              Choose from Listen & Analyze, AI Training, Decode Mode, or P2P Debate based on your needs.
-            </p>
           </div>
 
-          <!-- Step 2 -->
-          <div class="text-center opacity-0 use-case-card" style="animation-delay: 0.2s;">
-            <div class="relative inline-flex items-center justify-center w-24 h-24 mx-auto mb-6 rounded-full" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
-              <div class="absolute flex items-center justify-center rounded-full inset-1" style="background: var(--bg-primary);">
-                <span class="text-3xl font-bold text-gradient-animate">2</span>
+          <!-- Step 2: Start Capture -->
+          <div class="relative group">
+            <div class="relative p-8 transition-all duration-500 opacity-0 rounded-3xl use-case-card" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(99, 102, 241, 0.05)); border: 1px solid var(--border-primary); backdrop-filter: blur(10px); animation-delay: 0.2s;">
+
+              <!-- Step Number Badge -->
+              <div class="absolute -top-6 left-8">
+                <div class="relative flex items-center justify-center w-12 h-12 transition-transform duration-300 rounded-2xl group-hover:scale-110" style="background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary)); box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4);">
+                  <span class="text-xl font-bold text-white">02</span>
+                </div>
+              </div>
+
+              <!-- Visual Icon Area -->
+              <div class="relative flex items-center justify-center mb-8 h-44">
+                <div class="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
+                  <div class="absolute w-32 h-32 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-3xl" style="background: var(--accent-secondary); opacity: 0.2;"></div>
+                </div>
+
+                <!-- Animated Recording Pulse -->
+                <div class="relative transition-transform duration-500 group-hover:scale-110">
+                  <div class="relative flex items-center justify-center w-32 h-32">
+                    <!-- Outer Rings -->
+                    <div class="absolute inset-0 rounded-full animate-ping" style="background: var(--accent-secondary); opacity: 0.2;"></div>
+                    <div class="absolute rounded-full inset-4 animate-pulse" style="background: var(--accent-secondary); opacity: 0.3; animation-delay: 0.5s;"></div>
+
+                    <!-- Center Record Button -->
+                    <div class="relative z-10 flex items-center justify-center w-20 h-20 transition-all duration-300 rounded-full cursor-pointer group-hover:w-24 group-hover:h-24" style="background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary)); box-shadow: 0 0 40px var(--accent-secondary-glow);">
+                      <div class="w-8 h-8 transition-all duration-300 rounded-full group-hover:w-3 group-hover:h-3" style="background: rgba(255, 255, 255, 0.9);"></div>
+                    </div>
+                  </div>
+
+                  <!-- Waveform Bars -->
+                  <div class="absolute flex items-end gap-1 -bottom-6 left-1/2 -translate-x-1/2">
+                    <div class="w-1 rounded-full animate-pulse" style="height: 12px; background: var(--accent-secondary);"></div>
+                    <div class="w-1 rounded-full animate-pulse" style="height: 20px; background: var(--accent-secondary); animation-delay: 0.1s;"></div>
+                    <div class="w-1 rounded-full animate-pulse" style="height: 16px; background: var(--accent-secondary); animation-delay: 0.2s;"></div>
+                    <div class="w-1 rounded-full animate-pulse" style="height: 24px; background: var(--accent-secondary); animation-delay: 0.3s;"></div>
+                    <div class="w-1 rounded-full animate-pulse" style="height: 18px; background: var(--accent-secondary); animation-delay: 0.4s;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="space-y-3">
+                <h3 class="text-2xl font-bold sm:text-3xl text-theme-primary">Start Recording</h3>
+                <p class="text-base leading-relaxed text-theme-secondary">
+                  Hit record and speak naturally or capture system audio. AI transcription begins instantly with real-time processing.
+                </p>
+
+                <!-- Feature Badges -->
+                <div class="flex flex-wrap gap-2 pt-2">
+                  <span class="flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(6, 182, 212, 0.1); color: var(--accent-secondary); border: 1px solid rgba(6, 182, 212, 0.2);">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    Real-time
+                  </span>
+                  <span class="flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary); border: 1px solid rgba(99, 102, 241, 0.2);">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    95%+ accuracy
+                  </span>
+                </div>
               </div>
             </div>
-
-            <div class="flex items-center justify-center mb-6" style="height: 240px;">
-              <svg class="w-32 h-32" style="color: var(--accent-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                <circle cx="12" cy="12" r="3" fill="currentColor"/>
-              </svg>
-            </div>
-
-            <h3 class="mb-4 text-2xl font-bold text-theme-primary">🔴 Start Capture</h3>
-            <p class="text-theme-secondary">
-              Click record and start speaking or select system audio. Cortify begins real-time transcription instantly.
-            </p>
           </div>
 
-          <!-- Step 3 -->
-          <div class="text-center opacity-0 use-case-card" style="animation-delay: 0.4s;">
-            <div class="relative inline-flex items-center justify-center w-24 h-24 mx-auto mb-6 rounded-full" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
-              <div class="absolute flex items-center justify-center rounded-full inset-1" style="background: var(--bg-primary);">
-                <span class="text-3xl font-bold text-gradient-animate">3</span>
+          <!-- Step 3: Get Insights -->
+          <div class="relative group">
+            <div class="relative p-8 transition-all duration-500 opacity-0 rounded-3xl use-case-card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(6, 182, 212, 0.05)); border: 1px solid var(--border-primary); backdrop-filter: blur(10px); animation-delay: 0.4s;">
+
+              <!-- Step Number Badge -->
+              <div class="absolute -top-6 left-8">
+                <div class="relative flex items-center justify-center w-12 h-12 transition-transform duration-300 rounded-2xl group-hover:scale-110" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);">
+                  <span class="text-xl font-bold text-white">03</span>
+                </div>
+              </div>
+
+              <!-- Visual Icon Area -->
+              <div class="relative flex items-center justify-center mb-8 h-44">
+                <div class="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
+                  <div class="absolute w-32 h-32 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-3xl" style="background: var(--accent-primary); opacity: 0.2;"></div>
+                </div>
+
+                <!-- Animated Data Visualization -->
+                <div class="relative transition-transform duration-500 group-hover:scale-110">
+                  <div class="flex items-end gap-2">
+                    <div class="relative overflow-hidden transition-all duration-300 rounded-lg group-hover:h-24" style="width: 16px; height: 48px; background: linear-gradient(to top, var(--accent-primary), rgba(99, 102, 241, 0.3));">
+                      <div class="absolute bottom-0 w-full animate-shimmer" style="height: 100%; background: linear-gradient(to top, transparent, rgba(255, 255, 255, 0.3), transparent); animation-duration: 2s;"></div>
+                    </div>
+                    <div class="relative overflow-hidden transition-all duration-300 delay-75 rounded-lg group-hover:h-32" style="width: 16px; height: 64px; background: linear-gradient(to top, var(--accent-secondary), rgba(6, 182, 212, 0.3));">
+                      <div class="absolute bottom-0 w-full animate-shimmer" style="height: 100%; background: linear-gradient(to top, transparent, rgba(255, 255, 255, 0.3), transparent); animation-duration: 2s; animation-delay: 0.2s;"></div>
+                    </div>
+                    <div class="relative overflow-hidden transition-all duration-300 delay-150 rounded-lg group-hover:h-28" style="width: 16px; height: 80px; background: linear-gradient(to top, var(--accent-primary), rgba(99, 102, 241, 0.3));">
+                      <div class="absolute bottom-0 w-full animate-shimmer" style="height: 100%; background: linear-gradient(to top, transparent, rgba(255, 255, 255, 0.3), transparent); animation-duration: 2s; animation-delay: 0.4s;"></div>
+                    </div>
+                    <div class="relative overflow-hidden transition-all duration-300 delay-200 rounded-lg group-hover:h-20" style="width: 16px; height: 56px; background: linear-gradient(to top, var(--accent-secondary), rgba(6, 182, 212, 0.3));">
+                      <div class="absolute bottom-0 w-full animate-shimmer" style="height: 100%; background: linear-gradient(to top, transparent, rgba(255, 255, 255, 0.3), transparent); animation-duration: 2s; animation-delay: 0.6s;"></div>
+                    </div>
+                    <div class="relative overflow-hidden transition-all duration-300 delay-300 rounded-lg group-hover:h-24" style="width: 16px; height: 72px; background: linear-gradient(to top, var(--accent-primary), rgba(99, 102, 241, 0.3));">
+                      <div class="absolute bottom-0 w-full animate-shimmer" style="height: 100%; background: linear-gradient(to top, transparent, rgba(255, 255, 255, 0.3), transparent); animation-duration: 2s; animation-delay: 0.8s;"></div>
+                    </div>
+                  </div>
+
+                  <!-- Floating Insight Indicators -->
+                  <div class="absolute flex gap-2 -top-4 -right-4">
+                    <div class="flex items-center justify-center w-8 h-8 rounded-lg animate-bounce" style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.3); animation-delay: 0s;">
+                      <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    </div>
+                    <div class="flex items-center justify-center w-8 h-8 rounded-lg animate-bounce" style="background: rgba(251, 191, 36, 0.2); border: 1px solid rgba(251, 191, 36, 0.3); animation-delay: 0.3s;">
+                      <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="space-y-3">
+                <h3 class="text-2xl font-bold sm:text-3xl text-theme-primary">Get Live Insights</h3>
+                <p class="text-base leading-relaxed text-theme-secondary">
+                  Watch as AI analyzes in real-time: fact-checks, fallacy detection, sentiment analysis, and detailed reports on demand.
+                </p>
+
+                <!-- Insight Types -->
+                <div class="flex flex-wrap gap-2 pt-2">
+                  <span class="px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2);">Fact-check</span>
+                  <span class="px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2);">Fallacies</span>
+                  <span class="px-3 py-1 text-xs font-medium rounded-full" style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary); border: 1px solid rgba(99, 102, 241, 0.2);">Sentiment</span>
+                </div>
               </div>
             </div>
-
-            <div class="flex items-center justify-center mb-6" style="height: 240px;">
-              <svg class="w-32 h-32" style="color: var(--accent-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-              </svg>
-            </div>
-
-            <h3 class="mb-4 text-2xl font-bold text-theme-primary">📊 Get Insights</h3>
-            <p class="text-theme-secondary">
-              Receive live analysis, fact-checks, and insights as the conversation unfolds. Review detailed reports when done.
-            </p>
           </div>
+
         </div>
       </div>
     </div>
