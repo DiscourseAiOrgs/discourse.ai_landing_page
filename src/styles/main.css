@@ -151,12 +151,17 @@
 
   /* ===== Buttons ===== */
   .btn-primary-blue {
-    @apply inline-flex items-center justify-center gap-2
-           px-5 py-2.5
-           text-sm font-medium text-white
-           rounded-lg
-           transition-all duration-200
-           cursor-pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    cursor: pointer;
     background-color: var(--accent-blue);
   }
 
@@ -169,12 +174,16 @@
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center
-           px-5 py-2.5
-           bg-transparent text-sm font-medium
-           rounded-lg
-           transition-all duration-200
-           cursor-pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.25rem;
+    background: transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    cursor: pointer;
     color: var(--text-primary);
     border: 1px solid var(--border-primary);
   }
@@ -189,12 +198,16 @@
   }
 
   .btn-cta {
-    @apply inline-flex items-center justify-center
-           px-8 py-4
-           text-white text-base font-semibold
-           rounded-full
-           transition-all duration-300
-           cursor-pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    transition: all 0.3s;
+    cursor: pointer;
     background: linear-gradient(90deg, #f97316 0%, #ef4444 100%);
     box-shadow: 0 10px 25px rgba(249, 115, 22, 0.25);
   }
@@ -223,12 +236,14 @@
 
   /* ===== Input Fields ===== */
   .input-dark {
-    @apply w-full px-4 py-3 rounded-lg
-           focus:outline-none focus:ring-1
-           transition-all duration-200;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
     background-color: var(--input-bg);
     color: var(--text-primary);
     border: 1px solid var(--input-border);
+    outline: none;
   }
 
   .input-dark::placeholder {
@@ -241,7 +256,7 @@
 
   .input-dark:focus {
     border-color: var(--accent-blue);
-    ring-color: var(--accent-blue-glow);
+    box-shadow: 0 0 0 1px var(--accent-blue-glow);
   }
 
   /* ===== Scrollbar Hide ===== */
@@ -270,8 +285,127 @@
 
   /* Navigation Backdrop */
   nav {
-    background: rgba(255, 255, 255, 0.85) !important;
-    border-bottom-color: rgba(201, 208, 228, 0.3) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-bottom-color: rgba(99, 102, 241, 0.15) !important;
+    box-shadow: 0 4px 24px rgba(99, 102, 241, 0.08) !important;
+  }
+
+  /* Navigation Pills Container */
+  nav .rounded-full {
+    background: rgba(248, 250, 254, 0.8) !important;
+    border-color: rgba(99, 102, 241, 0.15) !important;
+  }
+
+  /* Navigation Links Hover */
+  nav a[href^="#"] .absolute {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2)) !important;
+  }
+
+  /* Theme Toggle Button */
+  nav button#theme-toggle {
+    background: linear-gradient(135deg, rgba(248, 250, 254, 0.9), rgba(241, 243, 249, 0.9)) !important;
+    border-color: rgba(99, 102, 241, 0.2) !important;
+  }
+
+  /* Mobile Menu Button */
+  nav button#mobile-menu-button {
+    background: rgba(248, 250, 254, 0.8) !important;
+    border-color: rgba(99, 102, 241, 0.2) !important;
+  }
+
+  /* Platform Cards */
+  nav + section .rounded-xl {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(99, 102, 241, 0.15) !important;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08) !important;
+  }
+
+  /* Platform Cards Hover */
+  nav + section .group:hover .rounded-xl {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15) !important;
+  }
+
+  /* Hero Section Buttons in Light Theme - More Specific Selectors */
+  section a.group[href="#waitlist"],
+  section .flex a[href="#waitlist"].group {
+    background: linear-gradient(135deg, #5b57f5 0%, #0ec5dd 100%) !important;
+    color: white !important;
+    box-shadow: 0 12px 32px -6px rgba(99, 102, 241, 0.5) !important;
+  }
+
+  section a.group[href="#waitlist"]:hover,
+  section .flex a[href="#waitlist"].group:hover {
+    background: linear-gradient(135deg, #4c48e6 0%, #0bb3c9 100%) !important;
+    box-shadow: 0 16px 40px -6px rgba(99, 102, 241, 0.6) !important;
+    transform: scale(1.02) !important;
+  }
+
+  section a[href="#demo"],
+  section .flex a[href="#demo"] {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #1a1d2e !important;
+    border: 2px solid rgba(99, 102, 241, 0.35) !important;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.12) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  section a[href="#demo"]:hover,
+  section .flex a[href="#demo"]:hover {
+    background: rgba(248, 250, 254, 1) !important;
+    border-color: rgba(99, 102, 241, 0.6) !important;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2) !important;
+    transform: scale(1.02) !important;
+  }
+
+  /* Ensure button text is visible */
+  section a[href="#waitlist"].group span,
+  section a[href="#waitlist"].group svg {
+    color: white !important;
+  }
+
+  section a[href="#demo"] span,
+  section a[href="#demo"] svg {
+    color: #1a1d2e !important;
+  }
+
+  /* Badge in Light Theme - Hero Section */
+  section .inline-flex.items-center.gap-2\.5.px-4 {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.15)) !important;
+    border: 1px solid rgba(99, 102, 241, 0.25) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  /* Badge Text Color */
+  section .inline-flex span.text-sm {
+    color: #0891b2 !important;
+  }
+
+  /* Trust Badges - Better Visibility */
+  section .flex.flex-wrap.items-center.gap-5 {
+    opacity: 1 !important;
+  }
+
+  section .flex.items-center.gap-1\.5 span {
+    color: #7d8399 !important;
+    font-weight: 500 !important;
+  }
+
+  section .flex.items-center.gap-1\.5 svg {
+    color: #0891b2 !important;
+  }
+
+  /* Platform Integration Badge */
+  section .inline-flex.items-center.gap-2.px-4.py-2.rounded-full {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.15)) !important;
+    border: 1px solid rgba(99, 102, 241, 0.25) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  /* Platform Badge Text */
+  section .inline-flex.items-center.gap-2.px-4.py-2.rounded-full span {
+    color: #7d8399 !important;
+    font-weight: 600 !important;
   }
 
   /* Feature Cards with Gradient */
