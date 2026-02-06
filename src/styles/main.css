@@ -547,16 +547,99 @@
   }
 }
 
+
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
 
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
 }
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ===== Modern Appearing Animations ===== */
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
 }
 
 /* Feature Card Animations */
@@ -662,5 +745,130 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shimmer 4s linear infinite;
+  }
+
+  /* ==================== ANIMATED GRADIENT FLOW LINES ==================== */
+  /* SVG Gradient Lines - Performance Optimizations */
+  svg path.gradient-line-1,
+  svg path.gradient-line-2,
+  svg path.gradient-line-3,
+  svg path.gradient-line-4,
+  svg path.gradient-line-5 {
+    will-change: d;
+    transform-origin: center;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Light Theme Adjustments for SVG Gradients */
+  [data-theme="light"] svg path.gradient-line-1,
+  [data-theme="light"] svg path.gradient-line-2,
+  [data-theme="light"] svg path.gradient-line-3,
+  [data-theme="light"] svg path.gradient-line-4,
+  [data-theme="light"] svg path.gradient-line-5 {
+    opacity: 0.3 !important;
+  }
+
+  /* Hero Section Background Container */
+  section.relative.min-h-screen {
+    isolation: isolate;
+  }
+
+  /* Ensure SVG is behind content */
+  section svg.absolute {
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Content above gradient lines */
+  section .max-w-7xl {
+    z-index: 10;
+    position: relative;
+  }
+
+  /* Ambient Glow Animation */
+  .hero-ambient-glow {
+    animation: ambient-pulse 15s ease-in-out infinite;
+  }
+
+  @keyframes ambient-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  /* Enhanced Pulse Glow for Orbs */
+  @keyframes pulse-glow {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.2;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.3;
+    }
+  }
+
+  /* Light Theme: Reduce glow orb intensity */
+  [data-theme="light"] .hero-ambient-glow {
+    opacity: 0.3 !important;
+  }
+
+  [data-theme="light"] .animate-pulse-glow {
+    opacity: 0.08 !important;
+  }
+
+  /* Additional visual polish: subtle movement on floating orbs */
+  .animate-pulse-glow:nth-child(1) {
+    animation: float-orb-1 20s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow:nth-child(2) {
+    animation: float-orb-2 25s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow:nth-child(3) {
+    animation: float-orb-3 30s ease-in-out infinite;
+  }
+
+  @keyframes float-orb-1 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    25% {
+      transform: translate(20px, -20px) scale(1.05);
+    }
+    50% {
+      transform: translate(-10px, 10px) scale(0.95);
+    }
+    75% {
+      transform: translate(15px, 15px) scale(1.02);
+    }
+  }
+
+  @keyframes float-orb-2 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    30% {
+      transform: translate(-25px, 15px) scale(1.08);
+    }
+    60% {
+      transform: translate(15px, -20px) scale(0.92);
+    }
+  }
+
+  @keyframes float-orb-3 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    40% {
+      transform: translate(20px, 25px) scale(1.06);
+    }
+    80% {
+      transform: translate(-15px, -10px) scale(0.94);
+    }
   }
 }
